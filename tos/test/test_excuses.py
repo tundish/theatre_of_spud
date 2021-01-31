@@ -51,6 +51,8 @@ class Knowledge:
     @staticmethod
     def report(msg, n=None):
         attr = msg.attribution
+        lookup = {"f": "she", "m": "he", "n": "their"}.get(attr.gender, "it")
+        msg = msg._replace(attribution=attr._replace(name=lookup))
         for i in Knowledge.intentions(msg):
             yield f"{attr.name} says {i}"
 
