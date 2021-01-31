@@ -25,7 +25,6 @@ import random
 from turberfield.catchphrase.drama import Drama
 
 
-
 class Motivation(enum.Enum):
 
     acting = enum.auto()
@@ -34,21 +33,26 @@ class Motivation(enum.Enum):
     herald = enum.auto()
 
 
-class SickNote:
+class Knowledge:
 
-    Message = namedtuple("SickNote", ["parent", "child", "excuse", "tags"])
+    Noun = namedtuple("Noun", ["name", "gender"])
+    Message = namedtuple(
+        "Message", ["attribution", "nouns", "intends", "implies", "tags"]
+    )
 
     @staticmethod
-    def statement(msg):
-        pass
+    def implications(msg):
+        yield from (i.format(**msg._asdict()) for i in msg.implies)
+
+    @staticmethod
+    def intentions(msg):
+        yield from (i.format(**msg._asdict()) for i in msg.intends)
 
     @staticmethod
     def report(msg, n=None):
-        aux = ["is going to", "has to"]
-        return "{parent[0]} says {parent[1]} {0} {1}".format(
-            random.choice(aux) if n is None else aux[n],
-            msg.excuse.format(**msg._asdict()), **msg._asdict()
-        )
+        attr = msg.attribution
+        for i in Knowledge.intentions(msg):
+            yield f"{attr.name} says {i}"
 
 
 class Tuition(Drama):
@@ -58,12 +62,18 @@ class Tuition(Drama):
 class SickNotesTests(unittest.TestCase):
 
     def test_excuses(self):
-        note = SickNote.Message(
-            ("Angela", "she"), ("Bobby", "he"),
-            "take {child[0]} to the {tags[0]} in {tags[1]}", ["caravan", "Minehead"]
+        note = Knowledge.Message(
+            Knowledge.Noun("Angela", "f"), (Knowledge.Noun("Bobby", "m"),),
+            ("{attribution.name} is taking {nouns[0].name} to the {tags[0]} in {tags[1]}",
+             "{attribution.name} has to take {nouns[0].name} to the {tags[0]} in {tags[1]}"),
+            ("{attribution.name} is at the {tags[0]}", "{attribution.name} is in {tags[1]}",
+             "{nouns[0].name} is at the {tags[0]}", "{nouns[0].name} is in {tags[1]}"),
+            ("caravan", "Minehead")
         )
-        rv = "Angela says she has to take Bobby to the caravan in Minehead"
-        self.assertEqual(rv, SickNote.report(note, n=1))
+        report = "Angela says she has to take Bobby to the caravan in Minehead"
+        self.assertEqual(report, list(Knowledge.report(note))[1])
+        fact = "Bobby is in Minehead"
+        self.assertEqual(rv, list(Knowledge.implications(note))[1])
 
 
 class TuitionTests(unittest.TestCase):
