@@ -27,7 +27,7 @@
    :states: tas.tea.Motivation.acting
 
 .. entity:: DRAMA
-   :types:  tos.sympathy.TheatrOfSpud
+   :types:  tos.sympathy.TheatreOfSpud
 
 .. entity:: SETTINGS
    :types:  turberfield.catchphrase.render.Settings
