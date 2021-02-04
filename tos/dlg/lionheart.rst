@@ -63,3 +63,11 @@ Tempest
 
 Titus
 -----
+
+King Lear
+---------
+
+[LIONHEART]_
+
+    Through tattered clothes great vices do appear; Robes and furred gowns hide all.
+
