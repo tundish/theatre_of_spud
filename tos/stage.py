@@ -19,16 +19,18 @@
 
 import enum
 
+from turberfield.dialogue.types import EnumFactory
 
-class Navigator: pass
 
-spots = {
-    "box_office": ["box office", "office"],
-    "car_park": ["car park"],
-    "foyer": ["foyer"],
-    "kitchen": ["kitchen"],
-}
+class Navigator(EnumFactory):
 
-Arriving = enum.Enum("Arriving", spots)
-Departed = enum.Enum("Departed", spots)
-Location = enum.Enum("Location", spots)
+    spots = {
+        "box_office": ["box office", "office"],
+        "car_park": ["car park"],
+        "foyer": ["foyer"],
+        "kitchen": ["kitchen"],
+    }
+
+Arriving = enum.Enum("Arriving", Navigator.spots, type=Navigator)
+Departed = enum.Enum("Departed", Navigator.spots, type=Navigator)
+Location = enum.Enum("Location", Navigator.spots, type=Navigator)

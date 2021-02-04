@@ -17,14 +17,16 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+import pickle
 import unittest
 
 from tos.stage import Arriving
 from tos.stage import Departed
 from tos.stage import Location
 
-
 from turberfield.dialogue.types import Stateful
+from turberfield.utils.assembly import Assembly
+
 
 class StageTests(unittest.TestCase):
 
@@ -35,6 +37,16 @@ class StageTests(unittest.TestCase):
         obj.state = Location.foyer
         self.assertEqual(3, len(obj._states))
 
-    def test_enums_are_equivalent(self):
-        self.assertEqual(Departed.car_park, Departed.car_park)
+    def test_enums_are_equivalent_but_not_equal(self):
+        self.assertNotEqual(Arriving.car_park, Departed.car_park)
+        self.assertEqual(Arriving.car_park.name, Departed.car_park.name)
+        self.assertEqual(Arriving.car_park.value, Departed.car_park.value)
 
+    def test_enums_are_picklable(self):
+        rv = pickle.dumps(Arriving.car_park)
+        self.assertEqual(Arriving.car_park, pickle.loads(rv))
+
+    def test_enums_can_be_assembled(self):
+        self.assertTrue(Assembly.register(Arriving))
+        rv = Assembly.dumps(Arriving.car_park)
+        self.assertEqual(Arriving.car_park, Assembly.loads(rv), rv)
