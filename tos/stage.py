@@ -19,7 +19,20 @@
 
 import enum
 
+from turberfield.catchphrase.drama import Drama
+from turberfield.dialogue.types import DataObject
 from turberfield.dialogue.types import EnumFactory
+from turberfield.dialogue.types import Stateful
+
+
+class Named(DataObject):
+
+    @property
+    def name(self):
+        return random.choice(getattr(self, "names", [""]))
+
+
+class Character(Named, Stateful): pass
 
 
 class Navigator(EnumFactory):
@@ -27,10 +40,21 @@ class Navigator(EnumFactory):
     spots = {
         "box_office": ["box office", "office"],
         "car_park": ["car park"],
+        "cloakroom": ["cloakroom"],
+        "costume": ["costume store", "props room"],
+        "backstage": ["backstage"],
         "foyer": ["foyer"],
         "kitchen": ["kitchen"],
+        "lighting box": ["lighting box"],
+        "stage left": ["wings", "stage left"],
+        "stage right": ["wings", "stage right"],
     }
 
 Arriving = enum.Enum("Arriving", Navigator.spots, type=Navigator)
 Departed = enum.Enum("Departed", Navigator.spots, type=Navigator)
 Location = enum.Enum("Location", Navigator.spots, type=Navigator)
+
+
+class Stage(Drama):
+
+    pass

@@ -21,14 +21,16 @@ import pickle
 import unittest
 
 from tos.stage import Arriving
+from tos.stage import Character
 from tos.stage import Departed
 from tos.stage import Location
+from tos.stage import Stage
 
 from turberfield.dialogue.types import Stateful
 from turberfield.utils.assembly import Assembly
 
 
-class StageTests(unittest.TestCase):
+class NavigatorTests(unittest.TestCase):
 
     def test_enums_are_each_their_own_class(self):
         obj = Stateful()
@@ -50,3 +52,14 @@ class StageTests(unittest.TestCase):
         self.assertTrue(Assembly.register(Arriving))
         rv = Assembly.dumps(Arriving.car_park)
         self.assertEqual(Arriving.car_park, Assembly.loads(rv), rv)
+
+
+class StoryTests(unittest.TestCase):
+
+    def setUp(self):
+        self.ensemble = [
+            Character(names=["player"])
+        ]
+
+    def test_movement(self):
+        drama = Stage()
