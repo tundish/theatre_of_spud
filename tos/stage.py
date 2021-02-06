@@ -17,7 +17,9 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+from collections import defaultdict
 import enum
+import random
 
 from turberfield.catchphrase.drama import Drama
 from turberfield.dialogue.model import SceneScript
@@ -78,6 +80,7 @@ class Stage(Drama):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.outcomes = defaultdict(bool)
         self.active.add(self.do_go)
 
     def do_go(self, this, text, /, *, locn: Arriving):

@@ -1,4 +1,4 @@
-.. |VERSION| property:: tas.story.version
+.. |VERSION| property:: tos.story.version
 
 :author:    D E Haynes
 :made_at:   2021-02-02
@@ -8,22 +8,6 @@
 .. entity:: PLAYER
    :types:  tos.stage.Character
    :states: tos.stage.Motivation.player
-
-.. entity:: EDWARD
-   :states: tos.stage.Motivation.acting
-
-.. entity:: SPUD
-   :types:  tos.stage.Character
-   :states: tos.stage.Location.foyer
-            tos.stage.Motivation.paused
-
-.. entity:: BILL
-   :types:  tos.stage.Character
-   :states: tos.stage.Motivation.acting
-
-.. entity:: BRENDA
-   :types:  tos.stage.Character
-   :states: tos.stage.Motivation.acting
 
 .. entity:: DRAMA
    :types:  tos.stage.Stage

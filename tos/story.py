@@ -87,7 +87,13 @@ def parser():
 
 
 def main(args):
+    from tos.stage import Character
+    from tos.stage import Location
+    from tos.stage import Motivation
+
+    name = input("Enter your character's first name: ") or "Francis"
     story = Story(**vars(args))
+    story.drama.add(Character(names=[name]).set_state(Motivation.player, Location.car_park))
     lines = []
     while story.drama.active:
         presenter = story.represent(lines)

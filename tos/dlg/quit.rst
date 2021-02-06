@@ -1,4 +1,4 @@
-.. |VERSION| property:: tas.story.version
+.. |VERSION| property:: tos.story.version
 
 :author:    D E Haynes
 :made_at:   2021-02-06
