@@ -24,14 +24,6 @@ import random
 from turberfield.catchphrase.drama import Drama
 
 
-class Motivation(enum.Enum):
-
-    acting = enum.auto()
-    paused = enum.auto()
-    player = enum.auto()
-    herald = enum.auto()
-
-
 class Knowledge:
 
     Noun = namedtuple("Noun", ["name", "gender"])

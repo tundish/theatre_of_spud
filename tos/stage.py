@@ -25,6 +25,14 @@ from turberfield.dialogue.types import EnumFactory
 from turberfield.dialogue.types import Stateful
 
 
+class Motivation(enum.Enum):
+
+    acting = enum.auto()
+    paused = enum.auto()
+    player = enum.auto()
+    herald = enum.auto()
+
+
 class Named(DataObject):
 
     @property
@@ -57,4 +65,17 @@ Location = enum.Enum("Location", Navigator.spots, type=Navigator)
 
 class Stage(Drama):
 
-    pass
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.active.add(self.do_go)
+
+    def do_go(self, this, text, /, *, locn: Location):
+        """
+        go {locn.value[0]} | go to {locn.value[0]} | enter {locn.value[0]}
+        run {locn.value[0]} | run to {locn.value[0]}
+        go {locn.value[1]} | go to {locn.value[1]} | enter {locn.value[1]}
+        run {locn.value[1]} | run to {locn.value[1]}
+
+        """
+        player = next(i for i in self.ensemble if hasattr(i, "state") and i.get_state(Motivation) == Motivation.player)
+        yield ""

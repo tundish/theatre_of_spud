@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 #   encoding: utf-8
 
 # This is a parser-based, web-enabled narrative.
@@ -24,6 +23,7 @@ from tos.stage import Arriving
 from tos.stage import Character
 from tos.stage import Departed
 from tos.stage import Location
+from tos.stage import Motivation
 from tos.stage import Stage
 
 from turberfield.dialogue.types import Stateful
@@ -54,12 +54,18 @@ class NavigatorTests(unittest.TestCase):
         self.assertEqual(Arriving.car_park, Assembly.loads(rv), rv)
 
 
-class StoryTests(unittest.TestCase):
+class StageTests(unittest.TestCase):
 
     def setUp(self):
-        self.ensemble = [
-            Character(names=["player"])
-        ]
+        self.drama = Stage()
 
     def test_movement(self):
-        drama = Stage()
+        player = Character(names=["player"]).set_state(Motivation.player)
+        self.drama.add(player)
+        self.assertIn(self.drama.do_go, self.drama.active)
+        options = list(self.drama.match("go backstage"))
+        self.assertTrue(options, options)
+        fn, args, kwargs = self.drama.interpret(options)
+        self.assertTrue(fn)
+        dlg = "\n".join(self.drama(fn, *args, **kwargs))
+        self.assertEqual(Location.car_park, player.get_state(Location))
