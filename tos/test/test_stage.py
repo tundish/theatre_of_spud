@@ -69,3 +69,5 @@ class StageTests(unittest.TestCase):
         self.assertTrue(fn)
         dlg = "\n".join(self.drama(fn, *args, **kwargs))
         self.assertEqual(Location.car_park, player.get_state(Location))
+        self.assertEqual(Departed.car_park, player.get_state(Departed))
+        self.assertEqual(Arriving.backstage, player.get_state(Arriving))

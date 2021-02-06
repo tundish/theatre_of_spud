@@ -69,7 +69,7 @@ class Stage(Drama):
         super().__init__(*args, **kwargs)
         self.active.add(self.do_go)
 
-    def do_go(self, this, text, /, *, locn: Location):
+    def do_go(self, this, text, /, *, locn: Arriving):
         """
         go {locn.value[0]} | go to {locn.value[0]} | enter {locn.value[0]}
         run {locn.value[0]} | run to {locn.value[0]}
@@ -78,4 +78,7 @@ class Stage(Drama):
 
         """
         player = next(i for i in self.ensemble if hasattr(i, "state") and i.get_state(Motivation) == Motivation.player)
+        player.state = player.get_state(Location) or Location.car_park
+        player.state = Departed[player.get_state(Location).name]
+        player.state = locn
         yield ""
