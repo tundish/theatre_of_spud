@@ -8,15 +8,15 @@
 :pause:     0
 
 .. entity:: PLAYER
-   :types:  tas.types.Character
-   :states: tas.tea.Motivation.player
+   :types:  tos.stage.Character
+   :states: tos.stage.Motivation.player
 
 .. entity:: NPC
-   :types:  tas.types.Character
-   :states: tas.tea.Motivation.paused
+   :types:  tos.stage.Character
+   :states: tos.stage.Motivation.paused
 
 .. entity:: DRAMA
-   :types:  tas.sympathy.TeaAndSympathy
+   :types:  tos.stage.Stage
 
 .. entity:: SETTINGS
    :types:  turberfield.catchphrase.render.Settings
@@ -28,5 +28,5 @@ Paused
 {0}
 
 .. property:: DRAMA.prompt ?
-.. property:: NPC.state tas.tea.Motivation.acting
+.. property:: NPC.state tos.stage.Motivation.acting
 .. property:: SETTINGS.catchphrase-colour-gravity hsl(209.33, 96.92%, 12.75%)

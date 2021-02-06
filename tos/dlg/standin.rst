@@ -6,28 +6,27 @@
 :version:   |VERSION|
 
 .. entity:: PLAYER
-   :types:  tas.types.Character
-   :states: tas.tea.Motivation.player
+   :types:  tos.stage.Character
+   :states: tos.stage.Motivation.player
 
 .. entity:: EDWARD
-   :types:  tas.types.Character
-   :states: tas.tea.Motivation.acting
+   :states: tos.stage.Motivation.acting
 
 .. entity:: SPUD
-   :types:  tas.tea.Feature
-   :states: tas.tea.Location.hob
-            tas.tea.Motivation.paused
+   :types:  tos.stage.Character
+   :states: tos.stage.Location.foyer
+            tos.stage.Motivation.paused
 
 .. entity:: BILL
-   :types:  tas.types.Character
-   :states: tas.tea.Motivation.acting
+   :types:  tos.stage.Character
+   :states: tos.stage.Motivation.acting
 
 .. entity:: BRENDA
-   :types:  tas.types.Character
-   :states: tas.tea.Motivation.acting
+   :types:  tos.stage.Character
+   :states: tos.stage.Motivation.acting
 
 .. entity:: DRAMA
-   :types:  tos.sympathy.TheatreOfSpud
+   :types:  tos.stage.Stage
 
 .. entity:: SETTINGS
    :types:  turberfield.catchphrase.render.Settings

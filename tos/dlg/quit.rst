@@ -8,12 +8,12 @@
 :pause:     1
 
 .. entity:: PLAYER
-   :types:  tas.types.Character
-   :states: tas.tea.Motivation.paused
+   :types:  tos.stage.Character
+   :states: tos.stage.Motivation.paused
 
 .. entity:: NPC
-   :types:  tas.types.Character
-   :states: tas.tea.Motivation.paused
+   :types:  tos.stage.Character
+   :states: tos.stage.Motivation.paused
 
 .. entity:: SETTINGS
    :types:  turberfield.catchphrase.render.Settings

@@ -30,7 +30,7 @@ from turberfield.catchphrase.render import Settings
 # logging.basicConfig(level=logging.DEBUG)
 
 import tos
-from tos.sicknote import SickNote
+from tos.stage import Stage
 
 version = tos.__version__
 
@@ -46,7 +46,7 @@ class Story(Renderer):
     """
 
     def __init__(self, cfg=None, **kwargs):
-        self.drama = TeaAndSympathy(**kwargs)
+        self.drama = Stage(**kwargs)
         self.definitions = {
             "catchphrase-colour-washout": "hsl(50, 0%, 100%, 1.0)",
             "catchphrase-colour-shadows": "hsl(202.86, 100%, 4.12%)",

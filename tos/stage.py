@@ -20,6 +20,7 @@
 import enum
 
 from turberfield.catchphrase.drama import Drama
+from turberfield.dialogue.model import SceneScript
 from turberfield.dialogue.types import DataObject
 from turberfield.dialogue.types import EnumFactory
 from turberfield.dialogue.types import Stateful
@@ -64,6 +65,16 @@ Location = enum.Enum("Location", Navigator.spots, type=Navigator)
 
 
 class Stage(Drama):
+
+    @property
+    def folder(self):
+        return SceneScript.Folder(
+            pkg="tos.dlg",
+            description="Theatre of Spud",
+            metadata={},
+            paths=["lionheart.rst", "standin.rst", "pause.rst", "quit.rst"],
+            interludes=None
+        )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
