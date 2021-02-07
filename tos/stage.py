@@ -75,13 +75,16 @@ class Stage(Drama):
             description="Theatre of Spud",
             metadata={},
             paths=["lionheart.rst", "standin.rst", "pause.rst", "quit.rst"],
-            interludes=None
+            interludes=self.interlude
         )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.outcomes = defaultdict(bool)
         self.active.add(self.do_go)
+
+    def interlude(self, folder, index, **kwargs):
+        return {}
 
     def do_go(self, this, text, /, *, locn: Arriving):
         """

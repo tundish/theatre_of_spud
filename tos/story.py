@@ -18,6 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import argparse
+from collections.abc import Callable
 import sys
 import time
 
@@ -67,7 +68,11 @@ class Story(Renderer):
         else:
             return refresh_state
 
-    def represent(self, lines=[]):
+    def represent(self, lines=[], index=None, loop=None):
+        folder = self.drama.folder
+        if isinstance(folder.interludes, Callable):
+            metadata = folder.interludes(folder, index, loop=loop)
+
         n, presenter = Presenter.build_presenter(
             self.drama.folder, *lines,
             ensemble=self.drama.ensemble + [self.drama, self.settings]
