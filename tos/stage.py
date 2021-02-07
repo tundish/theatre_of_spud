@@ -89,7 +89,15 @@ class Navigator(EnumFactory):
     }
 
 
+    routes = {
+    }
+
     def route(self, dest, maxlen, crumbs=None, visited=None):
+        try:
+            return self.routes[(self, dest)]
+        except KeyError:
+            return None
+
         crumbs = crumbs or deque([], maxlen=maxlen)
         visited = set([]) if visited is None else set(visited)
 
