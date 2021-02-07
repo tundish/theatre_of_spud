@@ -71,3 +71,14 @@ class StageTests(unittest.TestCase):
         self.assertEqual(Location.car_park, player.get_state(Location))
         self.assertEqual(Departed.car_park, player.get_state(Departed))
         self.assertEqual(Arriving.backstage, player.get_state(Arriving))
+
+    def test_navigation(self):
+        success = {}
+        fail = {}
+        for locn in Location:
+            for dest in Arriving:
+                with self.subTest(locn=locn, dest=dest):
+                    route = Location.route(locn, dest, maxlen=len(Location))
+                    self.assertTrue(route, fail.setdefault((locn, dest), route))
+                    success[(locn, dest)] = route
+
