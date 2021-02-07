@@ -78,7 +78,10 @@ class StageTests(unittest.TestCase):
         for locn in Location:
             for dest in Arriving:
                 with self.subTest(locn=locn, dest=dest):
-                    route = Location.route(locn, dest, maxlen=len(Location))
-                    self.assertTrue(route, fail.setdefault((locn, dest), route))
-                    success[(locn, dest)] = route
+                    route = locn.route(dest, maxlen=len(Location))
+                    if locn.name == dest.name:
+                        self.assertFalse(route)
+                    else:
+                        self.assertTrue(route, fail.setdefault((locn, dest), route))
+                        success[(locn, dest)] = route
 

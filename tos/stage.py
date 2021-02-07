@@ -18,7 +18,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from collections import defaultdict
+from collections import deque
 import enum
+import functools
 import random
 
 from turberfield.catchphrase.drama import Drama
@@ -49,16 +51,22 @@ class Character(Named, Stateful): pass
 class Navigator(EnumFactory):
 
     spots = {
-        "box_office": ["box office", "office"],
-        "car_park": ["car park"],
-        "cloakroom": ["cloakroom"],
-        "costume": ["costume store", "props room"],
+        "auditorium": ["auditorium"],
         "backstage": ["backstage"],
+        "balcony": ["balcony", "downstairs"],
+        "bar": ["bar"],
+        "car_park": ["car park"],
+        "cloaks": ["cloakroom", "cloaks"],
+        "corridor": ["corridor"],
+        "costume": ["costume store", "props room"],
         "foyer": ["foyer"],
         "kitchen": ["kitchen"],
-        "lighting box": ["lighting box"],
-        "stage left": ["wings", "stage left"],
-        "stage right": ["wings", "stage right"],
+        "lighting": ["lighting box"],
+        "office": ["box office", "office"],
+        "passage": ["passage"],
+        "stage": ["stage", "onstage"],
+        "stairs": ["stairs", "upstairs"],
+        "wings": ["wings", "stage left", "stage right"],
     }
 
     topology = {
@@ -67,14 +75,42 @@ class Navigator(EnumFactory):
         "balcony": ["bar"],
         "bar": ["kitchen", "stairs", "passage"],
         "car_park": ["foyer"],
+        "cloaks": ["foyer"],
         "corridor": ["auditorium", "foyer", "wings"],
         "costume": ["backstage", "wings"],
         "foyer": ["corridor", "office", "cloaks", "bar"],
+        "kitchen": ["bar"],
+        "lighting": ["balcony"],
+        "office": ["foyer"],
         "passage": ["auditorium", "bar", "wings"],
         "stage": ["wings"],
         "stairs": ["lighting", "auditorium"],
         "wings": ["backstage", "costume", "stage"],
     }
+
+
+    def route(self, dest, maxlen, crumbs=None, visited=None):
+        crumbs = crumbs or deque([], maxlen=maxlen)
+        visited = set([]) if visited is None else set(visited)
+
+        paths = self.topology[self.name]
+        for path in paths:
+            hop = type(self)[path]
+            if path.name == dest.name:
+                return crumbs
+
+            if hop not in visited:
+                visited.add(hop)
+                try:
+                    rv = deque(hop.route(dest, maxlen, crumbs, frozenset(visited)))
+                    rv.appendleft(hop)
+                except TypeError:
+                    continue
+
+            if len(rv) != maxlen:
+                return rv
+        else:
+            return None
 
 Arriving = enum.Enum("Arriving", Navigator.spots, type=Navigator)
 Departed = enum.Enum("Departed", Navigator.spots, type=Navigator)
