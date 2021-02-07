@@ -61,6 +61,21 @@ class Navigator(EnumFactory):
         "stage right": ["wings", "stage right"],
     }
 
+    topology = {
+        "auditorium": ["balcony", "corridor", "passage"],
+        "backstage": ["costume", "wings"],
+        "balcony": ["bar"],
+        "bar": ["kitchen", "stairs", "passage"],
+        "car_park": ["foyer"],
+        "corridor": ["auditorium", "foyer", "wings"],
+        "costume": ["backstage", "wings"],
+        "foyer": ["corridor", "office", "cloaks", "bar"],
+        "passage": ["auditorium", "bar", "wings"],
+        "stage": ["wings"],
+        "stairs": ["lighting", "auditorium"],
+        "wings": ["backstage", "costume", "stage"],
+    }
+
 Arriving = enum.Enum("Arriving", Navigator.spots, type=Navigator)
 Departed = enum.Enum("Departed", Navigator.spots, type=Navigator)
 Location = enum.Enum("Location", Navigator.spots, type=Navigator)
@@ -84,6 +99,8 @@ class Stage(Drama):
         self.active.add(self.do_go)
 
     def interlude(self, folder, index, **kwargs):
+        # When player heads to telephone, L goes backstage
+        # When player comes from telephone, L goes to foyer
         return {}
 
     def do_go(self, this, text, /, *, locn: Arriving):
