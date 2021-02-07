@@ -72,7 +72,7 @@ class Navigator(EnumFactory):
     topology = {
         "auditorium": ["balcony", "corridor", "passage"],
         "backstage": ["costume", "wings"],
-        "balcony": ["bar"],
+        "balcony": ["auditorium", "bar"],
         "bar": ["kitchen", "stairs", "passage"],
         "car_park": ["foyer"],
         "cloaks": ["foyer"],
@@ -89,36 +89,30 @@ class Navigator(EnumFactory):
     }
 
 
-    routes = {
-    }
+    routes = {}
 
-    def route(self, dest, maxlen, crumbs=None, visited=None):
+    def route(self, dest, maxlen, visited=None):
+        distances = {i: len(topology) for i in topology}
+        distances[self] = 0
+        node = self
+        for n in range(len(self.topology)):
+            for i in self.topology[node.name]:
+                distances[i] = min(distances[i], distances[node] + 1)
+
+
+        if dest.name in self.topology[self.name]:
+            self.routes[(self, dest)] = [dest]
+
         try:
             return self.routes[(self, dest)]
         except KeyError:
-            return None
+            for i in self.topology[self.name]:
+                hop = type(self)[i]
+                r = self.route(hop, dest)
+                if r:
+                    #self.routes[(self, dest)] = [hop] + r
+                    return [hop] + r
 
-        crumbs = crumbs or deque([], maxlen=maxlen)
-        visited = set([]) if visited is None else set(visited)
-
-        paths = self.topology[self.name]
-        for path in paths:
-            hop = type(self)[path]
-            if path.name == dest.name:
-                return crumbs
-
-            if hop not in visited:
-                visited.add(hop)
-                try:
-                    rv = deque(hop.route(dest, maxlen, crumbs, frozenset(visited)))
-                    rv.appendleft(hop)
-                except TypeError:
-                    continue
-
-            if len(rv) != maxlen:
-                return rv
-        else:
-            return None
 
 Arriving = enum.Enum("Arriving", Navigator.spots, type=Navigator)
 Departed = enum.Enum("Departed", Navigator.spots, type=Navigator)
