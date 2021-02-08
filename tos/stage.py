@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-#   encoding: utf-8
+# encoding: utf-8
 
 # This is a parser-based, web-enabled narrative.
 # Copyright (C) 2021 D E Haynes
@@ -73,46 +73,50 @@ class Navigator(EnumFactory):
         "auditorium": ["balcony", "corridor", "passage"],
         "backstage": ["costume", "wings"],
         "balcony": ["auditorium", "bar"],
-        "bar": ["kitchen", "stairs", "passage"],
+        "bar": ["foyer", "kitchen", "stairs", "passage"],
         "car_park": ["foyer"],
         "cloaks": ["foyer"],
         "corridor": ["auditorium", "foyer", "wings"],
         "costume": ["backstage", "wings"],
-        "foyer": ["corridor", "office", "cloaks", "bar"],
+        "foyer": ["car_park", "corridor", "office", "cloaks", "bar"],
         "kitchen": ["bar"],
-        "lighting": ["balcony"],
+        "lighting": ["balcony", "stairs"],
         "office": ["foyer"],
         "passage": ["auditorium", "bar", "wings"],
         "stage": ["wings"],
-        "stairs": ["lighting", "auditorium"],
-        "wings": ["backstage", "costume", "stage"],
+        "stairs": ["auditorium", "balcony", "bar", "lighting"],
+        "wings": ["backstage", "corridor", "costume", "passage", "stage"],
     }
 
 
     routes = {}
 
-    def route(self, dest, maxlen, visited=None):
-        distances = {i: len(topology) for i in topology}
-        distances[self] = 0
-        node = self
-        for n in range(len(self.topology)):
-            for i in self.topology[node.name]:
-                distances[i] = min(distances[i], distances[node] + 1)
+    def route(self, dest):
+        if (self.name, dest.name) in self.routes:
+            return self.routes[(self.name, dest.name)]
 
+        typ = type(self)
+        rvs = set()
+        paths = [[self]]
+        n = len(self.topology)
+        d = 1
+        while n >= 0 or not rvs:
+            nxt = []
+            for p in paths:
+                if p[-1].name == dest.name:
+                    rvs.add(tuple(p))
+                else:
+                    nodes = self.topology[p[-1].name]
+                    d = len(nodes)
+                    for i in nodes:
+                        nxt.append(p.copy())
+                        nxt[-1].append(typ[i])
+            paths = nxt
+            n = n - d
 
-        if dest.name in self.topology[self.name]:
-            self.routes[(self, dest)] = [dest]
-
-        try:
-            return self.routes[(self, dest)]
-        except KeyError:
-            for i in self.topology[self.name]:
-                hop = type(self)[i]
-                r = self.route(hop, dest)
-                if r:
-                    #self.routes[(self, dest)] = [hop] + r
-                    return [hop] + r
-
+        rv = sorted(rvs, key=len)[0] if rvs else []
+        self.routes[(self.name, dest.name)] = rv
+        return rv
 
 Arriving = enum.Enum("Arriving", Navigator.spots, type=Navigator)
 Departed = enum.Enum("Departed", Navigator.spots, type=Navigator)

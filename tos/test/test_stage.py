@@ -1,4 +1,5 @@
-#   encoding: utf-8
+#!/usr/bin/env python3
+# encoding: utf-8
 
 # This is a parser-based, web-enabled narrative.
 # Copyright (C) 2021 D E Haynes
@@ -17,6 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import pickle
+import sys
 import unittest
 
 from tos.stage import Arriving
@@ -53,6 +55,18 @@ class NavigatorTests(unittest.TestCase):
         rv = Assembly.dumps(Arriving.car_park)
         self.assertEqual(Arriving.car_park, Assembly.loads(rv), rv)
 
+    def test_navigation(self):
+        for locn in Location:
+            for dest in Arriving:
+                with self.subTest(locn=locn, dest=dest):
+                    route = locn.route(dest)
+                    if locn.name == dest.name:
+                        self.assertEqual((locn,), route)
+                    else:
+                        self.assertTrue(route)
+                        #print(locn.name, dest.name, len(route), route, file=sys.stderr)
+        #print(*Location.routes, file=sys.stderr)
+
 
 class StageTests(unittest.TestCase):
 
@@ -71,18 +85,4 @@ class StageTests(unittest.TestCase):
         self.assertEqual(Location.car_park, player.get_state(Location))
         self.assertEqual(Departed.car_park, player.get_state(Departed))
         self.assertEqual(Arriving.backstage, player.get_state(Arriving))
-
-    def test_navigation(self):
-        success = {}
-        fail = {}
-        for locn in Location:
-            for dest in Arriving:
-                with self.subTest(locn=locn, dest=dest):
-                    route = locn.route(dest, maxlen=len(Location))
-                    print(locn, dest, route)
-                    if locn.name == dest.name:
-                        self.assertFalse(route)
-                    else:
-                        self.assertTrue(route, fail.setdefault((locn, dest), route))
-                        success[(locn, dest)] = route
 
