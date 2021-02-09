@@ -9,6 +9,10 @@
    :types:  tos.stage.Character
    :states: tos.stage.Motivation.player
 
+.. entity:: NPC
+   :types:  tos.stage.Character
+   :states: tos.stage.Motivation.acting
+
 .. entity:: DRAMA
    :types:  tos.stage.Stage
 

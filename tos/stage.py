@@ -131,16 +131,35 @@ class Stage(Drama):
             pkg="tos.dlg",
             description="Theatre of Spud",
             metadata={},
-            paths=["lionheart.rst", "standin.rst", "pause.rst", "quit.rst"],
+            paths=["enter.rst", "lionheart.rst", "standin.rst", "pause.rst", "quit.rst"],
             interludes=self.interlude
         )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.player = None
         self.outcomes = defaultdict(bool)
         self.active.add(self.do_go)
+        self.active.add(self.do_look)
+
+    def __call__(self, fn, *args, **kwargs):
+        self.player = next(
+            (i for i in self.ensemble if hasattr(i, "state") and i.get_state(Motivation) == Motivation.player),
+            None
+        )
+        yield from super().__call__(fn, *args, **kwargs)
 
     def interlude(self, folder, index, **kwargs):
+        mobs = [
+            i for i in self.ensemble
+            if hasattr(i, "state") and i.get_state(Arriving)
+            and i.get_state(Arriving).name != i.get_state(Location).name
+        ]
+        for mob in mobs:
+            route = list(Location.route(mob.get_state(Location), mob.get_state(Arriving)))
+            route.pop(0)
+            if route:
+                mob.state = route[0]
         # When player heads to telephone, L goes backstage
         # When player comes from telephone, L goes to foyer
         return {}
@@ -153,8 +172,19 @@ class Stage(Drama):
         run {locn.value[1]} | run to {locn.value[1]}
 
         """
-        player = next(i for i in self.ensemble if hasattr(i, "state") and i.get_state(Motivation) == Motivation.player)
-        player.state = player.get_state(Location) or Location.car_park
-        player.state = Departed[player.get_state(Location).name]
-        player.state = locn
-        yield ""
+        self.player.state = self.player.get_state(Location) or Location.car_park
+        self.player.state = Departed[self.player.get_state(Location).name]
+        self.player.state = locn
+        yield "OK off we go"
+
+    def do_look(self, this, text, *args):
+        """
+        look | look around
+        where | where am i | where is it
+
+        """
+        locn = self.player.get_state(Location)
+        yield f"{self.player.name} is in the {locn.value[0]}."
+        yield random.choice(["Exits are:", "We are close to:", "Nearby:"])
+        yield from ("* the {0}".format(Location[i].value[0].title()) for i in locn.topology[locn.name])
+

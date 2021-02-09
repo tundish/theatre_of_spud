@@ -1,15 +1,13 @@
 .. |VERSION| property:: tos.story.version
 
 :author:    D E Haynes
-:made_at:   2021-02-06
+:made_at:   2021-02-02
 :project:   Theatre of Spud
 :version:   |VERSION|
-:dwell:     0
-:pause:     0
 
 .. entity:: PLAYER
    :types:  tos.stage.Character
-   :states: tos.stage.Motivation.paused
+   :states: tos.stage.Motivation.player
 
 .. entity:: DRAMA
    :types:  tos.stage.Stage
@@ -18,11 +16,21 @@
    :types:  turberfield.catchphrase.render.Settings
 
 
-Paused
-======
+Enter
+=====
+
+Action
+------
+
+Enter.
 
 {0}
 
-.. property:: DRAMA.prompt ?
-.. property:: PLAYER.state tos.stage.Motivation.player
-.. property:: SETTINGS.catchphrase-colour-gravity hsl(209.33, 96.92%, 12.75%)
+Input
+-----
+
+|INPUT_TEXT|
+
+.. |INPUT_TEXT| property:: DRAMA.input_text
+.. |PLAYER| property:: PLAYER.name
+
