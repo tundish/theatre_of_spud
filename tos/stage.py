@@ -33,9 +33,14 @@ from turberfield.dialogue.types import Stateful
 class Motivation(enum.Enum):
 
     acting = enum.auto()
+    critic = enum.auto()
+    friend = enum.auto()
+    herald = enum.auto()
+    murder = enum.auto()
     paused = enum.auto()
     player = enum.auto()
-    herald = enum.auto()
+    profit = enum.auto()
+    victim = enum.auto()
 
 
 class Named(DataObject):
