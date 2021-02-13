@@ -6,12 +6,12 @@
 :version:   |VERSION|
 
 .. entity:: PLAYER
-   :types:  tos.stage.Character
-   :states: tos.stage.Motivation.player
+   :types:  tos.types.Character
+   :states: tos.types.Motivation.player
 
 .. entity:: NPC
-   :types:  tos.stage.Character
-   :states: tos.stage.Motivation.acting
+   :types:  tos.types.Character
+   :states: tos.types.Motivation.acting
 
 .. entity:: STORY
    :types:  tos.story.Story

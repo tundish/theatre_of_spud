@@ -6,25 +6,25 @@
 :version:   |VERSION|
 
 .. entity:: PLAYER
-   :types:  tos.stage.Character
-   :states: tos.stage.Motivation.player
+   :types:  tos.types.Character
+   :states: tos.types.Motivation.player
 
 .. entity:: EDWARD
-   :types:  tos.stage.Character
-   :states: tos.stage.Motivation.acting
+   :types:  tos.types.Character
+   :states: tos.types.Motivation.acting
 
 .. entity:: SPUD
-   :types:  tos.stage.Character
-   :states: tos.stage.Location.foyer
-            tos.stage.Motivation.paused
+   :types:  tos.types.Character
+   :states: tos.move.Location.foyer
+            tos.types.Motivation.paused
 
 .. entity:: BILL
-   :types:  tos.stage.Character
-   :states: tos.stage.Motivation.acting
+   :types:  tos.types.Character
+   :states: tos.types.Motivation.acting
 
 .. entity:: BRENDA
-   :types:  tos.stage.Character
-   :states: tos.stage.Motivation.acting
+   :types:  tos.types.Character
+   :states: tos.types.Motivation.acting
 
 .. entity:: STORY
    :types:  tos.story.Story

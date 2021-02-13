@@ -6,8 +6,8 @@
 :version:   |VERSION|
 
 .. entity:: PLAYER
-   :types:  tos.stage.Character
-   :states: tos.stage.Motivation.player
+   :types:  tos.types.Character
+   :states: tos.types.Motivation.player
 
 .. entity:: STORY
    :types:  tos.story.Story

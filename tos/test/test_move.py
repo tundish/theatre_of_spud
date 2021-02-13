@@ -21,12 +21,12 @@ import pickle
 import sys
 import unittest
 
-from tos.stage import Arriving
-from tos.stage import Character
-from tos.stage import Departed
-from tos.stage import Location
-from tos.stage import Motivation
-from tos.stage import Stage
+from tos.move import Arriving
+from tos.move import Departed
+from tos.move import Location
+from tos.move import Stage
+from tos.types import Character
+from tos.types import Motivation
 
 from turberfield.dialogue.types import Stateful
 from turberfield.utils.assembly import Assembly

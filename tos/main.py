@@ -24,9 +24,9 @@ import time
 # import logging
 # logging.basicConfig(level=logging.DEBUG)
 
-from tos.stage import Character
-from tos.stage import Location
-from tos.stage import Motivation
+from tos.move import Location
+from tos.types import Character
+from tos.types import Motivation
 
 from tos.story import Story
 

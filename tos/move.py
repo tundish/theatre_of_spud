@@ -22,36 +22,12 @@ from collections import deque
 import enum
 import functools
 import random
-from types import SimpleNamespace
 
 from turberfield.catchphrase.drama import Drama
 from turberfield.dialogue.model import SceneScript
-from turberfield.dialogue.types import DataObject
 from turberfield.dialogue.types import EnumFactory
-from turberfield.dialogue.types import Stateful
 
-
-class Motivation(EnumFactory, enum.Enum):
-
-    acting = enum.auto()
-    critic = enum.auto()
-    friend = enum.auto()
-    herald = enum.auto()
-    murder = enum.auto()
-    paused = enum.auto()
-    player = enum.auto()
-    profit = enum.auto()
-    victim = enum.auto()
-
-
-class Named(DataObject):
-
-    @property
-    def name(self):
-        return random.choice(getattr(self, "names", [""]))
-
-
-class Character(Named, Stateful): pass
+from tos.types import Motivation
 
 
 class Navigator(EnumFactory):
@@ -127,17 +103,6 @@ class Navigator(EnumFactory):
 Arriving = enum.Enum("Arriving", Navigator.spots, type=Navigator)
 Departed = enum.Enum("Departed", Navigator.spots, type=Navigator)
 Location = enum.Enum("Location", Navigator.spots, type=Navigator)
-
-
-class Base(SimpleNamespace):
-
-    classes = {}
-
-    def transition(self, name, *args, **kwargs):
-        self.classes[name] = type(name, args, {})
-        data = self.__dict__.copy()
-        data.update(kwargs)
-        return self.classes[name](**data)
 
 
 class Stage(Drama):

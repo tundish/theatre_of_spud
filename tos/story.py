@@ -27,7 +27,7 @@ from turberfield.catchphrase.render import Settings
 # logging.basicConfig(level=logging.DEBUG)
 
 import tos
-from tos.stage import Stage
+from tos.move import Stage
 
 version = tos.__version__
 
@@ -62,7 +62,7 @@ class Story(Renderer):
         return self.drama.act
 
     @act.setter
-    def act(self):
+    def act(self, val):
         state = self.drama.state
         if state != self.drama.act:
             if state == 2:
