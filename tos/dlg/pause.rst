@@ -11,8 +11,8 @@
    :types:  tos.stage.Character
    :states: tos.stage.Motivation.paused
 
-.. entity:: DRAMA
-   :types:  tos.stage.Stage
+.. entity:: STORY
+   :types:  tos.story.Story
 
 .. entity:: SETTINGS
    :types:  turberfield.catchphrase.render.Settings
@@ -23,6 +23,6 @@ Paused
 
 {0}
 
-.. property:: DRAMA.prompt ?
+.. property:: STORY.prompt ?
 .. property:: PLAYER.state tos.stage.Motivation.player
 .. property:: SETTINGS.catchphrase-colour-gravity hsl(209.33, 96.92%, 12.75%)

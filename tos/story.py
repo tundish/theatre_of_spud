@@ -58,6 +58,18 @@ class Story(Renderer):
             "catchphrase-reveal-extends": "both",
         }
         self.settings = Settings(**self.definitions)
+        self.prompt = "?"
+
+    @property
+    def act(self):
+        return self.drama.act
+
+    @act.setter
+    def act(self):
+        state = self.drama.state
+        if state != self.drama.act:
+            if state == 2:
+                self.drama = self.drama.transition("Act2", act=2)
 
     def refresh_target(self, url):
         refresh_state = getattr(self.settings, "catchphrase-states-refresh", "inherit").lower()
@@ -75,7 +87,7 @@ class Story(Renderer):
 
         n, presenter = Presenter.build_presenter(
             self.drama.folder, *lines,
-            ensemble=self.drama.ensemble + [self.drama, self.settings]
+            ensemble=self.drama.ensemble + [self, self.settings]
         )
         if presenter and not(presenter.dwell or presenter.pause):
             setattr(self.settings, "catchphrase-reveal-extends", "none")
@@ -115,8 +127,8 @@ def main(args):
             if story.drama.outcomes["finish"]:
                 break
 
-            cmd = input("{0} ".format(story.drama.prompt))
-            fn, args, kwargs = story.drama.interpret(story.drama.match(cmd))
+            story.input = input("{0} ".format(story.prompt))
+            fn, args, kwargs = story.drama.interpret(story.drama.match(story.input))
             lines = list(story.drama(fn, *args, **kwargs))
 
 def run():

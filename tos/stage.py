@@ -22,6 +22,7 @@ from collections import deque
 import enum
 import functools
 import random
+from types import SimpleNamespace
 
 from turberfield.catchphrase.drama import Drama
 from turberfield.dialogue.model import SceneScript
@@ -30,7 +31,7 @@ from turberfield.dialogue.types import EnumFactory
 from turberfield.dialogue.types import Stateful
 
 
-class Motivation(enum.Enum):
+class Motivation(EnumFactory, enum.Enum):
 
     acting = enum.auto()
     critic = enum.auto()
@@ -126,6 +127,17 @@ class Navigator(EnumFactory):
 Arriving = enum.Enum("Arriving", Navigator.spots, type=Navigator)
 Departed = enum.Enum("Departed", Navigator.spots, type=Navigator)
 Location = enum.Enum("Location", Navigator.spots, type=Navigator)
+
+
+class Base(SimpleNamespace):
+
+    classes = {}
+
+    def transition(self, name, *args, **kwargs):
+        self.classes[name] = type(name, args, {})
+        data = self.__dict__.copy()
+        data.update(kwargs)
+        return self.classes[name](**data)
 
 
 class Stage(Drama):

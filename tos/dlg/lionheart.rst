@@ -26,8 +26,8 @@
    :types:  tos.stage.Character
    :states: tos.stage.Motivation.acting
 
-.. entity:: DRAMA
-   :types:  tos.stage.Stage
+.. entity:: STORY
+   :types:  tos.story.Story
 
 .. entity:: SETTINGS
    :types:  turberfield.catchphrase.render.Settings
