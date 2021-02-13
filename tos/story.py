@@ -17,12 +17,8 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import argparse
 from collections.abc import Callable
-import sys
-import time
 
-from turberfield.catchphrase.drama import Drama
 from turberfield.catchphrase.presenter import Presenter
 from turberfield.catchphrase.render import Renderer
 from turberfield.catchphrase.render import Settings
@@ -58,6 +54,7 @@ class Story(Renderer):
             "catchphrase-reveal-extends": "both",
         }
         self.settings = Settings(**self.definitions)
+        self.input = ""
         self.prompt = "?"
 
     @property
@@ -85,6 +82,7 @@ class Story(Renderer):
         if isinstance(folder.interludes, Callable):
             metadata = folder.interludes(folder, index, loop=loop)
 
+        ensemble = self.drama.ensemble + [self, self.settings]
         n, presenter = Presenter.build_presenter(
             self.drama.folder, *lines,
             ensemble=self.drama.ensemble + [self, self.settings]
@@ -97,46 +95,3 @@ class Story(Renderer):
             setattr(self.settings, "catchphrase-states-scrolls", "visible")
 
         return presenter
-
-
-def parser():
-    return argparse.ArgumentParser()
-
-
-def main(args):
-    from tos.stage import Character
-    from tos.stage import Location
-    from tos.stage import Motivation
-
-    name = input("Enter your character's first name: ") or "Francis"
-    story = Story(**vars(args))
-    story.drama.add(Character(names=[name]).set_state(Motivation.player, Location.car_park))
-    lines = []
-    while story.drama.active:
-        presenter = story.represent(lines)
-        for frame in presenter.frames:
-            animation = presenter.animate(frame, dwell=presenter.dwell, pause=presenter.pause)
-            if not animation:
-                continue
-            for line, duration in story.render_frame_to_terminal(animation):
-                print(line, "\n")
-                time.sleep(duration)
-
-        else:
-
-            if story.drama.outcomes["finish"]:
-                break
-
-            story.input = input("{0} ".format(story.prompt))
-            fn, args, kwargs = story.drama.interpret(story.drama.match(story.input))
-            lines = list(story.drama(fn, *args, **kwargs))
-
-def run():
-    p = parser()
-    args = p.parse_args()
-    rv = main(args)
-    sys.exit(rv)
-
-
-if __name__ == "__main__":
-    run()
