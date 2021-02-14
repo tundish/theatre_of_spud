@@ -46,7 +46,7 @@ class Story(Renderer):
 
     """
 
-    classes = {}
+    class Act1(Moves): pass
 
     def __init__(self, cfg=None, **kwargs):
         self.definitions = {
@@ -71,7 +71,7 @@ class Story(Renderer):
     @act.setter
     def act(self, val):
         if val == 1:
-            self.drama = self.transition("Act1", Moves, act=1)
+            self.drama = self.Act1(act=1)
             self.folder = SceneScript.Folder(
                 pkg="tos.dlg",
                 description="Theatre of Spud",
