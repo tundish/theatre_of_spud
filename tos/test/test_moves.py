@@ -21,10 +21,10 @@ import pickle
 import sys
 import unittest
 
-from tos.move import Arriving
-from tos.move import Departed
-from tos.move import Location
-from tos.move import Stage
+from tos.moves import Arriving
+from tos.moves import Departed
+from tos.moves import Location
+from tos.moves import Moves
 from tos.types import Character
 from tos.types import Motivation
 
@@ -71,18 +71,18 @@ class NavigatorTests(unittest.TestCase):
 class StageTests(unittest.TestCase):
 
     def setUp(self):
-        self.drama = Stage()
+        self.drama = Moves()
 
     def test_movement(self):
-        player = Character(names=["player"]).set_state(Motivation.player)
-        self.drama.add(player)
+        self.drama.player = Character(names=["player"]).set_state(Motivation.player)
+        self.drama.add(self.drama.player)
         self.assertIn(self.drama.do_go, self.drama.active)
         options = list(self.drama.match("go backstage"))
         self.assertTrue(options, options)
         fn, args, kwargs = self.drama.interpret(options)
         self.assertTrue(fn)
         dlg = "\n".join(self.drama(fn, *args, **kwargs))
-        self.assertEqual(Location.car_park, player.get_state(Location))
-        self.assertEqual(Departed.car_park, player.get_state(Departed))
-        self.assertEqual(Arriving.backstage, player.get_state(Arriving))
+        self.assertEqual(Location.car_park, self.drama.player.get_state(Location))
+        self.assertEqual(Departed.car_park, self.drama.player.get_state(Departed))
+        self.assertEqual(Arriving.backstage, self.drama.player.get_state(Arriving))
 

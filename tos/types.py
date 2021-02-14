@@ -17,6 +17,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+from collections import defaultdict
 import enum
 import random
 from types import SimpleNamespace
@@ -27,17 +28,40 @@ from turberfield.dialogue.types import EnumFactory
 from turberfield.dialogue.types import Stateful
 
 
-class Base(SimpleNamespace):
+class NewDrama(Drama, SimpleNamespace):
 
-    classes = {}
+    def __init__(self, **kwargs):
+        self.lookup = defaultdict(set)
+        self.active = set()
+        self.history = []
+        for i in self.build():
+            self.add(i)
 
-    def transition(self, name, *args, **kwargs):
-        self.classes[name] = type(name, args, {})
-        data = self.__dict__.copy()
-        data.update(kwargs)
-        return self.classes[name](**data)
+    def __call__(self, fn, *args, **kwargs):
+        lines = list(fn(fn, *args, **kwargs))
+        self.history.append(self.Record(fn, args, kwargs, lines))
+        yield from lines
 
-class NewDrama(Drama): pass
+    @property
+    def ensemble(self):
+        return list({i for s in self.lookup.values() for i in s})
+
+    @property
+    def turns(self):
+        return len(self.history)
+
+    def build(self):
+        yield from []
+
+    def add(self, item):
+        for n in getattr(item, "names", []):
+            self.lookup[n].add(item)
+
+    def interlude(self, folder, index, **kwargs) -> dict:
+        return {}
+
+    def interpret(self, options):
+        return next(iter(options), "")
 
 class Named(DataObject):
 

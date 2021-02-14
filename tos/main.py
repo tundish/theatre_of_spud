@@ -24,10 +24,6 @@ import time
 # import logging
 # logging.basicConfig(level=logging.DEBUG)
 
-from tos.move import Location
-from tos.types import Character
-from tos.types import Motivation
-
 from tos.story import Story
 
 
@@ -38,7 +34,7 @@ def parser():
 def main(args):
     name = input("Enter your character's first name: ") or "Francis"
     story = Story(**vars(args))
-    story.drama.add(Character(names=[name]).set_state(Motivation.player, Location.car_park))
+    story.player = name
     lines = []
     while story.drama.active:
         presenter = story.represent(lines)
@@ -51,10 +47,6 @@ def main(args):
                 time.sleep(duration)
 
         else:
-
-            if story.drama.outcomes["finish"]:
-                break
-
             story.input = input("{0} ".format(story.prompt))
             fn, args, kwargs = story.drama.interpret(story.drama.match(story.input))
             lines = list(story.drama(fn, *args, **kwargs))

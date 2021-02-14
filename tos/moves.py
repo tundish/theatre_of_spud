@@ -106,26 +106,16 @@ Departed = enum.Enum("Departed", Navigator.spots, type=Navigator)
 Location = enum.Enum("Location", Navigator.spots, type=Navigator)
 
 
-class Stage(NewDrama):
-
-    @property
-    def folder(self):
-        return SceneScript.Folder(
-            pkg="tos.dlg",
-            description="Theatre of Spud",
-            metadata={},
-            paths=["enter.rst", "lionheart.rst", "standin.rst", "pause.rst", "quit.rst"],
-            interludes=self.interlude
-        )
+class Moves(NewDrama):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.player = None
-        self.outcomes = defaultdict(bool)
+        # self.outcomes = defaultdict(bool)
         self.active.add(self.do_go)
         self.active.add(self.do_look)
 
     def interlude(self, folder, index, **kwargs):
+        rv = super().interlude(folder, index, **kwargs)
         mobs = [
             i for i in self.ensemble
             if hasattr(i, "state") and i.get_state(Arriving)
@@ -138,7 +128,7 @@ class Stage(NewDrama):
                 mob.state = route[0]
         # When player heads to telephone, L goes backstage
         # When player comes from telephone, L goes to foyer
-        return {}
+        return rv
 
     def do_go(self, this, text, /, *, locn: Arriving):
         """

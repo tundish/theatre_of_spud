@@ -22,13 +22,14 @@ from collections.abc import Callable
 from turberfield.catchphrase.presenter import Presenter
 from turberfield.catchphrase.render import Renderer
 from turberfield.catchphrase.render import Settings
+from turberfield.dialogue.model import SceneScript
 
 # import logging
 # logging.basicConfig(level=logging.DEBUG)
 
 import tos
-from tos.move import Location
-from tos.move import Stage
+from tos.moves import Location
+from tos.moves import Moves
 from tos.types import Character
 from tos.types import Motivation
 
@@ -45,8 +46,9 @@ class Story(Renderer):
 
     """
 
+    classes = {}
+
     def __init__(self, cfg=None, **kwargs):
-        self.drama = Stage(**kwargs)
         self.definitions = {
             "catchphrase-colour-washout": "hsl(50, 0%, 100%, 1.0)",
             "catchphrase-colour-shadows": "hsl(202.86, 100%, 4.12%)",
@@ -57,8 +59,10 @@ class Story(Renderer):
             "catchphrase-reveal-extends": "both",
         }
         self.settings = Settings(**self.definitions)
+        self.folder = None
         self.input = ""
         self.prompt = "?"
+        self.act = 1
 
     @property
     def act(self):
@@ -66,10 +70,15 @@ class Story(Renderer):
 
     @act.setter
     def act(self, val):
-        state = self.drama.state
-        if state != self.drama.act:
-            if state == 2:
-                self.drama = self.drama.transition("Act2", act=2)
+        if val == 1:
+            self.drama = self.transition("Act1", Moves, act=1)
+            self.folder = SceneScript.Folder(
+                pkg="tos.dlg",
+                description="Theatre of Spud",
+                metadata={},
+                paths=["enter.rst", "lionheart.rst", "standin.rst", "pause.rst", "quit.rst"],
+                interludes=None
+            )
 
     @property
     def player(self):
@@ -79,6 +88,12 @@ class Story(Renderer):
     def player(self, name):
         self.drama.player = Character(names=[name]).set_state(Motivation.player, Location.car_park)
         self.drama.add(self.drama.player)
+
+    def transition(self, name, *args, **kwargs):
+        self.classes[name] = type(name, args, {})
+        data = self.__dict__.copy()
+        data.update(kwargs)
+        return self.classes[name](**data)
 
     def refresh_target(self, url):
         refresh_state = getattr(self.settings, "catchphrase-states-refresh", "inherit").lower()
@@ -90,13 +105,10 @@ class Story(Renderer):
             return refresh_state
 
     def represent(self, lines=[], index=None, loop=None):
-        folder = self.drama.folder
-        if isinstance(folder.interludes, Callable):
-            metadata = folder.interludes(folder, index, loop=loop)
+        metadata = self.drama.interlude(self.folder, index, loop=loop)
 
-        ensemble = self.drama.ensemble + [self, self.settings]
         n, presenter = Presenter.build_presenter(
-            self.drama.folder, *lines,
+            self.folder, *lines,
             ensemble=self.drama.ensemble + [self, self.settings]
         )
         if presenter and not(presenter.dwell or presenter.pause):
