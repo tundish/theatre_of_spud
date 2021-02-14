@@ -18,6 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from collections.abc import Callable
+import importlib.resources
 
 from turberfield.catchphrase.presenter import Presenter
 from turberfield.catchphrase.render import Renderer
@@ -70,13 +71,26 @@ class Story(Renderer):
 
     @act.setter
     def act(self, val):
+        path = importlib.resources.files("tos.dlg")
+        paths=[i.name for i in path.glob("*.rst")],
         if val == 1:
             self.drama = self.Act1(act=1)
             self.folder = SceneScript.Folder(
                 pkg="tos.dlg",
                 description="Theatre of Spud",
                 metadata={},
-                paths=["enter.rst", "lionheart.rst", "standin.rst", "pause.rst", "quit.rst"],
+                paths=["enter.rst", "pause.rst", "quit.rst"],
+                interludes=None
+            )
+            for i in self.drama.build():
+                self.drama.add(i)
+        elif val == 2:
+            self.drama = self.Act2(act=2)
+            self.folder = SceneScript.Folder(
+                pkg="tos.dlg",
+                description="Theatre of Spud",
+                metadata={},
+                paths=["lionheart.rst", "standin.rst", "pause.rst", "quit.rst"],
                 interludes=None
             )
 
@@ -88,12 +102,6 @@ class Story(Renderer):
     def player(self, name):
         self.drama.player = Character(names=[name]).set_state(Motivation.player, Location.car_park)
         self.drama.add(self.drama.player)
-
-    def transition(self, name, *args, **kwargs):
-        self.classes[name] = type(name, args, {})
-        data = self.__dict__.copy()
-        data.update(kwargs)
-        return self.classes[name](**data)
 
     def refresh_target(self, url):
         refresh_state = getattr(self.settings, "catchphrase-states-refresh", "inherit").lower()

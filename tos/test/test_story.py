@@ -19,11 +19,25 @@
 
 import unittest
 
+from turberfield.dialogue.model import SceneScript
+
 from tos.story import Story
 from tos.types import Character
 
 
 class StoryTests(unittest.TestCase):
+
+    def test_folders(self):
+        import importlib.resources
+        path = importlib.resources.files("tos.dlg")
+        rv = SceneScript.Folder(
+            pkg="tos.dlg",
+            description="Theatre of Spud",
+            metadata={},
+            paths=[i.name for i in path.glob("*.rst")],
+            interludes=None
+        )
+        print(rv)
 
     def test_progression(self):
         s = Story()

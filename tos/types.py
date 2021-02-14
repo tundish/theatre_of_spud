@@ -34,8 +34,6 @@ class NewDrama(Drama, SimpleNamespace):
         self.lookup = defaultdict(set)
         self.active = set()
         self.history = []
-        for i in self.build():
-            self.add(i)
 
     def __call__(self, fn, *args, **kwargs):
         lines = list(fn(fn, *args, **kwargs))
