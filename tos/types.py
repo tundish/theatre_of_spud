@@ -21,6 +21,7 @@ import enum
 import random
 from types import SimpleNamespace
 
+from turberfield.catchphrase.drama import Drama
 from turberfield.dialogue.types import DataObject
 from turberfield.dialogue.types import EnumFactory
 from turberfield.dialogue.types import Stateful
@@ -36,6 +37,7 @@ class Base(SimpleNamespace):
         data.update(kwargs)
         return self.classes[name](**data)
 
+class NewDrama(Drama): pass
 
 class Named(DataObject):
 

@@ -27,7 +27,10 @@ from turberfield.catchphrase.render import Settings
 # logging.basicConfig(level=logging.DEBUG)
 
 import tos
+from tos.move import Location
 from tos.move import Stage
+from tos.types import Character
+from tos.types import Motivation
 
 version = tos.__version__
 
@@ -67,6 +70,15 @@ class Story(Renderer):
         if state != self.drama.act:
             if state == 2:
                 self.drama = self.drama.transition("Act2", act=2)
+
+    @property
+    def player(self):
+        return self.drama.player
+
+    @player.setter
+    def player(self, name):
+        self.drama.player = Character(names=[name]).set_state(Motivation.player, Location.car_park)
+        self.drama.add(self.drama.player)
 
     def refresh_target(self, url):
         refresh_state = getattr(self.settings, "catchphrase-states-refresh", "inherit").lower()

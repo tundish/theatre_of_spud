@@ -28,6 +28,7 @@ from turberfield.dialogue.model import SceneScript
 from turberfield.dialogue.types import EnumFactory
 
 from tos.types import Motivation
+from tos.types import NewDrama
 
 
 class Navigator(EnumFactory):
@@ -105,7 +106,7 @@ Departed = enum.Enum("Departed", Navigator.spots, type=Navigator)
 Location = enum.Enum("Location", Navigator.spots, type=Navigator)
 
 
-class Stage(Drama):
+class Stage(NewDrama):
 
     @property
     def folder(self):
@@ -123,13 +124,6 @@ class Stage(Drama):
         self.outcomes = defaultdict(bool)
         self.active.add(self.do_go)
         self.active.add(self.do_look)
-
-    def __call__(self, fn, *args, **kwargs):
-        self.player = next(
-            (i for i in self.ensemble if hasattr(i, "state") and i.get_state(Motivation) == Motivation.player),
-            None
-        )
-        yield from super().__call__(fn, *args, **kwargs)
 
     def interlude(self, folder, index, **kwargs):
         mobs = [
