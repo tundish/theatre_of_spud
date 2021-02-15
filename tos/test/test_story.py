@@ -29,7 +29,7 @@ class StoryTests(unittest.TestCase):
 
     def test_folders(self):
         import importlib.resources
-        path = importlib.resources.files("tos.dlg.act1")
+        path = importlib.resources.files("tos.dlg.act0")
         rv = SceneScript.Folder(
             pkg="tos.dlg",
             description="Theatre of Spud",

@@ -34,7 +34,8 @@ def parser():
 def main(args):
     name = input("Enter your character's first name: ") or "Francis"
     story = Story(**vars(args))
-    story.player = name
+    story.drama = story.load_drama(player_name=name)
+    story.folder = story.load_folder()
     lines = []
     while story.drama.active:
         presenter = story.represent(lines)

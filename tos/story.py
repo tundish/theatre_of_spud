@@ -61,22 +61,37 @@ class Story(Renderer):
             "catchphrase-reveal-extends": "both",
         }
         self.settings = Settings(**self.definitions)
+        self.drama = None
         self.folder = None
         self.input = ""
         self.prompt = "?"
         self.metadata = {}
 
-    def load(self, act=0, player_name="", ensemble=None):
+    def load_drama(self, act=0, player_name="", ensemble=None):
         ensemble = ensemble or []
-        if player_name:
-            player = Character(names=[player_name]).set_state(Motivation.player, Location.car_park)
-            ensemble.append(player)
-
         drama = self.acts[act]()
-        for obj in drama.build():
+
+        for obj in ensemble:
             drama.add(obj)
-        drama.player = ensemble[-1]
+
+        if player_name:
+            for obj in drama.build():
+                drama.add(obj)
+            drama.add(Character(names=[player_name]).set_state(Motivation.player, Location.car_park))
+
+        drama.player = drama.ensemble[-1]
         return drama
+
+    def load_folder(self, act=0):
+        pkg = f"tos.dlg.act{act}"
+        path = importlib.resources.files(pkg)
+        return SceneScript.Folder(
+            pkg=pkg,
+            description="Theatre of Spud",
+            metadata={},
+            paths=[i.name for i in path.glob("*.rst")],
+            interludes=None
+        )
 
     def refresh_target(self, url):
         refresh_state = getattr(self.settings, "catchphrase-states-refresh", "inherit").lower()
@@ -88,10 +103,10 @@ class Story(Renderer):
             return refresh_state
 
     def represent(self, lines=[], index=None, loop=None):
-        if all(self.metadata.values()):
-            act = self.metadata.get("act", 0)
-            self.drama = self.load(act)
-            self.metadata["act"] = act + 1
+        #if all(self.metadata.values()):
+        #    act = self.metadata.get("act", 0)
+        #    self.drama = self.load(act)
+        #    self.metadata["act"] = act + 1
 
         self.metadata.update(self.drama.interlude(self.folder, index, loop=loop))
         # if "act" in metadata
