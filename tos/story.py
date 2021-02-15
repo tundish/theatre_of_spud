@@ -50,6 +50,7 @@ class Story(Renderer):
     class Act1(Moves): pass
 
     def __init__(self, cfg=None, **kwargs):
+        self.acts = [self.Act1]
         self.definitions = {
             "catchphrase-colour-washout": "hsl(50, 0%, 100%, 1.0)",
             "catchphrase-colour-shadows": "hsl(202.86, 100%, 4.12%)",
@@ -63,45 +64,19 @@ class Story(Renderer):
         self.folder = None
         self.input = ""
         self.prompt = "?"
-        self.act = 1
+        self.metadata = {}
 
-    @property
-    def act(self):
-        return self.drama.act
+    def load(self, act=0, player_name="", ensemble=None):
+        ensemble = ensemble or []
+        if player_name:
+            player = Character(names=[player_name]).set_state(Motivation.player, Location.car_park)
+            ensemble.append(player)
 
-    @act.setter
-    def act(self, val):
-        path = importlib.resources.files("tos.dlg")
-        paths=[i.name for i in path.glob("*.rst")],
-        if val == 1:
-            self.drama = self.Act1(act=1)
-            self.folder = SceneScript.Folder(
-                pkg="tos.dlg",
-                description="Theatre of Spud",
-                metadata={},
-                paths=["enter.rst", "pause.rst", "quit.rst"],
-                interludes=None
-            )
-            for i in self.drama.build():
-                self.drama.add(i)
-        elif val == 2:
-            self.drama = self.Act2(act=2)
-            self.folder = SceneScript.Folder(
-                pkg="tos.dlg",
-                description="Theatre of Spud",
-                metadata={},
-                paths=["lionheart.rst", "standin.rst", "pause.rst", "quit.rst"],
-                interludes=None
-            )
-
-    @property
-    def player(self):
-        return self.drama.player
-
-    @player.setter
-    def player(self, name):
-        self.drama.player = Character(names=[name]).set_state(Motivation.player, Location.car_park)
-        self.drama.add(self.drama.player)
+        drama = self.acts[act]()
+        for obj in drama.build():
+            drama.add(obj)
+        drama.player = ensemble[-1]
+        return drama
 
     def refresh_target(self, url):
         refresh_state = getattr(self.settings, "catchphrase-states-refresh", "inherit").lower()
@@ -113,7 +88,13 @@ class Story(Renderer):
             return refresh_state
 
     def represent(self, lines=[], index=None, loop=None):
-        metadata = self.drama.interlude(self.folder, index, loop=loop)
+        if all(self.metadata.values()):
+            act = self.metadata.get("act", 0)
+            self.drama = self.load(act)
+            self.metadata["act"] = act + 1
+
+        self.metadata.update(self.drama.interlude(self.folder, index, loop=loop))
+        # if "act" in metadata
 
         n, presenter = Presenter.build_presenter(
             self.folder, *lines,

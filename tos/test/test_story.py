@@ -29,7 +29,7 @@ class StoryTests(unittest.TestCase):
 
     def test_folders(self):
         import importlib.resources
-        path = importlib.resources.files("tos.dlg")
+        path = importlib.resources.files("tos.dlg.act1")
         rv = SceneScript.Folder(
             pkg="tos.dlg",
             description="Theatre of Spud",
@@ -37,9 +37,9 @@ class StoryTests(unittest.TestCase):
             paths=[i.name for i in path.glob("*.rst")],
             interludes=None
         )
-        print(rv)
+        self.assertTrue(rv.paths, rv.paths)
 
     def test_progression(self):
         s = Story()
-        s.player = "tester"
-        self.assertIsInstance(s.player, Character)
+        s.drama = s.load(player_name="tester")
+        self.assertIsInstance(s.drama.player, Character)

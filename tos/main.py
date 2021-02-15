@@ -51,6 +51,7 @@ def main(args):
             fn, args, kwargs = story.drama.interpret(story.drama.match(story.input))
             lines = list(story.drama(fn, *args, **kwargs))
 
+
 def run():
     p = parser()
     args = p.parse_args()
