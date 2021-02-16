@@ -19,23 +19,7 @@
 
 import unittest
 
-
-#
-
-from tos.moves import Location
-from tos.moves import Moves
-from tos.types import Aware
-from tos.types import Artifact
-from tos.types import Character
-from tos.types import Motivation
-
-
-class Lights(Moves):
-
-    def build(self):
-        yield from super().build()
-        yield Artifact(names=["lights"]).set_state(Aware.ignorant, Location.foyer)
-        yield Artifact(names=["fuse"]).set_state(Aware.ignorant, Location.lighting)
+from tos.lights import Lights
 
 
 class LightsTests(unittest.TestCase):
@@ -47,11 +31,14 @@ class LightsTests(unittest.TestCase):
         self.drama.player = Character(names=["tester"]).set_state(Motivation.player, Location.car_park)
         self.drama.add(self.drama.player)
 
-    def test_find_fuse(self):
+    def test_find_lights(self):
         lights = next(iter(self.drama.lookup["lights"]))
+        self.assertEqual(Aware.ignorant, lights.get_state(Aware))
+        self.assertEqual(Location.foyer, lights.get_state(Location))
         options = list(self.drama.match("go to the foyer"))
         self.assertTrue(options, options)
         fn, args, kwargs = self.drama.interpret(options)
         dlg = "\n".join(self.drama(fn, *args, **kwargs))
         metadata = self.drama.interlude(None, None)
         self.assertEqual(Location.foyer, self.drama.player.get_state(Location))
+        self.assertEqual(Aware.discover, lights.get_state(Aware))
