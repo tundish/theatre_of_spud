@@ -68,6 +68,38 @@ class LightsTests(unittest.TestCase):
         dlg = "\n".join(self.drama(fn, *args, **kwargs))
         self.assertIn("there is no fuse here", dlg.lower())
 
+    def test_no_fit_fuse(self):
+        self.assertIn(self.drama.do_get, self.drama.active)
+        options = list(self.drama.match("fit the fuse"))
+        fn, args, kwargs = self.drama.interpret(options)
+        self.assertFalse(fn)
+
+    def test_no_light_off(self):
+        self.assertIn(self.drama.do_lights_off, self.drama.active)
+        for cmd in (
+            "switch off lights", "turn off lights",
+            "switch lights off", "turn lights off",
+        ):
+            with self.subTest(cmd=cmd):
+                options = list(self.drama.match(cmd))
+                fn, args, kwargs = self.drama.interpret(options)
+                self.assertTrue(fn)
+                dlg = "\n".join(self.drama(fn, *args, **kwargs))
+                self.assertFalse(dlg)
+
+    def test_no_light_on(self):
+        self.assertIn(self.drama.do_lights_on, self.drama.active)
+        for cmd in (
+            "switch on lights", "turn on lights",
+            "switch lights on", "turn lights on",
+        ):
+            with self.subTest(cmd=cmd):
+                options = list(self.drama.match(cmd))
+                fn, args, kwargs = self.drama.interpret(options)
+                self.assertTrue(fn)
+                dlg = "\n".join(self.drama(fn, *args, **kwargs))
+                self.assertFalse(dlg)
+
     def test_get_fuse(self):
         self.test_find_fuse()
         fuse = next(iter(self.drama.lookup["fuse"]))
@@ -86,3 +118,43 @@ class LightsTests(unittest.TestCase):
             metadata = self.drama.interlude(None, None)
         self.assertEqual(Location.foyer, self.drama.player.get_state(Location))
         self.assertEqual(Location.foyer, fuse.get_state(Location))
+
+    def test_fit_fuse(self):
+        self.test_fetch_fuse()
+        fuse = next(iter(self.drama.lookup["fuse"]))
+        options = list(self.drama.match("fit the fuse"))
+        fn, args, kwargs = self.drama.interpret(options)
+        dlg = "\n".join(self.drama(fn, *args, **kwargs))
+        self.assertEqual(Aware.complete, fuse.get_state(Aware))
+        self.assertEqual(Location.foyer, fuse.get_state(Location))
+
+    def test_light_off(self):
+        self.test_fit_fuse()
+        lights = next(iter(self.drama.lookup["lights"]))
+        for cmd in (
+            "switch off lights", "turn off lights",
+            "switch lights off", "turn lights off",
+        ):
+            with self.subTest(cmd=cmd):
+                options = list(self.drama.match(cmd))
+                fn, args, kwargs = self.drama.interpret(options)
+                self.assertTrue(fn)
+                dlg = "\n".join(self.drama(fn, *args, **kwargs))
+                self.assertIn("out", dlg)
+                self.assertEqual(1, lights.state)
+
+    def test_light_on(self):
+        self.test_fit_fuse()
+        lights = next(iter(self.drama.lookup["lights"]))
+        for cmd in (
+            "switch on lights", "turn on lights",
+            "switch lights on", "turn lights on",
+        ):
+            with self.subTest(cmd=cmd):
+                options = list(self.drama.match(cmd))
+                fn, args, kwargs = self.drama.interpret(options)
+                self.assertTrue(fn)
+                dlg = "\n".join(self.drama(fn, *args, **kwargs))
+                self.assertIn("on", dlg)
+                self.assertEqual(2, lights.state)
+

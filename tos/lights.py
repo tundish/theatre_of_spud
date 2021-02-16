@@ -57,9 +57,14 @@ class Carries:
 
 class Lights(Carries, Moving):
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.active.add(self.do_lights_off)
+        self.active.add(self.do_lights_on)
+
     def build(self):
         yield from super().build()
-        yield Artifact(names=["lights"]).set_state(Aware.ignorant, Location.foyer)
+        yield Artifact(names=["lights"]).set_state(Aware.ignorant, Location.foyer, 1)
         yield Artifact(names=["fuse"]).set_state(Aware.ignorant, Location.lighting)
 
     def interlude(self, folder, index, **kwargs):
@@ -72,4 +77,43 @@ class Lights(Carries, Moving):
                     obj.state = Aware.discover
                 elif obj.get_state(Aware) == Aware.discover:
                     obj.state = Aware.familiar
+
+        if fuse.get_state(Location) == Location.foyer:
+            self.active.add(self.do_fit_fuse)
+        else:
+            self.active.discard(self.do_fit_fuse)
         return rv
+
+    def do_fit_fuse(self, this, text, *args):
+        """
+        fit fuse
+        fit fuse in light
+        put fuse in slot
+
+        """
+        next(iter(self.lookup["fuse"])).state = Aware.complete
+        next(iter(self.lookup["lights"])).state = Aware.complete
+        next(iter(self.lookup["lights"])).state = 1
+        yield ""
+
+    def do_lights_off(self, this, text, *args):
+        """
+        switch off lights | switch lights off
+        turn off lights | turn lights off
+
+        """
+        lights = next(iter(self.lookup["lights"]))
+        lights.state = 1
+        if lights.state == Aware.complete:
+            yield "The exterior lights go out."
+
+    def do_lights_on(self, this, text, *args):
+        """
+        switch on lights | switch lights on
+        turn on lights | turn lights on
+
+        """
+        lights = next(iter(self.lookup["lights"]))
+        lights.state = 2
+        if lights.state == Aware.complete:
+            yield "The exterior lights come on."
