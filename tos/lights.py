@@ -104,7 +104,7 @@ class Lights(Carries, Moving):
         """
         lights = next(iter(self.lookup["lights"]))
         lights.state = 1
-        if lights.state == Aware.complete:
+        if lights.get_state(Aware) == Aware.complete:
             yield "The exterior lights go out."
 
     def do_lights_on(self, this, text, *args):
@@ -115,5 +115,5 @@ class Lights(Carries, Moving):
         """
         lights = next(iter(self.lookup["lights"]))
         lights.state = 2
-        if lights.state == Aware.complete:
+        if lights.get_state(Aware) == Aware.complete:
             yield "The exterior lights come on."
