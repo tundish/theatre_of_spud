@@ -66,7 +66,7 @@ class LightsTests(unittest.TestCase):
         options = list(self.drama.match("get the fuse"))
         fn, args, kwargs = self.drama.interpret(options)
         dlg = "\n".join(self.drama(fn, *args, **kwargs))
-        self.fail(dlg)
+        self.assertIn("there is no fuse here", dlg.lower())
 
     def test_get_fuse(self):
         self.test_find_fuse()

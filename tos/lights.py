@@ -30,6 +30,16 @@ class Carries:
         super().__init__(*args, **kwargs)
         self.active.add(self.do_get)
 
+    def interlude(self, folder, index, **kwargs):
+        rv = super().interlude(folder, index, **kwargs)
+        mobs = [
+            i for i in self.ensemble
+            if hasattr(i, "state") and i.get_state(Aware) == Aware.carrying
+        ]
+        for mob in mobs:
+            mob.state = self.player.get_state(Location)
+        return rv
+
     def do_get(self, this, text, /, *, obj: Artifact):
         """
         get {obj.names[0]}
