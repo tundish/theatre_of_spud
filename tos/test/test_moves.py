@@ -24,7 +24,7 @@ import unittest
 from tos.moves import Arriving
 from tos.moves import Departed
 from tos.moves import Location
-from tos.moves import Moves
+from tos.moves import Moving
 from tos.types import Character
 from tos.types import Motivation
 
@@ -71,7 +71,7 @@ class NavigatorTests(unittest.TestCase):
 class StageTests(unittest.TestCase):
 
     def setUp(self):
-        self.drama = Moves()
+        self.drama = Moving()
 
     def test_movement(self):
         self.drama.player = Character(names=["player"]).set_state(Motivation.player)

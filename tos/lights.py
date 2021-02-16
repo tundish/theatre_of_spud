@@ -17,15 +17,35 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+from tos.moves import Departed
 from tos.moves import Location
-from tos.moves import Moves
+from tos.moves import Moving
 from tos.types import Aware
 from tos.types import Artifact
-from tos.types import Character
-from tos.types import Motivation
 
 
-class Lights(Moves):
+class Carries:
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.active.add(self.do_get)
+
+    def do_get(self, this, text, /, *, obj: Artifact):
+        """
+        get {obj.names[0]}
+        pick up {obj.names[0]}
+
+        """
+        locn = self.player.get_state(Location)
+        if obj.get_state(Location) != locn:
+            yield f"There is no {obj.name} here."
+            return
+
+        obj.state = Departed[locn.name]
+        obj.state = Aware.carrying
+
+
+class Lights(Carries, Moving):
 
     def build(self):
         yield from super().build()

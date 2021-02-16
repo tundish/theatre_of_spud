@@ -106,11 +106,10 @@ Departed = enum.Enum("Departed", Navigator.spots, type=Navigator)
 Location = enum.Enum("Location", Navigator.spots, type=Navigator)
 
 
-class Moves(NewDrama):
+class Moving(NewDrama):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # self.outcomes = defaultdict(bool)
         self.active.add(self.do_go)
         self.active.add(self.do_look)
 

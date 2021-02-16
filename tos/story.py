@@ -30,7 +30,7 @@ from turberfield.dialogue.model import SceneScript
 
 import tos
 from tos.moves import Location
-from tos.moves import Moves
+from tos.moves import Moving
 from tos.types import Character
 from tos.types import Motivation
 
@@ -47,7 +47,7 @@ class Story(Renderer):
 
     """
 
-    class Act1(Moves): pass
+    class Act1(Moving): pass
 
     def __init__(self, cfg=None, **kwargs):
         self.acts = [self.Act1]
