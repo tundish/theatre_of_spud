@@ -68,6 +68,7 @@ class Named(DataObject):
         return random.choice(getattr(self, "names", [""]))
 
 
+class Artifact(Named, Stateful): pass
 class Character(Named, Stateful): pass
 
 
