@@ -126,8 +126,6 @@ class Moves(NewDrama):
             route.pop(0)
             if route:
                 mob.state = route[0]
-        # When player heads to telephone, L goes backstage
-        # When player comes from telephone, L goes to foyer
         return rv
 
     def do_go(self, this, text, /, *, locn: Arriving):
@@ -141,7 +139,7 @@ class Moves(NewDrama):
         self.player.state = self.player.get_state(Location) or Location.car_park
         self.player.state = Departed[self.player.get_state(Location).name]
         self.player.state = locn
-        yield "OK off we go"
+        yield f"{self.player.name} heads off to the {locn.value[0]}."
 
     def do_look(self, this, text, *args):
         """

@@ -84,3 +84,10 @@ class Motivation(EnumFactory, enum.Enum):
     victim = enum.auto()
 
 
+class Aware(EnumFactory, enum.Enum):
+
+    ignorant = enum.auto()
+    indicate = enum.auto()
+    discover = enum.auto()
+    carrying = enum.auto()
+    complete = enum.auto()

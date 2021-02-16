@@ -54,4 +54,4 @@ class SickNoteTests(unittest.TestCase):
         drama = SickNote()
         self.assertTrue(drama.active)
         self.assertTrue("help" in "".join([i.__doc__ for i in drama.active]))
-        self.assertTrue("look" in "".join([i.__doc__ for i in drama.active]))
+        self.assertFalse("look" in "".join([i.__doc__ for i in drama.active]))
