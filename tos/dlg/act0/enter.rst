@@ -20,29 +20,47 @@
    :types:  turberfield.catchphrase.render.Settings
 
 
-Enter
-=====
+Entrance
+========
 
-Greet
------
+Mist
+----
 
-.. condition:: DRAMA.turns 0
+.. condition:: STORY.drama.turns 0
 
-Morning!
+The Winter afternoon darkens early.
+A cold mist has formed in the last hour of the day.
 
-Action
-------
+Here
+----
+
+|PLAYER| stands in the Car Park of the Theatre.
+
+Traffic
+-------
+
+.. condition:: STORY.drama.turns 0
+
+There isn't much traffic.
+
+Dusk
+----
+
+.. condition:: STORY.drama.turns 0
+.. condition:: STORY.drama.turns 1
+.. condition:: STORY.drama.turns 2
+
+On the other side of the road, about 30 yards away, a couple of young men are sitting on a wall.
+
+Dark
+----
+
+.. condition:: STORY.drama.turns 2
+.. condition:: STORY.drama.turns 3
+
+Two or three figures are walk over from the direction of the Church.
+They join the others by the wall.
 
 
-Enter.
-
-{0}
-
-Input
------
-
-|INPUT_TEXT|
-
-.. |INPUT_TEXT| property:: STORY.input
 .. |PLAYER| property:: PLAYER.name
 
