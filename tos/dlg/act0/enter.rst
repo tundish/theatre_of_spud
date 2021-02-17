@@ -8,10 +8,13 @@
 .. entity:: PLAYER
    :types:  tos.types.Character
    :states: tos.types.Motivation.player
-            tos.types.Location.car_park
+            tos.moving.Location.car_park
 
 .. entity:: STORY
    :types:  tos.story.Story
+
+.. entity:: DRAMA
+   :types:  turberfield.catchphrase.drama.Drama
 
 .. entity:: SETTINGS
    :types:  turberfield.catchphrase.render.Settings
@@ -20,8 +23,16 @@
 Enter
 =====
 
+Greet
+-----
+
+.. condition:: DRAMA.turns 0
+
+Morning!
+
 Action
 ------
+
 
 Enter.
 

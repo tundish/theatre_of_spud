@@ -20,7 +20,6 @@
 from collections import defaultdict
 import enum
 import random
-from types import SimpleNamespace
 
 from turberfield.catchphrase.drama import Drama
 from turberfield.dialogue.types import DataObject
@@ -28,7 +27,7 @@ from turberfield.dialogue.types import EnumFactory
 from turberfield.dialogue.types import Stateful
 
 
-class NewDrama(Drama, SimpleNamespace):
+class NewDrama(Drama):
 
     def __init__(self, **kwargs):
         self.lookup = defaultdict(set)
