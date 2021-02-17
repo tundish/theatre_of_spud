@@ -58,9 +58,12 @@ Dark
 .. condition:: STORY.drama.turns 2
 .. condition:: STORY.drama.turns 3
 
-Two or three figures are walk over from the direction of the Church.
+Two or three figures walk over from the direction of the Church.
 They join the others by the wall.
 
 
 .. |PLAYER| property:: PLAYER.name
+
+Output
+------
 
