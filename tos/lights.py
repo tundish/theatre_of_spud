@@ -17,14 +17,14 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from tos.moves import Departed
-from tos.moves import Location
-from tos.moves import Moving
+from tos.moving import Departed
+from tos.moving import Location
+from tos.moving import Moving
 from tos.types import Aware
 from tos.types import Artifact
 
 
-class Carries:
+class Carrying:
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -55,7 +55,7 @@ class Carries:
         obj.state = Aware.carrying
 
 
-class Lights(Carries, Moving):
+class Lights(Carrying, Moving):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

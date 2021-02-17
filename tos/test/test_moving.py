@@ -21,10 +21,10 @@ import pickle
 import sys
 import unittest
 
-from tos.moves import Arriving
-from tos.moves import Departed
-from tos.moves import Location
-from tos.moves import Moving
+from tos.moving import Arriving
+from tos.moving import Departed
+from tos.moving import Location
+from tos.moving import Moving
 from tos.types import Character
 from tos.types import Motivation
 

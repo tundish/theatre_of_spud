@@ -8,6 +8,7 @@
 .. entity:: PLAYER
    :types:  tos.types.Character
    :states: tos.types.Motivation.player
+            tos.types.Location.car_park
 
 .. entity:: STORY
    :types:  tos.story.Story

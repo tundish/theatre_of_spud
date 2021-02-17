@@ -29,8 +29,8 @@ from turberfield.dialogue.model import SceneScript
 # logging.basicConfig(level=logging.DEBUG)
 
 import tos
-from tos.moves import Location
-from tos.moves import Moving
+from tos.moving import Location
+from tos.moving import Moving
 from tos.types import Character
 from tos.types import Motivation
 

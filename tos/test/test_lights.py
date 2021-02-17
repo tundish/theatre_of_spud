@@ -20,8 +20,8 @@
 import unittest
 
 from tos.lights import Lights
-from tos.moves import Departed
-from tos.moves import Location
+from tos.moving import Departed
+from tos.moving import Location
 from tos.types import Aware
 from tos.types import Character
 from tos.types import Motivation
