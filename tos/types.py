@@ -26,7 +26,6 @@ from turberfield.dialogue.types import DataObject
 from turberfield.dialogue.types import EnumFactory
 from turberfield.dialogue.types import Stateful
 
-
 class NewDrama(Drama):
 
     def __init__(self, **kwargs):
@@ -82,6 +81,7 @@ class Motivation(EnumFactory, enum.Enum):
     player = enum.auto()
     profit = enum.auto()
     victim = enum.auto()
+    finish = enum.auto()
 
 
 class Aware(EnumFactory, enum.Enum):
@@ -92,3 +92,13 @@ class Aware(EnumFactory, enum.Enum):
     familiar = enum.auto()
     carrying = enum.auto()
     complete = enum.auto()
+
+
+class Directing(NewDrama):
+
+    def pause(self):
+        self.player.set_state(Motivation.paused)
+
+    def quit(self):
+        self.player.set_state(Motivation.finish)
+

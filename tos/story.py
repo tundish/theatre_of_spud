@@ -29,9 +29,11 @@ from turberfield.dialogue.model import SceneScript
 # logging.basicConfig(level=logging.DEBUG)
 
 import tos
+from tos.helpful import Helpful
 from tos.moving import Location
 from tos.moving import Moving
 from tos.types import Character
+from tos.types import Directing
 from tos.types import Motivation
 
 version = tos.__version__
@@ -47,7 +49,7 @@ class Story(Renderer):
 
     """
 
-    class Act1(Moving): pass
+    class Act1(Directing, Moving, Helpful): pass
 
     def __init__(self, cfg=None, **kwargs):
         self.acts = [self.Act1]
@@ -114,7 +116,7 @@ class Story(Renderer):
         n, presenter = Presenter.build_presenter(
             self.folder, *lines,
             ensemble=self.drama.ensemble + [self, self.drama, self.settings],
-            shot="", entity="DRAMA"
+            shot="Drama output"
         )
         if presenter and not(presenter.dwell or presenter.pause):
             setattr(self.settings, "catchphrase-reveal-extends", "none")

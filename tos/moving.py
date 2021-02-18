@@ -107,6 +107,7 @@ Location = enum.Enum("Location", Navigator.spots, type=Navigator)
 
 
 class Moving(NewDrama):
+    "Physical space"
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

@@ -28,18 +28,15 @@ from turberfield.dialogue.model import Model
 from turberfield.dialogue.model import SceneScript
 
 
-
-class DialogueTests(unittest.TestCase):
+class HelpfulTests(unittest.TestCase):
 
     def setUp(self):
         pkg = "tos.dlg"
         path = importlib.resources.files(pkg)
         self.drama = Helpful()
         self.folder = SceneScript.Folder(
-            pkg=pkg,
-            description="Theatre of Spud",
-            metadata={},
-            paths=[i.name for i in path.glob("*.rst")],
+            pkg=pkg, description="Theatre of Spud",
+            metadata={}, paths=[i.name for i in path.glob("*.rst")],
             interludes=None
         )
 

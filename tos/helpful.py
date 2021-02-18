@@ -21,20 +21,26 @@
 from collections import defaultdict
 from collections import namedtuple
 
+from turberfield.catchphrase.parser import CommandParser
 from turberfield.dialogue.model import SceneScript
 
 from tos.types import NewDrama
+from turberfield.catchphrase.drama import Drama
 
 
 class Helpful(NewDrama):
+    """
+    Asking for help
 
+    """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.active.add(self.do_help)
+        self.active.add(self.do_hint)
         self.active.add(self.do_history)
 
     def pause(self):
-        pass
+        super().pause()
 
     def do_help(self, this, text, /, **kwargs):
         """
@@ -42,16 +48,27 @@ class Helpful(NewDrama):
 
         """
         self.pause()
+        active = {i.__name__: i for i in self.active}
+        for c in reversed(self.__class__.__mro__):
+            if c in (NewDrama, Drama, object):
+                continue
+            elif c.__doc__:
+                yield "{0}:".format(c.__doc__.strip())
 
-        yield "[DRAMA]_"
-        yield "You are woken early one Sunday morning."
-        yield "Your flatmate is up and anxious."
-        yield "Maybe you could make her a cup of tea."
-        yield from super().do_help(this, text)
-        yield "Start with a *look around*."
-        yield "The character dialogue may give you some hints."
-        yield "To see how things are coming along, you can *check* an object."
-        yield "To see a list of past actions, use the *history* command."
+            rv = []
+            for a in dir(c):
+                try:
+                    fn = active.pop(a)
+                    cmd, *others = next(CommandParser.expand_commands(fn, self.ensemble))
+                    rv.append("* {0}".format(cmd))
+                except KeyError:
+                    continue
+
+            yield "\n".join(rv)
+        #print(*[i.__doc__.strip() for i in  if i.__doc__], sep="\n")
+        #yield "Start with a *look around*."
+        #yield "To see a list of past actions, use the *history* command."
+        #yield "Sometimes typing *hint* will give you an extra clue."
 
     def do_history(self, this, text, /, **kwargs):
         """
