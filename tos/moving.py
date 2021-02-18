@@ -131,10 +131,10 @@ class Moving(NewDrama):
 
     def do_go(self, this, text, /, *, locn: Arriving):
         """
-        go {locn.value[0]} | go to {locn.value[0]} | enter {locn.value[0]}
-        run {locn.value[0]} | run to {locn.value[0]}
-        go {locn.value[1]} | go to {locn.value[1]} | enter {locn.value[1]}
-        run {locn.value[1]} | run to {locn.value[1]}
+        enter {locn.value[0]}
+        enter {locn.value[1]}
+        go {locn.value[0]} | go to {locn.value[0]}
+        go {locn.value[1]} | go to {locn.value[1]}
 
         """
         self.player.state = self.player.get_state(Location) or Location.car_park

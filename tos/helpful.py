@@ -20,6 +20,7 @@
 
 from collections import defaultdict
 from collections import namedtuple
+import random
 
 from turberfield.catchphrase.parser import CommandParser
 from turberfield.dialogue.model import SceneScript
@@ -40,7 +41,7 @@ class Helpful(NewDrama):
         self.active.add(self.do_history)
 
     def pause(self):
-        super().pause()
+        pass
 
     def do_help(self, this, text, /, **kwargs):
         """
@@ -59,13 +60,15 @@ class Helpful(NewDrama):
             for a in dir(c):
                 try:
                     fn = active.pop(a)
-                    cmd, *others = next(CommandParser.expand_commands(fn, self.ensemble))
+                    cmd, *others = random.choice(
+                        [i for i in CommandParser.expand_commands(fn, self.ensemble) if len(i[0]) > 1]
+                        # Filter out single letter commands for RST compatibility
+                    )
                     rv.append("* {0}".format(cmd))
                 except KeyError:
                     continue
 
             yield "\n".join(rv)
-        #print(*[i.__doc__.strip() for i in  if i.__doc__], sep="\n")
         #yield "Start with a *look around*."
         #yield "To see a list of past actions, use the *history* command."
         #yield "Sometimes typing *hint* will give you an extra clue."

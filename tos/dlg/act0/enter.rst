@@ -20,6 +20,8 @@
    :types:  turberfield.catchphrase.render.Settings
 
 
+.. |PLAYER| property:: PLAYER.name
+
 Entrance
 ========
 
@@ -28,25 +30,24 @@ Mist
 
 .. condition:: STORY.drama.turns 0
 
+|PLAYER| stands in the Car Park of the Theatre.
+
 The Winter afternoon darkens early.
 A cold mist has formed in the last hour of the day.
 
-Here
-----
+.. property:: STORY.prompt For commands to use, enter 'help'.
 
-|PLAYER| stands in the Car Park of the Theatre.
 
 Traffic
 -------
 
-.. condition:: STORY.drama.turns 0
+.. condition:: STORY.drama.turns 1
 
 There isn't much traffic.
 
 Dusk
 ----
 
-.. condition:: STORY.drama.turns 0
 .. condition:: STORY.drama.turns 1
 .. condition:: STORY.drama.turns 2
 
@@ -61,8 +62,6 @@ Dark
 Two or three figures walk over from the direction of the Church.
 They join the others by the wall.
 
-
-.. |PLAYER| property:: PLAYER.name
 
 Drama output
 ------------

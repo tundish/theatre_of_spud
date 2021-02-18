@@ -28,17 +28,24 @@ from tos.story import Story
 
 
 def parser():
-    return argparse.ArgumentParser()
+    rv = argparse.ArgumentParser()
+    rv.add_argument(
+        "--debug", action="store_true", default=False,
+        help="Write generated dialogue for debugging."
+    )
+    return rv
 
 
-def main(args):
+def main(opts):
     name = input("Enter your character's first name: ") or "Francis"
-    story = Story(**vars(args))
+    story = Story(**vars(opts))
     story.drama = story.load_drama(player_name=name)
     story.folder = story.load_folder()
     lines = []
     while story.drama.active:
         presenter = story.represent(lines)
+        if opts.debug:
+            print(presenter.text, file=sys.stderr)
         for frame in presenter.frames:
             animation = presenter.animate(frame, dwell=presenter.dwell, pause=presenter.pause)
             if not animation:
