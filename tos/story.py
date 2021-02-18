@@ -113,7 +113,8 @@ class Story(Renderer):
 
         n, presenter = Presenter.build_presenter(
             self.folder, *lines,
-            ensemble=self.drama.ensemble + [self, self.drama, self.settings]
+            ensemble=self.drama.ensemble + [self, self.drama, self.settings],
+            shot="", entity="DRAMA"
         )
         if presenter and not(presenter.dwell or presenter.pause):
             setattr(self.settings, "catchphrase-reveal-extends", "none")

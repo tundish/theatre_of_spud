@@ -64,6 +64,5 @@ They join the others by the wall.
 
 .. |PLAYER| property:: PLAYER.name
 
-Output
-------
-
+Drama output
+------------

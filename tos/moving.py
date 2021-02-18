@@ -112,6 +112,7 @@ class Moving(NewDrama):
         super().__init__(*args, **kwargs)
         self.active.add(self.do_go)
         self.active.add(self.do_look)
+        self.active.add(self.do_where)
 
     def interlude(self, folder, index, **kwargs):
         rv = super().interlude(folder, index, **kwargs)
@@ -143,11 +144,16 @@ class Moving(NewDrama):
     def do_look(self, this, text, *args):
         """
         look | look around
+
+        """
+        locn = self.player.get_state(Location)
+        yield random.choice(["Exits are:", "We are close to:", "Nearby:"])
+        yield from ("* the {0}".format(Location[i].value[0].title()) for i in locn.topology[locn.name])
+
+    def do_where(self, this, text, *args):
+        """
         where | where am i | where is it
 
         """
         locn = self.player.get_state(Location)
         yield f"{self.player.name} is in the {locn.value[0]}."
-        yield random.choice(["Exits are:", "We are close to:", "Nearby:"])
-        yield from ("* the {0}".format(Location[i].value[0].title()) for i in locn.topology[locn.name])
-
