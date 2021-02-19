@@ -9,11 +9,10 @@
 
 .. entity:: PLAYER
    :types:  tos.types.Character
-   :states: tos.types.Motivation.paused
+   :states: tos.types.Motivation.finish
 
-.. entity:: NPC
-   :types:  tos.types.Character
-   :states: tos.types.Motivation.paused
+.. entity:: STORY
+   :types:  tos.story.Story
 
 .. entity:: SETTINGS
    :types:  turberfield.catchphrase.render.Settings

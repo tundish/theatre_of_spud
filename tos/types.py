@@ -116,4 +116,5 @@ class Directing(NewDrama):
 
         """
         self.pause(True)
+        self.active.clear()
         yield ""

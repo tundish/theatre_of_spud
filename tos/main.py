@@ -42,7 +42,7 @@ def main(opts):
     story.drama = story.load_drama(player_name=name)
     story.folder = story.load_folder()
     lines = []
-    while story.drama.active:
+    while True:
         presenter = story.represent(lines)
         if opts.debug:
             print(presenter.text, file=sys.stderr)
@@ -54,10 +54,12 @@ def main(opts):
                 print(line, "\n")
                 time.sleep(duration)
 
-        else:
+        if story.drama.active:
             story.input = input("{0} ".format(story.prompt))
             fn, args, kwargs = story.drama.interpret(story.drama.match(story.input))
             lines = list(story.drama(fn, *args, **kwargs))
+        else:
+            break
 
 
 def run():
