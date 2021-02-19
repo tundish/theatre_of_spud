@@ -20,7 +20,7 @@
 from tos.moving import Departed
 from tos.moving import Location
 from tos.moving import Moving
-from tos.types import Aware
+from tos.types import Awareness
 from tos.types import Artifact
 
 
@@ -34,7 +34,7 @@ class Carrying:
         rv = super().interlude(folder, index, **kwargs)
         mobs = [
             i for i in self.ensemble
-            if hasattr(i, "state") and i.get_state(Aware) == Aware.carrying
+            if hasattr(i, "state") and i.get_state(Awareness) == Awareness.carrying
         ]
         for mob in mobs:
             mob.state = self.player.get_state(Location)
@@ -52,7 +52,7 @@ class Carrying:
             return
 
         obj.state = Departed[locn.name]
-        obj.state = Aware.carrying
+        obj.state = Awareness.carrying
 
 
 class Lights(Carrying, Moving):
@@ -64,8 +64,8 @@ class Lights(Carrying, Moving):
 
     def build(self):
         yield from super().build()
-        yield Artifact(names=["lights"]).set_state(Aware.ignorant, Location.foyer, 1)
-        yield Artifact(names=["fuse"]).set_state(Aware.ignorant, Location.lighting)
+        yield Artifact(names=["lights"]).set_state(Awareness.ignorant, Location.foyer, 1)
+        yield Artifact(names=["fuse"]).set_state(Awareness.ignorant, Location.lighting)
 
     def interlude(self, folder, index, **kwargs):
         rv = super().interlude(folder, index, **kwargs)
@@ -73,10 +73,10 @@ class Lights(Carrying, Moving):
         lights = next(iter(self.lookup["lights"]))
         for obj in (fuse, lights):
             if self.player.get_state(Location) == obj.get_state(Location):
-                if obj.get_state(Aware) == Aware.ignorant:
-                    obj.state = Aware.discover
-                elif obj.get_state(Aware) == Aware.discover:
-                    obj.state = Aware.familiar
+                if obj.get_state(Awareness) == Awareness.ignorant:
+                    obj.state = Awareness.discover
+                elif obj.get_state(Awareness) == Awareness.discover:
+                    obj.state = Awareness.familiar
 
         if fuse.get_state(Location) == Location.foyer:
             self.active.add(self.do_fit_fuse)
@@ -91,8 +91,8 @@ class Lights(Carrying, Moving):
         put fuse in slot
 
         """
-        next(iter(self.lookup["fuse"])).state = Aware.complete
-        next(iter(self.lookup["lights"])).state = Aware.complete
+        next(iter(self.lookup["fuse"])).state = Awareness.complete
+        next(iter(self.lookup["lights"])).state = Awareness.complete
         next(iter(self.lookup["lights"])).state = 1
         yield ""
 
@@ -104,7 +104,7 @@ class Lights(Carrying, Moving):
         """
         lights = next(iter(self.lookup["lights"]))
         lights.state = 1
-        if lights.get_state(Aware) == Aware.complete:
+        if lights.get_state(Awareness) == Awareness.complete:
             yield "The exterior lights go out."
 
     def do_lights_on(self, this, text, *args):
@@ -115,5 +115,5 @@ class Lights(Carrying, Moving):
         """
         lights = next(iter(self.lookup["lights"]))
         lights.state = 2
-        if lights.get_state(Aware) == Aware.complete:
+        if lights.get_state(Awareness) == Awareness.complete:
             yield "The exterior lights come on."

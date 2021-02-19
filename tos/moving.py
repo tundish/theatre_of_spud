@@ -28,6 +28,7 @@ from turberfield.dialogue.model import SceneScript
 from turberfield.dialogue.types import EnumFactory
 
 from tos.types import Motivation
+from tos.types import Proximity
 from tos.types import NewDrama
 
 
@@ -69,6 +70,41 @@ class Navigator(EnumFactory):
         "stage": ["wings"],
         "stairs": ["auditorium", "balcony", "bar", "lighting"],
         "wings": ["backstage", "corridor", "costume", "passage", "stage"],
+    }
+
+    scenery = {
+        "auditorium": [
+        ],
+        "backstage": [
+        ],
+        "balcony": [
+        ],
+        "bar": [
+        ],
+        "car_park": [
+        ],
+        "cloaks": [
+        ],
+        "corridor": [
+        ],
+        "costume": [
+        ],
+        "foyer": [
+        ],
+        "kitchen": [
+        ],
+        "lighting": [
+        ],
+        "office": [
+        ],
+        "passage": [
+        ],
+        "stage": [
+        ],
+        "stairs": [
+        ],
+        "wings": [
+        ],
     }
 
 
@@ -117,16 +153,18 @@ class Moving(NewDrama):
 
     def interlude(self, folder, index, **kwargs):
         rv = super().interlude(folder, index, **kwargs)
-        mobs = [
-            i for i in self.ensemble
-            if hasattr(i, "state") and i.get_state(Arriving)
-            and i.get_state(Arriving).name != i.get_state(Location).name
-        ]
+        mobs = [self.player] + [i for i in self.ensemble if hasattr(i, "state") and i is not self.player]
         for mob in mobs:
-            route = list(Location.route(mob.get_state(Location), mob.get_state(Arriving)))
-            route.pop(0)
-            if route:
-                mob.state = route[0]
+            if mob.get_state(Arriving) and mob.get_state(Arriving).name != mob.get_state(Location).name:
+                route = list(Location.route(mob.get_state(Location), mob.get_state(Arriving)))
+                route.pop(0)
+                if route:
+                    mob.state = route[0]
+
+            hops = list(Location.route(self.player.get_state(Location), mob.get_state(Location)))
+            mob.state = {
+                0: Proximity.unknown, 1: Proximity.present, 2: Proximity.outside
+            }.get(len(hops), Proximity.distant)
         return rv
 
     def do_go(self, this, text, /, *, locn: Arriving):

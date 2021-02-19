@@ -27,6 +27,7 @@ from tos.moving import Location
 from tos.moving import Moving
 from tos.types import Character
 from tos.types import Motivation
+from tos.types import Proximity
 
 from turberfield.dialogue.types import Stateful
 from turberfield.utils.assembly import Assembly
@@ -68,7 +69,7 @@ class NavigatorTests(unittest.TestCase):
         #print(*Location.routes, file=sys.stderr)
 
 
-class StageTests(unittest.TestCase):
+class MovingTests(unittest.TestCase):
 
     def setUp(self):
         self.drama = Moving()
@@ -85,4 +86,27 @@ class StageTests(unittest.TestCase):
         self.assertEqual(Location.car_park, self.drama.player.get_state(Location))
         self.assertEqual(Departed.car_park, self.drama.player.get_state(Departed))
         self.assertEqual(Arriving.backstage, self.drama.player.get_state(Arriving))
+
+    def test_proximity(self):
+        other = Character(names=["other"]).set_state(Location.backstage)
+        self.drama.player = Character(names=["player"]).set_state(Motivation.player, Location.car_park)
+        self.drama.add(self.drama.player, other)
+        self.assertFalse(other.get_state(Proximity))
+        metadata = self.drama.interlude(None, None)
+        self.assertEqual(Proximity.distant, other.get_state(Proximity))
+
+        options = list(self.drama.match("go backstage"))
+        fn, args, kwargs = self.drama.interpret(options)
+        dlg = "\n".join(self.drama(fn, *args, **kwargs))
+        for n in range(4):
+            metadata = self.drama.interlude(None, None)
+            with self.subTest(n=n, locn=self.drama.player.get_state(Location)):
+                if n == 2:
+                    self.assertEqual(Location.wings, self.drama.player.get_state(Location))
+                    self.assertEqual(Proximity.outside, other.get_state(Proximity))
+                elif n == 3:
+                    self.assertEqual(Location.backstage, self.drama.player.get_state(Location))
+                    self.assertEqual(Proximity.present, other.get_state(Proximity))
+                else:
+                    self.assertEqual(Proximity.distant, other.get_state(Proximity))
 

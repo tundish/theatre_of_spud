@@ -26,6 +26,7 @@ from turberfield.dialogue.types import DataObject
 from turberfield.dialogue.types import EnumFactory
 from turberfield.dialogue.types import Stateful
 
+
 class NewDrama(Drama):
 
     def __init__(self, **kwargs):
@@ -49,15 +50,17 @@ class NewDrama(Drama):
     def build(self):
         yield from []
 
-    def add(self, item):
-        for n in getattr(item, "names", []):
-            self.lookup[n].add(item)
+    def add(self, *args):
+        for item in args:
+            for n in getattr(item, "names", []):
+                self.lookup[n].add(item)
 
     def interlude(self, folder, index, **kwargs) -> dict:
         return {}
 
     def interpret(self, options):
         return next(iter(options), "")
+
 
 class Named(DataObject):
 
@@ -74,17 +77,18 @@ class Motivation(EnumFactory, enum.Enum):
 
     acting = enum.auto()
     critic = enum.auto()
+    finish = enum.auto()
     friend = enum.auto()
     herald = enum.auto()
+    leader = enum.auto()
     murder = enum.auto()
     paused = enum.auto()
     player = enum.auto()
     profit = enum.auto()
     victim = enum.auto()
-    finish = enum.auto()
 
 
-class Aware(EnumFactory, enum.Enum):
+class Awareness(EnumFactory, enum.Enum):
 
     ignorant = enum.auto()
     indicate = enum.auto()
@@ -93,6 +97,33 @@ class Aware(EnumFactory, enum.Enum):
     carrying = enum.auto()
     complete = enum.auto()
 
+
+class Proximity(EnumFactory, enum.Enum):
+
+    audible = enum.auto()
+    distant = enum.auto()
+    present = enum.auto()
+    huddled = enum.auto()
+    outside = enum.auto()
+    tactile = enum.auto()
+    visible = enum.auto()
+    unknown = enum.auto()
+    whisper = enum.auto()
+
+class Motivation(EnumFactory, enum.Enum):
+
+    acting = enum.auto()
+    critic = enum.auto()
+    finish = enum.auto()
+    friend = enum.auto()
+    herald = enum.auto()
+    hubris = enum.auto()
+    leader = enum.auto()
+    murder = enum.auto()
+    paused = enum.auto()
+    player = enum.auto()
+    profit = enum.auto()
+    victim = enum.auto()
 
 class Directing(NewDrama):
     """
