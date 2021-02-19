@@ -82,6 +82,8 @@ class Navigator(EnumFactory):
         "bar": [
         ],
         "car_park": [
+            "a Car Park in front of the Theatre", "the Car Park belonging to the Theatre",
+            "front of the Theatre"
         ],
         "cloaks": [
         ],
@@ -150,6 +152,11 @@ class Moving(NewDrama):
         self.active.add(self.do_go)
         self.active.add(self.do_look)
         self.active.add(self.do_where)
+
+    @property
+    def location(self):
+        locn = self.player.get_state(Location)
+        return random.choice(locn.scenery[locn.name])
 
     def interlude(self, folder, index, **kwargs):
         rv = super().interlude(folder, index, **kwargs)

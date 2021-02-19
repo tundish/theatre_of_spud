@@ -125,6 +125,7 @@ class Motivation(EnumFactory, enum.Enum):
     profit = enum.auto()
     victim = enum.auto()
 
+
 class Directing(NewDrama):
     """
     Leaving the game
