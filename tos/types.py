@@ -18,6 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from collections import defaultdict
+from collections import deque
 import enum
 import random
 
@@ -32,11 +33,11 @@ class NewDrama(Drama):
     def __init__(self, **kwargs):
         self.lookup = defaultdict(set)
         self.active = set()
-        self.history = []
+        self.history = deque()
 
     def __call__(self, fn, *args, **kwargs):
         lines = list(fn(fn, *args, **kwargs))
-        self.history.append(self.Record(fn, args, kwargs, lines))
+        self.history.appendleft(self.Record(fn, args, kwargs, lines))
         yield from lines
 
     @property
