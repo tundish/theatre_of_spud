@@ -62,6 +62,12 @@ Dark
 Two or three figures walk over from the direction of the Church.
 They join the others by the wall.
 
+Hint
+----
+
+.. condition:: STORY.drama.history[0].args[0] hint
+
+It's not nice out here. Better get inside.
 
 Drama output
 ------------

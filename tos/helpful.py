@@ -81,7 +81,7 @@ class Helpful(NewDrama):
         self.pause()
         yield "[DRAMA]_"
         yield "So far, it's been like this."
-        yield from ("*{0.args[0]}*".format(i) for i in self.history)
+        yield from ("*{0.args[0]}*".format(i) for i in reversed(self.history))
 
     def do_hint(self, this, text, /, **kwargs):
         """
