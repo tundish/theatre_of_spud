@@ -18,10 +18,11 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-import importlib.resources
 import unittest
 
 from tos.helpful import Helpful
+from tos.types import Character
+from tos.types import Directing
 
 from turberfield.catchphrase.presenter import Presenter
 from turberfield.dialogue.model import Model
@@ -30,28 +31,20 @@ from turberfield.dialogue.model import SceneScript
 
 class HelpfulTests(unittest.TestCase):
 
-    def setUp(self):
-        pkg = "tos.dlg"
-        path = importlib.resources.files(pkg)
-        self.drama = Helpful()
-        self.folder = SceneScript.Folder(
-            pkg=pkg, description="Theatre of Spud",
-            metadata={}, paths=[i.name for i in path.glob("*.rst")],
-            interludes=None
-        )
-
     def test_pause(self):
-        fn, args, kwargs = self.drama.interpret(self.drama.match("help"))
-        results = list(self.drama(fn, *args, **kwargs))
-        drama_dialogue = list(self.drama.build_dialogue(*results))
-        n, presenter = Presenter.build_presenter(self.folder, *drama_dialogue, ensemble=self.drama.ensemble)
-        self.assertEqual("pause.rst", self.folder.paths[n])
-        self.assertIsInstance(presenter.frames[-1][Model.Line][-1].persona, Helpful, vars(presenter))
+        drama = Helpful()
+        fn, args, kwargs = drama.interpret(drama.match("help"))
+        results = list(drama(fn, *args, **kwargs))
+        drama_dialogue = list(drama.build_dialogue(*results))
+        self.assertTrue(drama_dialogue)
+
+
+class DirectingTests(unittest.TestCase):
 
     def test_quit(self):
-        fn, args, kwargs = self.drama.interpret(self.drama.match("quit"))
-        results = list(self.drama(fn, *args, **kwargs))
-        drama_dialogue = list(self.drama.build_dialogue(*results))
-        n, presenter = Presenter.build_presenter(self.drama.folder, *drama_dialogue, ensemble=self.ensemble)
-        self.assertEqual("quit.rst", self.folder.paths[n])
-        self.assertIs(None, presenter.frames[-1][Model.Line][-1].persona, vars(presenter))
+        drama = Directing()
+        drama.player = Character(names=["tester"])
+        fn, args, kwargs = drama.interpret(drama.match("quit"))
+        results = list(drama(fn, *args, **kwargs))
+        drama_dialogue = list(drama.build_dialogue(*results))
+        self.assertTrue(drama_dialogue)

@@ -95,10 +95,25 @@ class Aware(EnumFactory, enum.Enum):
 
 
 class Directing(NewDrama):
+    """
+    Leaving the game
 
-    def pause(self):
-        self.player.set_state(Motivation.paused)
+    """
 
-    def quit(self):
-        self.player.set_state(Motivation.finish)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.active.add(self.do_quit)
 
+    def pause(self, quit=False):
+        if quit:
+            self.player.set_state(Motivation.finish)
+        else:
+            self.player.set_state(Motivation.paused)
+
+    def do_quit(self, this, text, /, **kwargs):
+        """
+        quit
+
+        """
+        self.pause(True)
+        yield ""
