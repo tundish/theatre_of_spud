@@ -15,7 +15,7 @@
 
 .. entity:: SPUD
    :types:  tos.types.Character
-   :states: tos.moving.Location.foyer
+   :states: tos.map.Map.Location.foyer
             tos.types.Motivation.paused
 
 .. entity:: BILL
