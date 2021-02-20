@@ -127,6 +127,38 @@ class Motivation(EnumFactory, enum.Enum):
     victim = enum.auto()
 
 
+class Navigator(EnumFactory):
+
+    routes = {}
+
+    def route(self, locn, dest):
+        if (locn.name, dest.name) in self.routes:
+            return self.routes[(locn.name, dest.name)]
+
+        typ = type(locn)
+        rvs = set()
+        paths = [[locn]]
+        n = len(self.topology)
+        d = 1
+        while n >= 0 or not rvs:
+            nxt = []
+            for p in paths:
+                if p[-1].name == dest.name:
+                    rvs.add(tuple(p))
+                else:
+                    nodes = self.topology[p[-1].name]
+                    d = len(nodes)
+                    for i in nodes:
+                        nxt.append(p.copy())
+                        nxt[-1].append(typ[i])
+            paths = nxt
+            n = n - d
+
+        rv = sorted(rvs, key=len)[0] if rvs else []
+        self.routes[(locn.name, dest.name)] = rv
+        return rv
+
+
 class Directing(NewDrama):
     """
     Leaving the game

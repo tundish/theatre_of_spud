@@ -17,8 +17,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from tos.moving import Departed
-from tos.moving import Location
+from tos.map import Map
 from tos.moving import Moving
 from tos.types import Awareness
 from tos.types import Artifact
@@ -37,7 +36,7 @@ class Carrying:
             if hasattr(i, "state") and i.get_state(Awareness) == Awareness.carrying
         ]
         for mob in mobs:
-            mob.state = self.player.get_state(Location)
+            mob.state = self.player.get_state(self.nav.Location)
         return rv
 
     def do_get(self, this, text, /, *, obj: Artifact):
@@ -46,12 +45,12 @@ class Carrying:
         pick up {obj.names[0]}
 
         """
-        locn = self.player.get_state(Location)
-        if obj.get_state(Location) != locn:
+        locn = self.player.get_state(self.nav.Location)
+        if obj.get_state(self.nav.Location) != locn:
             yield f"There is no {obj.name} here."
             return
 
-        obj.state = Departed[locn.name]
+        obj.state = self.nav.Departed[locn.name]
         obj.state = Awareness.carrying
 
 
@@ -64,21 +63,21 @@ class Lights(Carrying, Moving):
 
     def build(self):
         yield from super().build()
-        yield Artifact(names=["lights"]).set_state(Awareness.ignorant, Location.foyer, 1)
-        yield Artifact(names=["fuse"]).set_state(Awareness.ignorant, Location.lighting)
+        yield Artifact(names=["lights"]).set_state(Awareness.ignorant, self.nav.Location.foyer, 1)
+        yield Artifact(names=["fuse"]).set_state(Awareness.ignorant, self.nav.Location.lighting)
 
     def interlude(self, folder, index, **kwargs):
         rv = super().interlude(folder, index, **kwargs)
         fuse = next(iter(self.lookup["fuse"]))
         lights = next(iter(self.lookup["lights"]))
         for obj in (fuse, lights):
-            if self.player.get_state(Location) == obj.get_state(Location):
+            if self.player.get_state(self.nav.Location) == obj.get_state(self.nav.Location):
                 if obj.get_state(Awareness) == Awareness.ignorant:
                     obj.state = Awareness.discover
                 elif obj.get_state(Awareness) == Awareness.discover:
                     obj.state = Awareness.familiar
 
-        if fuse.get_state(Location) == Location.foyer:
+        if fuse.get_state(self.nav.Location) == self.nav.Location.foyer:
             self.active.add(self.do_fit_fuse)
         else:
             self.active.discard(self.do_fit_fuse)

@@ -20,8 +20,7 @@
 import unittest
 
 from tos.lights import Lights
-from tos.moving import Departed
-from tos.moving import Location
+from tos.map import Map
 from tos.types import Awareness
 from tos.types import Character
 from tos.types import Motivation
@@ -30,21 +29,21 @@ from tos.types import Motivation
 class LightsTests(unittest.TestCase):
 
     def setUp(self):
-        self.drama = Lights()
+        self.drama = Lights(Map())
         for obj in self.drama.build():
             self.drama.add(obj)
-        self.drama.player = Character(names=["tester"]).set_state(Motivation.player, Location.car_park)
+        self.drama.player = Character(names=["tester"]).set_state(Motivation.player, Map.Location.car_park)
         self.drama.add(self.drama.player)
 
     def test_find_lights(self):
         lights = next(iter(self.drama.lookup["lights"]))
         self.assertEqual(Awareness.ignorant, lights.get_state(Awareness))
-        self.assertEqual(Location.foyer, lights.get_state(Location))
+        self.assertEqual(Map.Location.foyer, lights.get_state(Map.Location))
         options = list(self.drama.match("go to the foyer"))
         fn, args, kwargs = self.drama.interpret(options)
         dlg = "\n".join(self.drama(fn, *args, **kwargs))
         metadata = self.drama.interlude(None, None)
-        self.assertEqual(Location.foyer, self.drama.player.get_state(Location))
+        self.assertEqual(Map.Location.foyer, self.drama.player.get_state(Map.Location))
         self.assertEqual(Awareness.discover, lights.get_state(Awareness))
         metadata = self.drama.interlude(None, None)
         self.assertEqual(Awareness.familiar, lights.get_state(Awareness))
@@ -52,13 +51,13 @@ class LightsTests(unittest.TestCase):
     def test_find_fuse(self):
         fuse = next(iter(self.drama.lookup["fuse"]))
         self.assertEqual(Awareness.ignorant, fuse.get_state(Awareness))
-        self.assertEqual(Location.lighting, fuse.get_state(Location))
+        self.assertEqual(Map.Location.lighting, fuse.get_state(Map.Location))
         options = list(self.drama.match("go to the lighting box"))
         fn, args, kwargs = self.drama.interpret(options)
         dlg = "\n".join(self.drama(fn, *args, **kwargs))
         for n in range(4):
             metadata = self.drama.interlude(None, None)
-        self.assertEqual(Location.lighting, self.drama.player.get_state(Location))
+        self.assertEqual(Map.Location.lighting, self.drama.player.get_state(Map.Location))
         self.assertEqual(Awareness.discover, fuse.get_state(Awareness))
 
     def test_no_get_fuse(self):
@@ -116,8 +115,8 @@ class LightsTests(unittest.TestCase):
         dlg = "\n".join(self.drama(fn, *args, **kwargs))
         for n in range(4):
             metadata = self.drama.interlude(None, None)
-        self.assertEqual(Location.foyer, self.drama.player.get_state(Location))
-        self.assertEqual(Location.foyer, fuse.get_state(Location))
+        self.assertEqual(Map.Location.foyer, self.drama.player.get_state(Map.Location))
+        self.assertEqual(Map.Location.foyer, fuse.get_state(Map.Location))
 
     def test_fit_fuse(self):
         self.test_fetch_fuse()
@@ -126,7 +125,7 @@ class LightsTests(unittest.TestCase):
         fn, args, kwargs = self.drama.interpret(options)
         dlg = "\n".join(self.drama(fn, *args, **kwargs))
         self.assertEqual(Awareness.complete, fuse.get_state(Awareness))
-        self.assertEqual(Location.foyer, fuse.get_state(Location))
+        self.assertEqual(Map.Location.foyer, fuse.get_state(Map.Location))
 
     def test_light_off(self):
         self.test_fit_fuse()

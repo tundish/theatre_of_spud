@@ -25,130 +25,19 @@ import random
 
 from turberfield.catchphrase.drama import Drama
 from turberfield.dialogue.model import SceneScript
-from turberfield.dialogue.types import EnumFactory
 
 from tos.types import Motivation
+from tos.types import Navigator
 from tos.types import Proximity
 from tos.types import NewDrama
-
-
-class Navigator(EnumFactory):
-
-    spots = {
-        "auditorium": ["auditorium"],
-        "backstage": ["backstage"],
-        "balcony": ["balcony", "downstairs"],
-        "bar": ["bar"],
-        "car_park": ["car park"],
-        "cloaks": ["cloakroom", "cloaks"],
-        "corridor": ["corridor"],
-        "costume": ["costume store", "props room"],
-        "foyer": ["foyer"],
-        "kitchen": ["kitchen"],
-        "lighting": ["lighting box"],
-        "office": ["box office", "office"],
-        "passage": ["passage"],
-        "stage": ["stage", "onstage"],
-        "stairs": ["stairs", "upstairs"],
-        "wings": ["wings", "stage left", "stage right"],
-    }
-
-    topology = {
-        "auditorium": ["balcony", "corridor", "passage"],
-        "backstage": ["costume", "wings"],
-        "balcony": ["auditorium", "bar"],
-        "bar": ["foyer", "kitchen", "stairs", "passage"],
-        "car_park": ["foyer"],
-        "cloaks": ["foyer"],
-        "corridor": ["auditorium", "foyer", "wings"],
-        "costume": ["backstage", "wings"],
-        "foyer": ["car_park", "corridor", "office", "cloaks", "bar"],
-        "kitchen": ["bar"],
-        "lighting": ["balcony", "stairs"],
-        "office": ["foyer"],
-        "passage": ["auditorium", "bar", "wings"],
-        "stage": ["wings"],
-        "stairs": ["auditorium", "balcony", "bar", "lighting"],
-        "wings": ["backstage", "corridor", "costume", "passage", "stage"],
-    }
-
-    scenery = {
-        "auditorium": [
-        ],
-        "backstage": [
-        ],
-        "balcony": [
-        ],
-        "bar": [
-        ],
-        "car_park": [
-            "a Car Park in front of the Theatre", "the Car Park belonging to the Theatre",
-            "front of the Theatre"
-        ],
-        "cloaks": [
-        ],
-        "corridor": [
-        ],
-        "costume": [
-        ],
-        "foyer": [
-        ],
-        "kitchen": [
-        ],
-        "lighting": [
-        ],
-        "office": [
-        ],
-        "passage": [
-        ],
-        "stage": [
-        ],
-        "stairs": [
-        ],
-        "wings": [
-        ],
-    }
-
-
-    routes = {}
-
-    def route(self, dest):
-        if (self.name, dest.name) in self.routes:
-            return self.routes[(self.name, dest.name)]
-
-        typ = type(self)
-        rvs = set()
-        paths = [[self]]
-        n = len(self.topology)
-        d = 1
-        while n >= 0 or not rvs:
-            nxt = []
-            for p in paths:
-                if p[-1].name == dest.name:
-                    rvs.add(tuple(p))
-                else:
-                    nodes = self.topology[p[-1].name]
-                    d = len(nodes)
-                    for i in nodes:
-                        nxt.append(p.copy())
-                        nxt[-1].append(typ[i])
-            paths = nxt
-            n = n - d
-
-        rv = sorted(rvs, key=len)[0] if rvs else []
-        self.routes[(self.name, dest.name)] = rv
-        return rv
-
-Arriving = enum.Enum("Arriving", Navigator.spots, type=Navigator)
-Departed = enum.Enum("Departed", Navigator.spots, type=Navigator)
-Location = enum.Enum("Location", Navigator.spots, type=Navigator)
 
 
 class Moving(NewDrama):
     "Physical space"
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, nav: Navigator, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.nav = nav
         self.active.add(self.do_go)
         self.active.add(self.do_look)
         self.active.add(self.do_where)
@@ -162,19 +51,25 @@ class Moving(NewDrama):
         rv = super().interlude(folder, index, **kwargs)
         mobs = [self.player] + [i for i in self.ensemble if hasattr(i, "state") and i is not self.player]
         for mob in mobs:
-            if mob.get_state(Arriving) and mob.get_state(Arriving).name != mob.get_state(Location).name:
-                route = list(Location.route(mob.get_state(Location), mob.get_state(Arriving)))
+            if (mob.get_state(self.nav.Arriving)
+                and mob.get_state(self.nav.Arriving).name != mob.get_state(self.nav.Location).name
+            ):
+                route = list(self.nav.route(
+                    mob.get_state(self.nav.Location), mob.get_state(self.nav.Arriving)
+                ))
                 route.pop(0)
                 if route:
                     mob.state = route[0]
 
-            hops = list(Location.route(self.player.get_state(Location), mob.get_state(Location)))
+            hops = list(self.nav.route(
+                self.player.get_state(self.nav.Location), mob.get_state(self.nav.Location)
+            ))
             mob.state = {
                 0: Proximity.unknown, 1: Proximity.present, 2: Proximity.outside
             }.get(len(hops), Proximity.distant)
         return rv
 
-    def do_go(self, this, text, /, *, locn: Arriving):
+    def do_go(self, this, text, /, *, locn: Navigator.__subclasses__()):
         """
         enter {locn.value[0]}
         enter {locn.value[1]}
@@ -182,9 +77,9 @@ class Moving(NewDrama):
         go {locn.value[1]} | go to {locn.value[1]}
 
         """
-        self.player.state = self.player.get_state(Location) or Location.car_park
-        self.player.state = Departed[self.player.get_state(Location).name]
-        self.player.state = locn
+        self.player.state = self.player.get_state(self.nav.Location)
+        self.player.state = self.nav.Departed[self.player.get_state(self.nav.Location).name]
+        self.player.state = self.nav.Arriving[locn.name]
         yield f"{self.player.name} heads off to the {locn.value[0]}."
 
     def do_look(self, this, text, *args):

@@ -30,7 +30,7 @@ from turberfield.dialogue.model import SceneScript
 
 import tos
 from tos.helpful import Helpful
-from tos.moving import Location
+from tos.map import Map
 from tos.moving import Moving
 from tos.types import Character
 from tos.types import Directing
@@ -71,7 +71,7 @@ class Story(Renderer):
 
     def load_drama(self, act=0, player_name="", ensemble=None):
         ensemble = ensemble or []
-        drama = self.acts[act]()
+        drama = self.acts[act](Map())
 
         for obj in ensemble:
             drama.add(obj)
@@ -79,7 +79,7 @@ class Story(Renderer):
         if player_name:
             for obj in drama.build():
                 drama.add(obj)
-            drama.add(Character(names=[player_name]).set_state(Motivation.player, Location.car_park))
+            drama.add(Character(names=[player_name]).set_state(Motivation.player, Map.Location.car_park))
 
         drama.player = drama.ensemble[-1]
         return drama
