@@ -19,7 +19,7 @@
 
 import enum
 
-from tos.types import Navigator
+from tos.mixins.types import Navigator
 
 
 class Map(Navigator):

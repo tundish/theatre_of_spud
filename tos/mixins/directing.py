@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# encoding: utf-8
+#   encoding: utf-8
 
 # This is a parser-based, web-enabled narrative.
 # Copyright (C) 2021 D E Haynes
@@ -17,18 +17,32 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import unittest
 
-from turberfield.dialogue.model import SceneScript
-
-from tos.story import Story
-from tos.mixins.types import Character
+from tos.mixins.types import Motivation
+from tos.mixins.types import NewDrama
 
 
-class StoryTests(unittest.TestCase):
+class Directing(NewDrama):
+    """
+    Leaving the game
 
-    def test_progression(self):
-        s = Story()
-        s.drama = s.load_drama(player_name="tester")
-        self.assertIsInstance(s.drama.ensemble[-1], Character)
-        self.assertIsInstance(s.drama.player, Character)
+    """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.active.add(self.do_quit)
+
+    def pause(self, quit=False):
+        if quit:
+            self.player.set_state(Motivation.finish)
+        else:
+            self.player.set_state(Motivation.paused)
+
+    def do_quit(self, this, text, /, **kwargs):
+        """
+        quit
+
+        """
+        self.pause(True)
+        self.active.clear()
+        yield ""

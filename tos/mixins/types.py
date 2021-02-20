@@ -74,21 +74,6 @@ class Artifact(Named, Stateful): pass
 class Character(Named, Stateful): pass
 
 
-class Motivation(EnumFactory, enum.Enum):
-
-    acting = enum.auto()
-    critic = enum.auto()
-    finish = enum.auto()
-    friend = enum.auto()
-    herald = enum.auto()
-    leader = enum.auto()
-    murder = enum.auto()
-    paused = enum.auto()
-    player = enum.auto()
-    profit = enum.auto()
-    victim = enum.auto()
-
-
 class Awareness(EnumFactory, enum.Enum):
 
     ignorant = enum.auto()
@@ -157,29 +142,3 @@ class Navigator(EnumFactory):
         rv = sorted(rvs, key=len)[0] if rvs else []
         self.routes[(locn.name, dest.name)] = rv
         return rv
-
-
-class Directing(NewDrama):
-    """
-    Leaving the game
-
-    """
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.active.add(self.do_quit)
-
-    def pause(self, quit=False):
-        if quit:
-            self.player.set_state(Motivation.finish)
-        else:
-            self.player.set_state(Motivation.paused)
-
-    def do_quit(self, this, text, /, **kwargs):
-        """
-        quit
-
-        """
-        self.pause(True)
-        self.active.clear()
-        yield ""

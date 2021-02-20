@@ -29,12 +29,12 @@ from turberfield.dialogue.model import SceneScript
 # logging.basicConfig(level=logging.DEBUG)
 
 import tos
-from tos.helpful import Helpful
 from tos.map import Map
-from tos.moving import Moving
-from tos.types import Character
-from tos.types import Directing
-from tos.types import Motivation
+from tos.mixins.directing import Directing
+from tos.mixins.helpful import Helpful
+from tos.mixins.moving import Moving
+from tos.mixins.types import Character
+from tos.mixins.types import Motivation
 
 version = tos.__version__
 

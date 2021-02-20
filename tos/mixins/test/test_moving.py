@@ -22,10 +22,10 @@ import sys
 import unittest
 
 from tos.map import Map
-from tos.moving import Moving
-from tos.types import Character
-from tos.types import Motivation
-from tos.types import Proximity
+from tos.mixins.moving import Moving
+from tos.mixins.types import Character
+from tos.mixins.types import Motivation
+from tos.mixins.types import Proximity
 
 from turberfield.dialogue.types import Stateful
 from turberfield.utils.assembly import Assembly

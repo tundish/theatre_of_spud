@@ -26,10 +26,10 @@ import random
 from turberfield.catchphrase.drama import Drama
 from turberfield.dialogue.model import SceneScript
 
-from tos.types import Motivation
-from tos.types import Navigator
-from tos.types import Proximity
-from tos.types import NewDrama
+from tos.mixins.types import Motivation
+from tos.mixins.types import Navigator
+from tos.mixins.types import Proximity
+from tos.mixins.types import NewDrama
 
 
 class Moving(NewDrama):

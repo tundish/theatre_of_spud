@@ -22,11 +22,11 @@ from collections import defaultdict
 from collections import namedtuple
 import random
 
+from turberfield.catchphrase.drama import Drama
 from turberfield.catchphrase.parser import CommandParser
 from turberfield.dialogue.model import SceneScript
 
-from tos.types import NewDrama
-from turberfield.catchphrase.drama import Drama
+from tos.mixins.types import NewDrama
 
 
 class Helpful(NewDrama):

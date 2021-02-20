@@ -20,13 +20,7 @@
 
 import unittest
 
-from tos.helpful import Helpful
-from tos.types import Character
-from tos.types import Directing
-
-from turberfield.catchphrase.presenter import Presenter
-from turberfield.dialogue.model import Model
-from turberfield.dialogue.model import SceneScript
+from tos.mixins.helpful import Helpful
 
 
 class HelpfulTests(unittest.TestCase):
@@ -34,17 +28,6 @@ class HelpfulTests(unittest.TestCase):
     def test_pause(self):
         drama = Helpful()
         fn, args, kwargs = drama.interpret(drama.match("help"))
-        results = list(drama(fn, *args, **kwargs))
-        drama_dialogue = list(drama.build_dialogue(*results))
-        self.assertTrue(drama_dialogue)
-
-
-class DirectingTests(unittest.TestCase):
-
-    def test_quit(self):
-        drama = Directing()
-        drama.player = Character(names=["tester"])
-        fn, args, kwargs = drama.interpret(drama.match("quit"))
         results = list(drama(fn, *args, **kwargs))
         drama_dialogue = list(drama.build_dialogue(*results))
         self.assertTrue(drama_dialogue)

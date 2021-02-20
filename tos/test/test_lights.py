@@ -21,9 +21,9 @@ import unittest
 
 from tos.lights import Lights
 from tos.map import Map
-from tos.types import Awareness
-from tos.types import Character
-from tos.types import Motivation
+from tos.mixins.types import Awareness
+from tos.mixins.types import Character
+from tos.mixins.types import Motivation
 
 
 class LightsTests(unittest.TestCase):
