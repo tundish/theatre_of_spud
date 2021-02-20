@@ -6,8 +6,8 @@
 :version:   |VERSION|
 
 .. entity:: PLAYER
-   :types:  tos.types.Character
-   :states: tos.types.Motivation.player
+   :types:  tos.mixins.types.Character
+   :states: tos.mixins.types.Motivation.player
             tos.map.Map.Location.car_park
 
 .. entity:: STORY

@@ -8,8 +8,8 @@
 :pause:     1
 
 .. entity:: PLAYER
-   :types:  tos.types.Character
-   :states: tos.types.Motivation.finish
+   :types:  tos.mixins.types.Character
+   :states: tos.mixins.types.Motivation.finish
 
 .. entity:: STORY
    :types:  tos.story.Story
