@@ -96,49 +96,35 @@ class Proximity(EnumFactory, enum.Enum):
     unknown = enum.auto()
     whisper = enum.auto()
 
+
 class Motivation(EnumFactory, enum.Enum):
 
     acting = enum.auto()
+    author = enum.auto()
+    banker = enum.auto()
+    boring = enum.auto()
+    buying = enum.auto()
+    credit = enum.auto()
     critic = enum.auto()
+    debtor = enum.auto()
+    elvish = enum.auto()
     finish = enum.auto()
     friend = enum.auto()
+    grovel = enum.auto()
     herald = enum.auto()
     hubris = enum.auto()
+    insert = enum.auto()
+    joking = enum.auto()
+    killer = enum.auto()
+    knight = enum.auto()
     leader = enum.auto()
     murder = enum.auto()
+    nobody = enum.auto()
     paused = enum.auto()
     player = enum.auto()
+    prince = enum.auto()
     profit = enum.auto()
+    reader = enum.auto()
+    vendor = enum.auto()
     victim = enum.auto()
-
-
-class Navigator(EnumFactory):
-
-    routes = {}
-
-    def route(self, locn, dest):
-        if (locn.name, dest.name) in self.routes:
-            return self.routes[(locn.name, dest.name)]
-
-        typ = type(locn)
-        rvs = set()
-        paths = [[locn]]
-        n = len(self.topology)
-        d = 1
-        while n >= 0 or not rvs:
-            nxt = []
-            for p in paths:
-                if p[-1].name == dest.name:
-                    rvs.add(tuple(p))
-                else:
-                    nodes = self.topology[p[-1].name]
-                    d = len(nodes)
-                    for i in nodes:
-                        nxt.append(p.copy())
-                        nxt[-1].append(typ[i])
-            paths = nxt
-            n = n - d
-
-        rv = sorted(rvs, key=len)[0] if rvs else []
-        self.routes[(locn.name, dest.name)] = rv
-        return rv
+    wizard = enum.auto()
