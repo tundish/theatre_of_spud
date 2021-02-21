@@ -27,7 +27,6 @@ from turberfield.catchphrase.drama import Drama
 from turberfield.dialogue.model import SceneScript
 
 from tos.mixins.navigator import Navigator
-from tos.mixins.types import Motivation
 from tos.mixins.types import Proximity
 from tos.mixins.types import NewDrama
 

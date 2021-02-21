@@ -7,11 +7,11 @@
 
 .. entity:: PLAYER
    :types:  tos.mixins.types.Character
-   :states: tos.mixins.types.Motivation.player
+   :states: tos.mixins.types.Mode.playing
 
 .. entity:: NPC
    :types:  tos.mixins.types.Character
-   :states: tos.mixins.types.Motivation.acting
+   :states: tos.types.Motivation.mother
 
 .. entity:: STORY
    :types:  tos.story.Story

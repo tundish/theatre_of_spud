@@ -9,7 +9,7 @@
 
 .. entity:: PLAYER
    :types:  tos.mixins.types.Character
-   :states: tos.mixins.types.Motivation.finish
+   :states: tos.mixins.types.Mode.success
 
 .. entity:: STORY
    :types:  tos.story.Story

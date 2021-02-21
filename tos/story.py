@@ -34,7 +34,7 @@ from tos.mixins.directing import Directing
 from tos.mixins.helpful import Helpful
 from tos.mixins.moving import Moving
 from tos.mixins.types import Character
-from tos.mixins.types import Motivation
+from tos.mixins.types import Mode
 
 version = tos.__version__
 
@@ -79,7 +79,7 @@ class Story(Renderer):
         if player_name:
             for obj in drama.build():
                 drama.add(obj)
-            drama.add(Character(names=[player_name]).set_state(Motivation.player, Map.Location.car_park))
+            drama.add(Character(names=[player_name]).set_state(Mode.playing, Map.Location.car_park))
 
         drama.player = drama.ensemble[-1]
         return drama

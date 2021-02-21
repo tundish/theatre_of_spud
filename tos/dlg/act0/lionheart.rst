@@ -7,24 +7,24 @@
 
 .. entity:: PLAYER
    :types:  tos.mixins.types.Character
-   :states: tos.mixins.types.Motivation.player
+   :states: tos.mixins.types.Mode.playing
 
 .. entity:: EDWARD
    :types:  tos.mixins.types.Character
-   :states: tos.mixins.types.Motivation.acting
+   :states: tos.types.Motivation.leader
 
 .. entity:: SPUD
    :types:  tos.mixins.types.Character
    :states: tos.map.Map.Location.foyer
-            tos.mixins.types.Motivation.paused
+            tos.types.Motivation.duress
 
 .. entity:: BILL
    :types:  tos.mixins.types.Character
-   :states: tos.mixins.types.Motivation.acting
+   :states: tos.types.Motivation.critic
 
 .. entity:: BRENDA
    :types:  tos.mixins.types.Character
-   :states: tos.mixins.types.Motivation.acting
+   :states: tos.types.Motivation.mother
 
 .. entity:: STORY
    :types:  tos.story.Story

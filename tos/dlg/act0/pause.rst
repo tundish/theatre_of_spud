@@ -9,7 +9,7 @@
 
 .. entity:: PLAYER
    :types:  tos.mixins.types.Character
-   :states: tos.mixins.types.Motivation.paused
+   :states: tos.mixins.types.Mode.pausing
 
 .. entity:: STORY
    :types:  tos.story.Story
@@ -24,5 +24,5 @@ Paused
 {0}
 
 .. property:: STORY.prompt ?
-.. property:: PLAYER.state tos.mixins.types.Motivation.player
+.. property:: PLAYER.state tos.mixins.types.Mode.playing
 .. property:: SETTINGS.catchphrase-colour-gravity hsl(209.33, 96.92%, 12.75%)

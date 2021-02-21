@@ -7,7 +7,7 @@
 
 .. entity:: PLAYER
    :types:  tos.mixins.types.Character
-   :states: tos.mixins.types.Motivation.player
+   :states: tos.mixins.types.Mode.playing
             tos.map.Map.Location.car_park
 
 .. entity:: STORY

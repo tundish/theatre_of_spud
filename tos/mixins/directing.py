@@ -18,7 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-from tos.mixins.types import Motivation
+from tos.mixins.types import Mode
 from tos.mixins.types import NewDrama
 
 
@@ -34,9 +34,9 @@ class Directing(NewDrama):
 
     def pause(self, quit=False):
         if quit:
-            self.player.set_state(Motivation.finish)
+            self.player.set_state(Mode.success)
         else:
-            self.player.set_state(Motivation.paused)
+            self.player.set_state(Mode.pausing)
 
     def do_quit(self, this, text, /, **kwargs):
         """

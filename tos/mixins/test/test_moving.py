@@ -24,7 +24,7 @@ import unittest
 from tos.map import Map
 from tos.mixins.moving import Moving
 from tos.mixins.types import Character
-from tos.mixins.types import Motivation
+from tos.mixins.types import Mode
 from tos.mixins.types import Proximity
 
 from turberfield.dialogue.types import Stateful
@@ -76,7 +76,7 @@ class MovingTests(unittest.TestCase):
 
     def test_movement(self):
         self.drama.player = Character(names=["player"]).set_state(
-            Motivation.player, self.drama.nav.Location.car_park
+            Mode.playing, self.drama.nav.Location.car_park
         )
         self.drama.add(self.drama.player)
         self.assertIn(self.drama.do_go, self.drama.active)
@@ -91,7 +91,7 @@ class MovingTests(unittest.TestCase):
 
     def test_proximity(self):
         other = Character(names=["other"]).set_state(Map.Location.backstage)
-        self.drama.player = Character(names=["player"]).set_state(Motivation.player, Map.Location.car_park)
+        self.drama.player = Character(names=["player"]).set_state(Mode.playing, Map.Location.car_park)
         self.drama.add(self.drama.player, other)
         self.assertFalse(other.get_state(Proximity))
         metadata = self.drama.interlude(None, None)

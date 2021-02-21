@@ -23,7 +23,7 @@ from tos.lights import Lights
 from tos.map import Map
 from tos.mixins.types import Awareness
 from tos.mixins.types import Character
-from tos.mixins.types import Motivation
+from tos.mixins.types import Mode
 
 
 class LightsTests(unittest.TestCase):
@@ -32,7 +32,7 @@ class LightsTests(unittest.TestCase):
         self.drama = Lights(Map())
         for obj in self.drama.build():
             self.drama.add(obj)
-        self.drama.player = Character(names=["tester"]).set_state(Motivation.player, Map.Location.car_park)
+        self.drama.player = Character(names=["tester"]).set_state(Mode.playing, Map.Location.car_park)
         self.drama.add(self.drama.player)
 
     def test_find_lights(self):
