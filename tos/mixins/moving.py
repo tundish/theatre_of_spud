@@ -60,6 +60,9 @@ class Moving(NewDrama):
                 if route:
                     mob.state = route[0]
 
+            if not self.player.get_state(self.nav.Location):
+                continue
+
             hops = list(self.nav.route(
                 self.player.get_state(self.nav.Location), mob.get_state(self.nav.Location)
             ))
