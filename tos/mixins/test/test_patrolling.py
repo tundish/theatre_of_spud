@@ -17,54 +17,12 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from collections import namedtuple
-import enum
 import unittest
 
-from tos.mixins.moving import Moving
-from tos.mixins.navigator import Navigator
 from tos.mixins.types import Character
-from tos.mixins.types import Mode
+from tos.mixins.patrolling import Patrolling
 
-
-class Patrolling(Moving):
-
-    Patrol = namedtuple("Patrol", ["npc", "orders", "pos"])
-
-    def __init__(self, *args, patrols=None, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.patrols = {i.npc: i for i in patrols or []}
-
-    def interlude(self, folder, index, **kwargs):
-        rv = super().interlude(folder, index, **kwargs)
-        for c, p in self.patrols.items():
-            if c.get_state(Mode) == Mode.pausing:
-                continue
-
-            pos = p.pos or 0
-            hop = p.orders[pos]
-            locn = c.get_state(self.nav.Location)
-            c.state = locn or self.nav.Location[hop.name]
-
-            dst = c.get_state(self.nav.Arriving)
-            if not dst or dst.name != hop.name:
-                c.state = self.nav.Arriving[hop.name]
-
-            locn = c.get_state(self.nav.Location)
-            if locn.name == c.get_state(self.nav.Arriving).name:
-                c.state = self.nav.Departed[locn.name]
-                self.patrols[c] = p._replace(pos=(pos + 1) % len(p.orders))
-        return rv
-
-
-class TestTrack(Navigator):
-
-    topology = {str(n): [str((n + 1) % 16)] for n in range(16)}
-    spots = {i: [i] for i in topology}
-
-    Arriving = enum.Enum("Arriving", spots, type=Navigator)
-    Departed = enum.Enum("Departed", spots, type=Navigator)
-    Location = enum.Enum("Location", spots, type=Navigator)
+from tos.mixins.test.test_moving import TestTrack
 
 
 class TestPatrolling(unittest.TestCase):

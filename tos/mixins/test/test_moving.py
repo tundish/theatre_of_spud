@@ -17,12 +17,14 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+import enum
 import pickle
 import sys
 import unittest
 
 from tos.map import Map
 from tos.mixins.moving import Moving
+from tos.mixins.navigator import Navigator
 from tos.mixins.types import Character
 from tos.mixins.types import Mode
 from tos.mixins.types import Proximity
@@ -31,23 +33,39 @@ from turberfield.dialogue.types import Stateful
 from turberfield.utils.assembly import Assembly
 
 
+class TestTrack(Navigator):
+    """ A unidirectonal loop of 16 nodes."""
+
+    topology = {str(n): [str((n + 1) % 16)] for n in range(16)}
+    spots = {i: [i] for i in topology}
+
+    Arriving = enum.Enum("Arriving", spots, type=Navigator)
+    Departed = enum.Enum("Departed", spots, type=Navigator)
+    Location = enum.Enum("Location", spots, type=Navigator)
+
+# pickle-friendly
+Arriving = TestTrack.Arriving
+Departed = TestTrack.Departed
+Location = TestTrack.Location
+
+
 class NavigatorTests(unittest.TestCase):
 
     def test_enums_are_each_their_own_class(self):
         obj = Stateful()
-        obj.state = Map.Departed.car_park
-        obj.state = Map.Arriving.kitchen
-        obj.state = Map.Location.foyer
+        obj.state = TestTrack.Departed["0"]
+        obj.state = TestTrack.Arriving["4"]
+        obj.state = TestTrack.Location["2"]
         self.assertEqual(3, len(obj._states))
 
     def test_enums_are_equivalent_but_not_equal(self):
-        self.assertNotEqual(Map.Arriving.car_park, Map.Departed.car_park)
-        self.assertEqual(Map.Arriving.car_park.name, Map.Departed.car_park.name)
-        self.assertEqual(Map.Arriving.car_park.value, Map.Departed.car_park.value)
+        self.assertNotEqual(TestTrack.Arriving["0"], TestTrack.Departed["0"])
+        self.assertEqual(TestTrack.Arriving["0"].name, TestTrack.Departed["0"].name)
+        self.assertEqual(TestTrack.Arriving["0"].value, TestTrack.Departed["0"].value)
 
     def test_enums_are_picklable(self):
-        rv = pickle.dumps(Map.Arriving.car_park)
-        self.assertEqual(Map.Arriving.car_park, pickle.loads(rv))
+        rv = pickle.dumps(TestTrack.Arriving["0"])
+        self.assertEqual(TestTrack.Arriving["0"], pickle.loads(rv))
 
     def test_enums_can_be_assembled(self):
         self.assertTrue(Assembly.register(Map.Arriving))
