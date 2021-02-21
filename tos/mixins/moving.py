@@ -28,10 +28,9 @@ from turberfield.dialogue.model import SceneScript
 
 from tos.mixins.navigator import Navigator
 from tos.mixins.types import Proximity
-from tos.mixins.types import NewDrama
 
 
-class Moving(NewDrama):
+class Moving(Drama):
     "Physical space"
 
     def __init__(self, nav: Navigator, *args, **kwargs):

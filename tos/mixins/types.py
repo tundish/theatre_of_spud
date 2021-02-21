@@ -22,45 +22,9 @@ from collections import deque
 import enum
 import random
 
-from turberfield.catchphrase.drama import Drama
 from turberfield.dialogue.types import DataObject
 from turberfield.dialogue.types import EnumFactory
 from turberfield.dialogue.types import Stateful
-
-
-class NewDrama(Drama):
-
-    def __init__(self, **kwargs):
-        self.lookup = defaultdict(set)
-        self.active = set()
-        self.history = deque()
-
-    def __call__(self, fn, *args, **kwargs):
-        lines = list(fn(fn, *args, **kwargs))
-        self.history.appendleft(self.Record(fn, args, kwargs, lines))
-        yield from lines
-
-    @property
-    def ensemble(self):
-        return list({i for s in self.lookup.values() for i in s})
-
-    @property
-    def turns(self):
-        return len(self.history)
-
-    def build(self):
-        yield from []
-
-    def add(self, *args):
-        for item in args:
-            for n in getattr(item, "names", []):
-                self.lookup[n].add(item)
-
-    def interlude(self, folder, index, **kwargs) -> dict:
-        return {}
-
-    def interpret(self, options):
-        return next(iter(options), "")
 
 
 class Named(DataObject):

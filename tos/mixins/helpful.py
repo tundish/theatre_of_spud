@@ -26,10 +26,8 @@ from turberfield.catchphrase.drama import Drama
 from turberfield.catchphrase.parser import CommandParser
 from turberfield.dialogue.model import SceneScript
 
-from tos.mixins.types import NewDrama
 
-
-class Helpful(NewDrama):
+class Helpful(Drama):
     """
     Asking for help
 
@@ -51,7 +49,7 @@ class Helpful(NewDrama):
         self.pause()
         active = {i.__name__: i for i in self.active}
         for c in reversed(self.__class__.__mro__):
-            if c in (NewDrama, Drama, object):
+            if c in (Drama, Drama, object):
                 continue
             elif c.__doc__:
                 yield "{0}:".format(c.__doc__.strip())

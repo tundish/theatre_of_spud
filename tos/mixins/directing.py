@@ -19,10 +19,11 @@
 
 
 from tos.mixins.types import Mode
-from tos.mixins.types import NewDrama
+
+from turberfield.catchphrase.drama import Drama
 
 
-class Directing(NewDrama):
+class Directing(Drama):
     """
     Leaving the game
 

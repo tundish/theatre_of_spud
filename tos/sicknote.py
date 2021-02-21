@@ -46,6 +46,3 @@ class Knowledge:
         msg = msg._replace(attribution=attr._replace(name=lookup))
         for i in Knowledge.intentions(msg):
             yield f"{attr.name} says {i}"
-
-class SickNote(Drama):
-    pass

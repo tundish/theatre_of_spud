@@ -20,7 +20,6 @@
 import unittest
 
 from tos.sicknote import Knowledge
-from tos.sicknote import SickNote
 
 
 class KnowledgeTests(unittest.TestCase):
@@ -46,12 +45,3 @@ class KnowledgeTests(unittest.TestCase):
     def test_report(self):
         report = "Angela says she has to take Bobby to the caravan in Minehead"
         self.assertEqual(report, list(Knowledge.report(self.msg))[1])
-
-
-class SickNoteTests(unittest.TestCase):
-
-    def test_initial(self):
-        drama = SickNote()
-        self.assertTrue(drama.active)
-        self.assertTrue("help" in "".join([i.__doc__ for i in drama.active]))
-        self.assertFalse("look" in "".join([i.__doc__ for i in drama.active]))
