@@ -19,6 +19,7 @@
 
 from collections.abc import Callable
 import importlib.resources
+import re
 
 from turberfield.catchphrase.presenter import Presenter
 from turberfield.catchphrase.render import Renderer
@@ -49,19 +50,26 @@ class Story(Renderer):
 
     """
 
+    definitions = {
+        "catchphrase-colour-washout": "hsl(50, 0%, 100%, 1.0)",
+        "catchphrase-colour-shadows": "hsl(202.86, 100%, 4.12%)",
+        "catchphrase-colour-midtone": "hsl(203.39, 96.72%, 11.96%)",
+        "catchphrase-colour-hilight": "hsl(203.06, 97.3%, 56.47%)",
+        "catchphrase-colour-glamour": "hsl(353.33, 96.92%, 12.75%)",
+        "catchphrase-colour-gravity": "hsl(293.33, 96.92%, 12.75%)",
+        "catchphrase-reveal-extends": "both",
+    }
+
+    validators = {
+        "command": re.compile("[\\w ]{1,36}"),
+        "session": re.compile("[0-9a-f]{32}"),
+        "player": re.compile("[A-Za-z]{2,24}")
+    }
+
     class Act1(Directing, Moving, Helpful): pass
 
     def __init__(self, cfg=None, **kwargs):
         self.acts = [self.Act1]
-        self.definitions = {
-            "catchphrase-colour-washout": "hsl(50, 0%, 100%, 1.0)",
-            "catchphrase-colour-shadows": "hsl(202.86, 100%, 4.12%)",
-            "catchphrase-colour-midtone": "hsl(203.39, 96.72%, 11.96%)",
-            "catchphrase-colour-hilight": "hsl(203.06, 97.3%, 56.47%)",
-            "catchphrase-colour-glamour": "hsl(353.33, 96.92%, 12.75%)",
-            "catchphrase-colour-gravity": "hsl(293.33, 96.92%, 12.75%)",
-            "catchphrase-reveal-extends": "both",
-        }
         self.settings = Settings(**self.definitions)
         self.drama = None
         self.folder = None
