@@ -20,8 +20,10 @@
 
 import argparse
 from collections import deque
+import importlib.resources
 import logging
 import sys
+import uuid
 
 from aiohttp import web
 import pkg_resources
@@ -33,81 +35,97 @@ from tos.story import Story
 
 
 async def get_frame(request):
-    story = request.app["story"][0]
+    try:
+        uid = uuid.UUID(hex=request.match_info["story"])
+        story = request.app["stories"][uid]
+    except (KeyError, ValueError):
+        raise web.HTTPNotFound(reason="User sent invalid command.")
+    else:
+        log = logging.getLogger("tos.{0!s}".format(uid))
+
     try:
         animation = None
         while not animation:
             frame = story.presenter.frames.pop(0)
             animation = story.presenter.animate(frame, dwell=story.presenter.dwell, pause=story.presenter.pause)
+            log.info(animation)
     except (AttributeError, IndexError):
         story.presenter = story.represent()
         frame = story.presenter.frames.pop(0)
         animation = story.presenter.animate(frame)
 
     refresh = Presenter.refresh_animations(animation, min_val=2) if story.presenter.pending else None
-    refresh_target = story.refresh_target("/") if not (
-        story.drama.outcomes["finish"] or story.drama.outcomes["paused"]
-    ) else None
-    title = next(iter(story.presenter.metadata.get("project", ["Tea and Sympathy"])), "Tea and Sympathy")
+    refresh_target = "/{0.hex}".format(uid) if story.drama.active else None
+
+    title = next(iter(story.presenter.metadata.get("project", ["Theatre Of Spud"])), "Theatre Of Spud")
+    # TODO: Pass in command endpoint. Review controls.
     rv = story.render_body_html(title=title, next_=refresh_target, refresh=refresh).format(
         '<link rel="stylesheet" href="/css/theme/tos.css" />',
         story.render_dict_to_css(vars(story.settings)),
         story.render_frame_to_html(
             animation,
             options=story.drama.active,
-            prompt=story.drama.prompt, title=title,
-            commands=not (story.presenter.pending or story.drama.outcomes["finish"])
+            prompt=story.prompt, title=title,
+            #commands=not (story.presenter.pending or story.drama.outcomes["finish"])
+            commands=not story.presenter.pending  # FIXME
         )
     )
+    log.info("Turn {0.drama.turns}".format(story))
     return web.Response(text=rv, content_type="text/html")
 
 
 async def post_command(request):
-    story = request.app["story"][0]
+    try:
+        uid = uuid.UUID(hex=request.match_info["story"])
+        story = request.app["stories"][uid]
+    except (KeyError, ValueError):
+        raise web.HTTPNotFound(reason="Invalid story id.")
+    else:
+        log = logging.getLogger("tos.{0!s}".format(uid))
+
+    story = request.app["stories"][uid]
     data = await request.post()
     cmd = data["cmd"]
     if not story.drama.validator.match(cmd):
         raise web.HTTPUnauthorized(reason="User sent invalid command.")
-    else:
-        story.input = cmd
-        fn, args, kwargs = story.drama.interpret(story.drama.match(cmd))
-        lines = story.drama(fn, *args, **kwargs)
-        story.presenter = story.represent(lines)
-    raise web.HTTPFound("/")
+
+    story.input = cmd
+    fn, args, kwargs = story.drama.interpret(story.drama.match(cmd))
+    lines = story.drama(fn, *args, **kwargs)
+    story.presenter = story.represent(lines)
+    raise web.HTTPFound("/{0.hex}".format(uid))
 
 
 async def post_player(request):
     log = logging.getLogger("tos.app.player")
     data = await request.post()
-    name = data["playername"]
+    name = data["name"]
     if not Story.validators["player"].match(name):
         raise web.HTTPUnauthorized(reason="User input invalid name.")
 
-    story = Story(**vars(args))
-    app["story"] = deque([story], maxlen=1)
-    session = Game.session(name)
-    log.info("Player {0} created session {1.uid!s}".format(name, session))
-    raise web.HTTPFound("/{0.uid.hex}".format(session))
+    story = Story()
+    story.drama = story.load_drama(player_name=name)
+    story.folder = story.load_folder()
+    uid = story.drama.player.id
+    request.app["stories"][uid] = story
+    log.info("Player {0} created story {1!s}".format(name, uid))
+    raise web.HTTPFound("/{0.hex}".format(uid))
 
 
 async def get_titles(request):
-    rv = Story.render_body_html(title="Theatre of Spud").format(
-        '<link rel="stylesheet" href="/css/theme/tos.css" />',
-        Story.render_dict_to_css(Story.definitions),
-        Story.render_command_form(
-            placeholder="Enter a name for your character.",
-            validator=Story.validators["player"],
-        )
-    )
-    return web.Response(text=rv, content_type="text/html")
+    path = importlib.resources.path("tos.web", "titles.html")
+    with path as p:
+        text = p.read_text().format(Story.render_dict_to_css(Story.definitions))
+        return web.Response(text=text, content_type="text/html")
 
 
 def build_app(args):
     app = web.Application()
     app.add_routes([
         web.get("/", get_titles),
-        web.post("/{{story:{0}}}/cmd/".format(Story.validators["command"].pattern), post_command),
-        web.get("/{{story:{0}}}".format(Story.validators["session"]), get_frame),
+        web.post("/story/", post_player),
+        web.post("/{{story:{0}}}/cmd/".format(Story.validators["session"].pattern), post_command),
+        web.get("/{{story:{0}}}".format(Story.validators["session"].pattern), get_frame),
     ])
     app.router.add_static(
         "/css/base/",
@@ -117,6 +135,7 @@ def build_app(args):
         "/css/theme/",
         pkg_resources.resource_filename("tos.web", "css")
     )
+    app["stories"] = {}
     return app
 
 
@@ -153,11 +172,11 @@ def run():
         rv = main(args)
 
     if rv == 2:
-        sys.stderr.write("\n Missing command.\n\n")
         p.print_help()
 
     sys.exit(rv)
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
     run()

@@ -54,6 +54,7 @@ def main(opts):
                 print(line, "\n")
                 time.sleep(duration)
 
+        #if story.drama.active and not all(story.metadata.values()):
         if story.drama.active:
             story.input = input("{0} ".format(story.prompt))
             fn, args, kwargs = story.drama.interpret(story.drama.match(story.input))
