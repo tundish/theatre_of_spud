@@ -23,6 +23,7 @@ import re
 
 from turberfield.catchphrase.presenter import Presenter
 from turberfield.catchphrase.render import Action
+from turberfield.catchphrase.render import Parameter
 from turberfield.catchphrase.render import Renderer
 from turberfield.catchphrase.render import Settings
 from turberfield.dialogue.model import SceneScript
@@ -75,18 +76,28 @@ class Story(Renderer):
         self.drama = None
         self.folder = None
         self.input = ""
-        self.actions = [
-            Action(
-                "cmd", None, "{0!s}", "post",
-                [Parameter("cmd", True, self.validators["command"], [], "Enter a command")],
-                "&gt;"
-            )
-        ]
+        self.actions = []
         self.metadata = {}
 
     @property
     def prompt(self):
-        return "?"
+        try:
+            return self.actions[0].parameters[0].tip
+        except IndexError:
+            return "?"
+
+    @prompt.setter
+    def prompt(self, val):
+        try:
+            action = self.actions[0]
+        except IndexError:
+            action = Action(
+                "cmd", None, "{0!s}", "post",
+                [Parameter("cmd", True, self.validators["command"], [], "Enter a command")],
+                "&gt;"
+            )
+        action.parameters[:] = action.parameters[0]._replace(tip=val)
+        self.actions = [action]
 
     def load_drama(self, act=0, player_name="", ensemble=None):
         ensemble = ensemble or []
