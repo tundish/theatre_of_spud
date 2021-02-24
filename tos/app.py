@@ -84,7 +84,7 @@ async def post_command(request):
     story = request.app["stories"][uid]
     data = await request.post()
     cmd = data["cmd"]
-    if not story.drama.validator.match(cmd):
+    if not story.validators["command"].match(cmd):
         raise web.HTTPUnauthorized(reason="User sent invalid command.")
 
     story.input = cmd
