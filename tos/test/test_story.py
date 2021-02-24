@@ -27,6 +27,19 @@ from tos.mixins.types import Character
 
 class StoryTests(unittest.TestCase):
 
+    def test_actions(self):
+        s = Story()
+        s.drama = s.load_drama(player_name="tester")
+        self.assertTrue(s.actions)
+        action = next(s.actions)
+        form = "\n".join(s.render_action_form(action))
+        self.assertIn('<label for="input-cmd-text" id="input-cmd-text-tip">&gt;</label>', form)
+        self.assertIn("<fieldset>", form)
+        self.assertIn("</fieldset>", form)
+        self.assertIn('placeholder="?"', form)
+        self.assertIn('pattern="[\\w]{1,36}"', form)
+        self.assertIn('<button type="submit">Enter</button>', form, form)
+
     def test_progression(self):
         s = Story()
         s.drama = s.load_drama(player_name="tester")

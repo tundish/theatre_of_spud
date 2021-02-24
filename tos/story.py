@@ -18,8 +18,10 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from collections.abc import Callable
+import html
 import importlib.resources
 import re
+import urllib.parse
 
 from turberfield.catchphrase.presenter import Presenter
 from turberfield.catchphrase.render import Action
@@ -63,12 +65,56 @@ class Story(Renderer):
     }
 
     validators = {
-        "command": re.compile("[\\w ]{1,36}"),
+        "command": re.compile("[\\w]{1,36}"),
         "session": re.compile("[0-9a-f]{32}"),
         "player": re.compile("[A-Za-z]{2,24}")
     }
 
     class Act1(Directing, Moving, Helpful): pass
+
+    @staticmethod
+    def render_action_form(action: Action):
+        import textwrap
+        url = urllib.parse.quote(action.typ.format(*action.ref))
+        if action.parameters:
+            yield f'<form role="form" action="{url}" method="{action.method}" name="{action.name}">'
+            yield "<fieldset>"
+
+        for p in action.parameters:
+            typ = "hidden" if p.required == "hidden" else "text"
+            if not p.tip.endswith("."):
+                yield f'<label for="input-{p.name}-{typ}" id="input-{p.name}-{typ}-tip">{html.escape(p.tip)}</label>'
+            if not p.values:
+                yield textwrap.dedent(f"""
+                    <input
+                    name="{p.name}"
+                    pattern="{p.regex.pattern if p.regex else ''}"
+                    {'required="required"' if p.required else ''}
+                    type="{'hidden' if p.required == 'hidden' else 'text'}"
+                    title="{p.tip}"
+                    />""")
+            elif len(p.values) == 1:
+                yield textwrap.dedent(f"""
+                    <input
+                    name="{p.name}"
+                    value="{p.values[0]}"
+                    placeholder="{p.values[0]}"
+                    pattern="{p.regex.pattern if p.regex else ''}"
+                    {'required="required"' if p.required else ''}
+                    type="{'hidden' if p.required == 'hidden' else 'text'}"
+                    title="{html.escape(p.tip)}"
+                    />""")
+            else:
+                yield f'<select name="{p.name}">'
+                for v in p.values:
+                    yield f'<option value="{v}">{v}</option>'
+                yield "</select>"
+
+        yield f'<button type="submit">{action.prompt}</button>'
+
+        if action.parameters:
+            yield "</fieldset>"
+            yield "</form>"
 
     def __init__(self, cfg=None, **kwargs):
         self.acts = [self.Act1]
@@ -76,28 +122,16 @@ class Story(Renderer):
         self.drama = None
         self.folder = None
         self.input = ""
-        self.actions = []
+        self.prompt = "?"
         self.metadata = {}
 
     @property
-    def prompt(self):
-        try:
-            return self.actions[0].parameters[0].tip
-        except IndexError:
-            return "?"
-
-    @prompt.setter
-    def prompt(self, val):
-        try:
-            action = self.actions[0]
-        except IndexError:
-            action = Action(
-                "cmd", None, "{0!s}", "post",
-                [Parameter("cmd", True, self.validators["command"], [], "Enter a command")],
-                "&gt;"
-            )
-        action.parameters[:] = action.parameters[0]._replace(tip=val)
-        self.actions = [action]
+    def actions(self):
+        yield Action(
+            "cmd", None, "/{0.id.hex}", [self.drama.player], "post",
+            [Parameter("cmd", True, self.validators["command"], [self.prompt], ">")],
+            "Enter"
+        )
 
     def load_drama(self, act=0, player_name="", ensemble=None):
         ensemble = ensemble or []
