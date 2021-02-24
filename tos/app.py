@@ -58,17 +58,15 @@ async def get_frame(request):
     refresh_target = "/{0.hex}".format(uid) if story.drama.active else None
 
     title = next(iter(story.presenter.metadata.get("project", ["Theatre Of Spud"])), "Theatre Of Spud")
-    # TODO: Pass in command endpoint. Review controls.
+    controls = [
+        "\n".join(story.render_action_form(action, autofocus=not n))
+        for n, action in enumerate(story.actions)
+        if not story.presenter.pending
+    ]
     rv = story.render_body_html(title=title, next_=refresh_target, refresh=refresh).format(
         '<link rel="stylesheet" href="/css/theme/tos.css" />',
         story.render_dict_to_css(vars(story.settings)),
-        story.render_frame_to_html(
-            animation,
-            options=story.drama.active,
-            prompt=story.prompt, title=title,
-            #commands=not (story.presenter.pending or story.drama.outcomes["finish"])
-            commands=not story.presenter.pending  # FIXME
-        )
+        story.render_animated_frame_to_html(animation, controls)
     )
     log.info("Turn {0.drama.turns}".format(story))
     return web.Response(text=rv, content_type="text/html")
