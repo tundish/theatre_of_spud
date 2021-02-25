@@ -38,7 +38,7 @@ class StoryTests(unittest.TestCase):
         self.assertIn("</fieldset>", form)
         self.assertIn('autofocus="autofocus"', form)
         self.assertIn('placeholder="?"', form)
-        self.assertIn('pattern="[\\w]{1,36}"', form)
+        self.assertIn('pattern="[\\w ]{1,36}"', form)  # Don't forget the space
         self.assertIn('<button type="submit">Enter</button>', form, form)
 
     def test_progression(self):

@@ -58,7 +58,10 @@ def main(opts):
         if story.drama.active:
             story.input = input("{0} ".format(story.prompt))
             fn, args, kwargs = story.drama.interpret(story.drama.match(story.input))
-            lines = list(story.drama(fn, *args, **kwargs))
+            try:
+                lines = list(story.drama(fn, *args, **kwargs))
+            except TypeError:
+                lines = [story.refusal.format(story.input)]
         else:
             break
 

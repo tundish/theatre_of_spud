@@ -33,7 +33,6 @@ from turberfield.dialogue.model import SceneScript
 
 import tos
 from tos.map import Map
-from tos.mixins.directing import Directing
 from tos.mixins.helpful import Helpful
 from tos.mixins.moving import Moving
 from tos.mixins.types import Character
@@ -63,12 +62,12 @@ class Story(Renderer):
     }
 
     validators = {
-        "command": re.compile("[\\w]{1,36}"),
+        "command": re.compile("[\\w ]{1,36}"),
         "session": re.compile("[0-9a-f]{32}"),
         "player": re.compile("[A-Za-z]{2,24}")
     }
 
-    class Act1(Directing, Moving, Helpful): pass
+    class Act1(Moving, Helpful): pass
 
     def __init__(self, cfg=None, **kwargs):
         self.acts = [self.Act1]
@@ -77,6 +76,7 @@ class Story(Renderer):
         self.folder = None
         self.input = ""
         self.prompt = "?"
+        self.refusal = "'{0}' is not an option right now."
         self.metadata = {}
 
     @property

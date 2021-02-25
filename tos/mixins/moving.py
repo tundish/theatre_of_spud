@@ -23,14 +23,14 @@ import enum
 import functools
 import random
 
-from turberfield.catchphrase.drama import Drama
 from turberfield.dialogue.model import SceneScript
 
 from tos.mixins.navigator import Navigator
+from tos.mixins.directing import Directing
 from tos.mixins.types import Proximity
 
 
-class Moving(Drama):
+class Moving(Directing):
     "Physical space"
 
     def __init__(self, nav: Navigator, *args, **kwargs):
@@ -88,6 +88,7 @@ class Moving(Drama):
         look | look around
 
         """
+        self.pause()
         locn = self.player.get_state(self.nav.Location)
         yield random.choice(["Exits are:", "We are close to:", "Nearby:"])
         yield from (

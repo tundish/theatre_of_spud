@@ -23,6 +23,8 @@
 Entrance
 ========
 
+{0}
+
 Mist
 ----
 
@@ -67,7 +69,6 @@ They join the others by the wall.
 Uncouth
 -------
 
-.. condition:: STORY.drama.turns 2
 .. condition:: STORY.drama.turns 4
 .. condition:: STORY.drama.turns 6
 

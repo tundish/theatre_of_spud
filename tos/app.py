@@ -89,7 +89,11 @@ async def post_command(request):
 
     story.input = cmd
     fn, args, kwargs = story.drama.interpret(story.drama.match(cmd))
-    lines = story.drama(fn, *args, **kwargs)
+    try:
+        lines = list(story.drama(fn, *args, **kwargs))
+    except TypeError:
+        lines = [story.refusal.format(story.input)]
+
     story.presenter = story.represent(lines)
     raise web.HTTPFound("/{0.hex}".format(uid))
 
