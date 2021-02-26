@@ -44,6 +44,7 @@ def main(opts):
     lines = []
     while True:
         presenter = story.represent(lines)
+        print(presenter.text, file=sys.stderr)
         if opts.debug:
             print(presenter.text, file=sys.stderr)
         for frame in presenter.frames:

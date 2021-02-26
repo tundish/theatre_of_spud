@@ -87,6 +87,7 @@ class Map(Navigator):
             "costume": [
             ],
             "foyer": [
+                "the Theatre foyer", "the foyer", "the foyer of the Theatre"
             ],
             "kitchen": [
             ],

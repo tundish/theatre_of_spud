@@ -32,9 +32,9 @@ from turberfield.dialogue.model import SceneScript
 # logging.basicConfig(level=logging.DEBUG)
 
 import tos
+from tos.lights import Lights
 from tos.map import Map
 from tos.mixins.helpful import Helpful
-from tos.mixins.moving import Moving
 from tos.mixins.types import Character
 from tos.mixins.types import Mode
 
@@ -67,7 +67,7 @@ class Story(Renderer):
         "player": re.compile("[A-Za-z]{2,24}")
     }
 
-    class Act1(Moving, Helpful): pass
+    class Act1(Lights, Helpful): pass
 
     def __init__(self, cfg=None, **kwargs):
         self.acts = [self.Act1]
@@ -95,11 +95,11 @@ class Story(Renderer):
             drama.add(obj)
 
         if player_name:
+            drama.player = Character(names=[player_name]).set_state(Mode.playing, Map.Location.car_park)
             for obj in drama.build():
                 drama.add(obj)
-            drama.add(Character(names=[player_name]).set_state(Mode.playing, Map.Location.car_park))
+            drama.add(drama.player)
 
-        drama.player = drama.ensemble[-1]
         return drama
 
     def load_folder(self, act=0):
