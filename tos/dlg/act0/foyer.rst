@@ -12,6 +12,7 @@
 
 .. entity:: PUZZLE
    :types:  tos.mixins.types.Artifact
+   :states: tos.map.Map.Location.foyer
 
 .. entity:: STORY
    :types:  tos.story.Story
@@ -22,7 +23,7 @@
 
 .. |PLAYER| property:: PLAYER.name
 .. |LOCALE| property:: STORY.drama.location
-.. |PUZZLE| property:: PUZZLE.names[0]
+.. |PUZZLE| property:: PUZZLE.name
 
 Entrance
 ========
@@ -32,10 +33,11 @@ Entrance
 Discover
 --------
 
-.. condition:: PUZZLE.state Awareness.ignorant
+.. .. condition:: PUZZLE.state Awareness.ignorant
 
 |PLAYER| stands in |LOCALE|.
 
+Sees |PUZZLE|.
 
 Hint
 ----

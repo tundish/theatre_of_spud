@@ -81,7 +81,13 @@ class Moving(Directing):
         self.player.state = self.player.get_state(self.nav.Location)
         self.player.state = self.nav.Departed[self.player.get_state(self.nav.Location).name]
         self.player.state = self.nav.Arriving[locn.name]
-        yield f"{self.player.name} heads off to the {locn.value[0]}."
+        hops = list(self.nav.route(
+            self.player.get_state(self.nav.Location), self.player.get_state(self.nav.Arriving)
+        ))
+        if len(hops) > 2:
+            yield f"{self.player.name} heads off to the {locn.value[0]}."
+        else:
+            yield f"{self.player.name} enters the {locn.value[0]}."
 
     def do_look(self, this, text, *args):
         """
