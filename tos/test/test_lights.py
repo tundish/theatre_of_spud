@@ -34,10 +34,14 @@ class LightsTests(unittest.TestCase):
             self.drama.add(obj)
         self.drama.player = Character(names=["tester"]).set_state(Mode.playing, Map.Location.car_park)
         self.drama.add(self.drama.player)
+        next(iter(self.drama.lookup["fuse"])).state = Awareness.indicate
+        next(iter(self.drama.lookup["lights"])).state = Awareness.indicate
+        self.drama.active.add(self.drama.do_lights_off)
+        self.drama.active.add(self.drama.do_lights_on)
 
     def test_find_lights(self):
         lights = next(iter(self.drama.lookup["lights"]))
-        self.assertEqual(Awareness.ignorant, lights.get_state(Awareness))
+        self.assertEqual(Awareness.indicate, lights.get_state(Awareness))
         self.assertEqual(Map.Location.foyer, lights.get_state(Map.Location))
         options = list(self.drama.match("go to the foyer"))
         fn, args, kwargs = self.drama.interpret(options)
@@ -50,7 +54,7 @@ class LightsTests(unittest.TestCase):
 
     def test_find_fuse(self):
         fuse = next(iter(self.drama.lookup["fuse"]))
-        self.assertEqual(Awareness.ignorant, fuse.get_state(Awareness))
+        self.assertEqual(Awareness.indicate, fuse.get_state(Awareness))
         self.assertEqual(Map.Location.lighting, fuse.get_state(Map.Location))
         options = list(self.drama.match("go to the lighting box"))
         fn, args, kwargs = self.drama.interpret(options)

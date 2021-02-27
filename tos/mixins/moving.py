@@ -115,6 +115,7 @@ class Moving(Directing):
 
     def do_where(self, this, text, *args):
         """
+        w | wait
         where | where am i | where is it
 
         """

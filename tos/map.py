@@ -92,7 +92,7 @@ class Map(Navigator):
                 "in the corridor",
             ],
             "costume": [
-                "in the costume room",
+                "in the costume room", "among stacks of props and clothes", "surrounded by racks of costumes",
             ],
             "foyer": [
                 "in the Theatre foyer", "in the foyer", "in the foyer of the Theatre"

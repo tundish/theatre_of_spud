@@ -61,7 +61,7 @@ def main(opts):
 
         #if story.drama.active and not all(story.metadata.values()):
         if story.drama.active:
-            story.input = input("{0} ".format(story.prompt))
+            story.input = input("{0} ".format(story.prompt)).strip() or story.input
             fn, args, kwargs = story.drama.interpret(story.drama.match(story.input))
             try:
                 lines = list(story.drama(fn, *args, **kwargs))

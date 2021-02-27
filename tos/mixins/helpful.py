@@ -51,8 +51,6 @@ class Helpful(Drama):
         for c in reversed(self.__class__.__mro__):
             if c in (Drama, Drama, object):
                 continue
-            elif c.__doc__:
-                yield "{0}:".format(c.__doc__.strip())
 
             rv = []
             for a in dir(c):
@@ -65,6 +63,9 @@ class Helpful(Drama):
                     rv.append("* {0}".format(cmd))
                 except KeyError:
                     continue
+
+            if rv and c.__doc__:
+                yield "{0}:".format(c.__doc__.strip())
 
             yield "\n".join(rv)
         #yield "Start with a *look around*."

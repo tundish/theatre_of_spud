@@ -48,7 +48,6 @@ async def get_frame(request):
         while not animation:
             frame = story.presenter.frames.pop(0)
             animation = story.presenter.animate(frame, dwell=story.presenter.dwell, pause=story.presenter.pause)
-            log.info(animation)
     except (AttributeError, IndexError):
         story.presenter = story.represent()
         frame = story.presenter.frames.pop(0)

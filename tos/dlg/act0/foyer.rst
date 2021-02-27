@@ -30,10 +30,39 @@ Entrance
 
 {0}
 
+Ignorant
+--------
+
+.. condition:: PUZZLE.state Awareness.ignorant
+
+|PLAYER| stands |LOCALE|.
+
+It's empty and quiet.
+
+Indicate
+--------
+
+.. condition:: PUZZLE.state Awareness.indicate
+
+|PLAYER| stands |LOCALE|.
+
+Sees |PUZZLE|.
+
+.. property:: PUZZLE.state Awareness.discover
+
 Discover
 --------
 
-.. .. condition:: PUZZLE.state Awareness.ignorant
+.. condition:: PUZZLE.state Awareness.discover
+
+|PLAYER| stands |LOCALE|.
+
+Sees |PUZZLE|.
+
+Familiar
+--------
+
+.. condition:: PUZZLE.state Awareness.familiar
 
 |PLAYER| stands |LOCALE|.
 
