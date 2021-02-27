@@ -73,3 +73,15 @@ class Mode(EnumFactory, enum.Enum):
     testing = enum.auto()
     visitor = enum.auto()
     warning = enum.auto()
+
+
+class Motion(EnumFactory, enum.Enum):
+
+    broken = enum.auto()
+    follow = enum.auto()
+    leader = enum.auto()
+    moving = enum.auto()
+    patrol = enum.auto()
+    routed = enum.auto()
+    static = enum.auto()
+    sticky = enum.auto()

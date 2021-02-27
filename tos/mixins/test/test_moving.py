@@ -27,6 +27,7 @@ from tos.mixins.moving import Moving
 from tos.mixins.navigator import Navigator
 from tos.mixins.types import Character
 from tos.mixins.types import Mode
+from tos.mixins.types import Motion
 from tos.mixins.types import Proximity
 
 from turberfield.dialogue.types import Stateful
@@ -122,11 +123,14 @@ class MovingTests(unittest.TestCase):
             metadata = self.drama.interlude(None, None)
             with self.subTest(n=n, locn=self.drama.player.get_state(Map.Location)):
                 if n == 2:
+                    self.assertEqual(Motion.routed, self.drama.player.get_state(Motion))
                     self.assertEqual(Map.Location.wings, self.drama.player.get_state(Map.Location))
                     self.assertEqual(Proximity.outside, other.get_state(Proximity))
                 elif n == 3:
                     self.assertEqual(Map.Location.backstage, self.drama.player.get_state(Map.Location))
                     self.assertEqual(Proximity.present, other.get_state(Proximity))
+                    self.assertEqual(Motion.static, self.drama.player.get_state(Motion))
                 else:
+                    self.assertEqual(Motion.routed, self.drama.player.get_state(Motion))
                     self.assertEqual(Proximity.distant, other.get_state(Proximity))
 

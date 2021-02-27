@@ -20,6 +20,7 @@
 from collections import namedtuple
 
 from tos.mixins.moving import Moving
+from tos.mixins.types import Motion
 from tos.mixins.types import Mode
 
 
@@ -36,6 +37,9 @@ class Patrolling(Moving):
         for c, p in self.patrols.items():
             if c.get_state(Mode) == Mode.pausing:
                 continue
+
+            if c.get_state(Motion) == Motion.static:
+                c.state = Motion.patrol
 
             pos = p.pos or 0
             hop = p.orders[pos]

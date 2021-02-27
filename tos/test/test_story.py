@@ -44,5 +44,4 @@ class StoryTests(unittest.TestCase):
     def test_progression(self):
         s = Story()
         s.drama = s.load_drama(player_name="tester")
-        self.assertIsInstance(s.drama.ensemble[-1], Character)
         self.assertIsInstance(s.drama.player, Character)

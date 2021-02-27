@@ -27,6 +27,7 @@ from turberfield.dialogue.model import SceneScript
 
 from tos.mixins.navigator import Navigator
 from tos.mixins.directing import Directing
+from tos.mixins.types import Motion
 from tos.mixins.types import Proximity
 
 
@@ -57,7 +58,11 @@ class Moving(Directing):
                 ))
                 route.pop(0)
                 if route:
-                    mob.state = route[0]
+                    mob.state = Motion.routed
+                    mob.state = route.pop(0)
+
+                if not route:
+                    mob.state = Motion.static
 
             if not self.player.get_state(self.nav.Location):
                 continue
