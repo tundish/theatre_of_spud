@@ -32,7 +32,7 @@ class Map(Navigator):
         "car_park": ["car park"],
         "cloaks": ["cloakroom", "cloaks"],
         "corridor": ["corridor"],
-        "costume": ["costume store", "props room"],
+        "costume": ["costume", "costume store", "props room"],
         "foyer": ["foyer"],
         "kitchen": ["kitchen"],
         "lighting": ["lighting box"],
@@ -40,7 +40,7 @@ class Map(Navigator):
         "passage": ["passage"],
         "stage": ["stage", "onstage"],
         "stairs": ["stairs", "upstairs"],
-        "wings": ["wings", "stage left", "stage right"],
+        "wings": ["wings", "left of the stage", "right of the stage"],
     }
 
     Arriving = enum.Enum("Arriving", spots, type=Navigator)
@@ -69,39 +69,54 @@ class Map(Navigator):
 
         self.scenery = {
             "auditorium": [
+                "in the auditorium",
+                "in an auditorium of tiered seats",
             ],
             "backstage": [
+                "backstage", "behind the stage", "in the backstage area"
             ],
             "balcony": [
+                "on the balcony", "on a balcony above the bar",
             ],
             "bar": [
+                "in the bar", "in the bar area"
             ],
             "car_park": [
-                "a Car Park in front of the Theatre", "the Car Park belonging to the Theatre",
-                "front of the Theatre"
+                "in a Car Park in front of the Theatre", "in the Car Park belonging to the Theatre",
+                "in front of the Theatre"
             ],
             "cloaks": [
+                "in the cloakroom", "in Cloaks"
             ],
             "corridor": [
+                "in the corridor",
             ],
             "costume": [
+                "in the costume room",
             ],
             "foyer": [
-                "the Theatre foyer", "the foyer", "the foyer of the Theatre"
+                "in the Theatre foyer", "in the foyer", "in the foyer of the Theatre"
             ],
             "kitchen": [
+                "in the kitchen",
             ],
             "lighting": [
+                "in the lighting box",
             ],
             "office": [
+                "in the Box Office", "in the office"
             ],
             "passage": [
+                "in a passage",
             ],
             "stage": [
+                "on stage",
             ],
             "stairs": [
+                "on the stairs",
             ],
             "wings": [
+                "in the wings",
             ],
         }
 

@@ -109,7 +109,7 @@ class Story(Renderer):
             pkg=pkg,
             description="Theatre of Spud",
             metadata={},
-            paths=[i.name for i in path.glob("*.rst")],
+            paths=sorted(i.name for i in path.glob("*.rst")),
             interludes=None
         )
 

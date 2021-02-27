@@ -18,7 +18,7 @@
 
 
 .. |PLAYER| property:: PLAYER.name
-.. |LOCALE| property:: STORY.drama.location
+.. |LOCALE| property:: STORY.drama.scenery
 
 Entrance
 ========
@@ -33,7 +33,7 @@ Mist
 The Winter afternoon darkens early.
 A cold mist has formed in the last hour of the day.
 
-|PLAYER| stands in |LOCALE|.
+|PLAYER| stands |LOCALE|.
 
 .. property:: STORY.prompt For commands to use, enter 'help'.
 
@@ -45,7 +45,7 @@ Traffic
 
 There isn't much traffic.
 
-|PLAYER| stands in |LOCALE|.
+|PLAYER| stands |LOCALE|.
 
 Dusk
 ----
@@ -54,7 +54,7 @@ Dusk
 
 On the other side of the road, about 30 yards away, a couple of young men are sitting on a wall.
 
-|PLAYER| stands in |LOCALE|.
+|PLAYER| stands |LOCALE|.
 
 More
 ----
@@ -64,7 +64,7 @@ More
 Three figures walk over from the direction of the Church.
 They join the others by the wall.
 
-|PLAYER| stands in |LOCALE|.
+|PLAYER| stands |LOCALE|.
 
 Uncouth
 -------
@@ -74,7 +74,7 @@ Uncouth
 
 |PLAYER| can hear talking from over the road. Someone hawks and spits.
 
-|PLAYER| stands in |LOCALE|.
+|PLAYER| stands |LOCALE|.
 
 Smoking
 -------
@@ -87,7 +87,7 @@ It is quite dark now.
 
 |PLAYER| can make out the glow of cigarettes from the group by the wall.
 
-|PLAYER| stands in |LOCALE|.
+|PLAYER| stands |LOCALE|.
 
 Hint
 ----

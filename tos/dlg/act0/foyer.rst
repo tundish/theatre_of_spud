@@ -22,7 +22,7 @@
 
 
 .. |PLAYER| property:: PLAYER.name
-.. |LOCALE| property:: STORY.drama.location
+.. |LOCALE| property:: STORY.drama.scenery
 .. |PUZZLE| property:: PUZZLE.name
 
 Entrance
@@ -35,7 +35,7 @@ Discover
 
 .. .. condition:: PUZZLE.state Awareness.ignorant
 
-|PLAYER| stands in |LOCALE|.
+|PLAYER| stands |LOCALE|.
 
 Sees |PUZZLE|.
 

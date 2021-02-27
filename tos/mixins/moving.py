@@ -44,6 +44,11 @@ class Moving(Directing):
     @property
     def location(self):
         locn = self.player.get_state(self.nav.Location)
+        return random.choice(self.nav.spots[locn.name])
+
+    @property
+    def scenery(self):
+        locn = self.player.get_state(self.nav.Location)
         return random.choice(self.nav.scenery[locn.name])
 
     def interlude(self, folder, index, **kwargs):
@@ -79,8 +84,10 @@ class Moving(Directing):
         """
         enter {locn.value[0]}
         enter {locn.value[1]}
+        enter {locn.value[2]}
         go {locn.value[0]} | go to {locn.value[0]}
         go {locn.value[1]} | go to {locn.value[1]}
+        go {locn.value[2]} | go to {locn.value[2]}
 
         """
         self.player.state = self.player.get_state(self.nav.Location)
@@ -111,5 +118,4 @@ class Moving(Directing):
         where | where am i | where is it
 
         """
-        locn = self.player.get_state(self.nav.Location)
-        yield f"{self.player.name} is in the {locn.value[0]}."
+        yield f"{self.player.name} is {self.scenery}."

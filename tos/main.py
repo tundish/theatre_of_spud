@@ -33,6 +33,10 @@ def parser():
         "--debug", action="store_true", default=False,
         help="Write generated dialogue for debugging."
     )
+    rv.add_argument(
+        "--skip", action="store_true", default=False,
+        help="Don't perform timed animations."
+    )
     return rv
 
 
@@ -44,7 +48,6 @@ def main(opts):
     lines = []
     while True:
         presenter = story.represent(lines)
-        print(presenter.text, file=sys.stderr)
         if opts.debug:
             print(presenter.text, file=sys.stderr)
         for frame in presenter.frames:
@@ -53,7 +56,8 @@ def main(opts):
                 continue
             for line, duration in story.render_frame_to_terminal(animation):
                 print(line, "\n")
-                time.sleep(duration)
+                if not opts.skip:
+                    time.sleep(duration)
 
         #if story.drama.active and not all(story.metadata.values()):
         if story.drama.active:
