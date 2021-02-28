@@ -12,19 +12,7 @@
 .. entity:: EDWARD
    :types:  tos.mixins.types.Character
    :states: tos.types.Motivation.leader
-
-.. entity:: SPUD
-   :types:  tos.mixins.types.Character
-   :states: tos.map.Map.Location.foyer
-            tos.types.Motivation.duress
-
-.. entity:: BILL
-   :types:  tos.mixins.types.Character
-   :states: tos.types.Motivation.critic
-
-.. entity:: BRENDA
-   :types:  tos.mixins.types.Character
-   :states: tos.types.Motivation.mother
+            tos.mixins.types.Proximity.present
 
 .. entity:: STORY
    :types:  tos.story.Story

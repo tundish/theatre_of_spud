@@ -35,8 +35,10 @@ import tos
 from tos.lights import Lights
 from tos.map import Map
 from tos.mixins.helpful import Helpful
+from tos.mixins.patrolling import Patrolling
 from tos.mixins.types import Character
 from tos.mixins.types import Mode
+from tos.types import Motivation
 
 version = tos.__version__
 
@@ -67,7 +69,7 @@ class Story(Renderer):
         "player": re.compile("[A-Za-z]{2,24}")
     }
 
-    class Act1(Lights, Helpful): pass
+    class Act1(Lights, Patrolling, Helpful): pass
 
     def __init__(self, cfg=None, **kwargs):
         self.acts = [self.Act1]
@@ -88,8 +90,15 @@ class Story(Renderer):
         )
 
     def load_drama(self, act=0, player_name="", ensemble=None):
-        ensemble = ensemble or []
-        drama = self.acts[act](Map())
+        ensemble = ensemble or [
+            Character(names=["Edward", "Lionheart", "Edward Lionheart"]).set_state(
+                Motivation.leader, Map.Location.stage
+            )
+        ]
+        drama = self.acts[act](
+            Map(),
+            patrols=[Patrolling.Patrol(ensemble[0], [Map.Location.stage, Map.Location.foyer],0)]
+        )
 
         for obj in ensemble:
             drama.add(obj)
