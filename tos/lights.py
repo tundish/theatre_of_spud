@@ -17,11 +17,23 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+import enum
+import random
+
+from turberfield.dialogue.types import EnumFactory
+
 from tos.map import Map
 from tos.mixins.carrying import Carrying
 from tos.mixins.moving import Moving
 from tos.mixins.types import Awareness
 from tos.mixins.types import Artifact
+
+
+@enum.unique
+class Switch(EnumFactory, enum.Enum):
+    broken = 0
+    closed = 1
+    opened = 2
 
 
 class Lights(Carrying, Moving):
@@ -32,7 +44,7 @@ class Lights(Carrying, Moving):
 
     def build(self):
         yield from super().build()
-        yield Artifact(names=["lights"]).set_state(Awareness.ignorant, self.nav.Location.foyer, 1)
+        yield Artifact(names=["lights"]).set_state(Awareness.ignorant, self.nav.Location.foyer, Switch.broken)
         yield Artifact(names=["fuse"]).set_state(Awareness.ignorant, self.nav.Location.lighting)
 
     def interlude(self, folder, index, **kwargs):
@@ -63,7 +75,7 @@ class Lights(Carrying, Moving):
         """
         next(iter(self.lookup["fuse"])).state = Awareness.complete
         next(iter(self.lookup["lights"])).state = Awareness.complete
-        next(iter(self.lookup["lights"])).state = 1
+        next(iter(self.lookup["lights"])).state = random.choice([Switch.closed, Switch.opened])
         yield ""
 
     def do_lights_off(self, this, text, *args):
@@ -73,7 +85,7 @@ class Lights(Carrying, Moving):
 
         """
         lights = next(iter(self.lookup["lights"]))
-        lights.state = 1
+        lights.state = Switch.opened
         if lights.get_state(Awareness) == Awareness.complete:
             yield "The exterior lights go out."
 
@@ -84,7 +96,7 @@ class Lights(Carrying, Moving):
 
         """
         lights = next(iter(self.lookup["lights"]))
-        lights.state = 2
+        lights.state = Switch.closed
         if lights.get_state(Awareness) == Awareness.complete:
             yield "The exterior lights come on."
 

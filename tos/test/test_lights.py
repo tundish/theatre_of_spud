@@ -20,6 +20,7 @@
 import unittest
 
 from tos.lights import Lights
+from tos.lights import Switch
 from tos.map import Map
 from tos.mixins.types import Awareness
 from tos.mixins.types import Character
@@ -33,7 +34,6 @@ class LightsTests(unittest.TestCase):
         for obj in self.drama.build():
             self.drama.add(obj)
         self.drama.player = Character(names=["tester"]).set_state(Mode.playing, Map.Location.car_park)
-        self.drama.add(self.drama.player)
         next(iter(self.drama.lookup["fuse"])).state = Awareness.indicate
         next(iter(self.drama.lookup["lights"])).state = Awareness.indicate
         self.drama.active.add(self.drama.do_lights_off)
@@ -124,12 +124,15 @@ class LightsTests(unittest.TestCase):
 
     def test_fit_fuse(self):
         self.test_fetch_fuse()
+        lights = next(iter(self.drama.lookup["lights"]))
         fuse = next(iter(self.drama.lookup["fuse"]))
+        self.assertEqual(Switch.broken, lights.get_state(Switch))
         options = list(self.drama.match("fit the fuse"))
         fn, args, kwargs = self.drama.interpret(options)
         dlg = "\n".join(self.drama(fn, *args, **kwargs))
         self.assertEqual(Awareness.complete, fuse.get_state(Awareness))
         self.assertEqual(Map.Location.foyer, fuse.get_state(Map.Location))
+        self.assertNotEqual(Switch.broken, lights.get_state(Switch))
 
     def test_light_off(self):
         self.test_fit_fuse()
@@ -144,7 +147,7 @@ class LightsTests(unittest.TestCase):
                 self.assertTrue(fn)
                 dlg = "\n".join(self.drama(fn, *args, **kwargs))
                 self.assertIn("out", dlg)
-                self.assertEqual(1, lights.state)
+                self.assertEqual(Switch.opened, lights.get_state(Switch))
 
     def test_light_on(self):
         self.test_fit_fuse()
@@ -159,5 +162,5 @@ class LightsTests(unittest.TestCase):
                 self.assertTrue(fn)
                 dlg = "\n".join(self.drama(fn, *args, **kwargs))
                 self.assertIn("on", dlg)
-                self.assertEqual(2, lights.state)
+                self.assertEqual(Switch.closed, lights.get_state(Switch))
 
