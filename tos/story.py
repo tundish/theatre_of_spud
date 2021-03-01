@@ -19,6 +19,7 @@
 
 from collections.abc import Callable
 import importlib.resources
+import random
 import re
 
 from turberfield.catchphrase.presenter import Presenter
@@ -36,6 +37,7 @@ from tos.lights import Lights
 from tos.map import Map
 from tos.mixins.helpful import Helpful
 from tos.mixins.patrolling import Patrolling
+from tos.mixins.types import Awareness
 from tos.mixins.types import Character
 from tos.mixins.types import Mode
 from tos.types import Motivation
@@ -69,7 +71,13 @@ class Story(Renderer):
         "player": re.compile("[A-Za-z]{2,24}")
     }
 
-    class Act1(Lights, Patrolling, Helpful): pass
+
+    class Act1(Lights, Patrolling, Helpful):
+
+        @property
+        def turns(self):
+            return len([i for i in self.history
+                        if i.fn not in (self.do_help, self.do_history, self.do_hint, self.do_look)])
 
     def __init__(self, cfg=None, **kwargs):
         self.acts = [self.Act1]
@@ -91,8 +99,8 @@ class Story(Renderer):
 
     def load_drama(self, act=0, player_name="", ensemble=None):
         ensemble = ensemble or [
-            Character(names=["Edward", "Lionheart", "Edward Lionheart"]).set_state(
-                Motivation.leader, Map.Location.stage
+            Character(names=["Edward Lionheart"]).set_state(
+                Awareness.ignorant, Motivation.leader, Map.Location.stage
             )
         ]
         drama = self.acts[act](

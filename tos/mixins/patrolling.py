@@ -52,6 +52,7 @@ class Patrolling(Moving):
 
             locn = c.get_state(self.nav.Location)
             if locn.name == c.get_state(self.nav.Arriving).name:
-                c.state = self.nav.Departed[locn.name]
                 self.patrols[c] = p._replace(pos=(pos + 1) % len(p.orders))
+            else:
+                c.state = self.nav.Departed[self.patrols[c].orders[pos - 1].name]
         return rv

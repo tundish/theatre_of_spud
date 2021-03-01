@@ -10,6 +10,10 @@
    :states: tos.mixins.types.Mode.playing
             tos.map.Map.Location.foyer
 
+.. entity:: EDWARD
+   :types:  tos.mixins.types.Character
+   :states: tos.types.Motivation.leader
+
 .. entity:: PUZZLE
    :types:  tos.mixins.types.Artifact
    :states: tos.map.Map.Location.foyer
@@ -22,6 +26,7 @@
 
 
 .. |PLAYER| property:: PLAYER.name
+.. |EDWARD| property:: EDWARD.name
 .. |LOCALE| property:: STORY.drama.scenery
 .. |PUZZLE| property:: PUZZLE.name
 
@@ -33,27 +38,28 @@ Entrance
 Ignorant
 --------
 
-.. condition:: PUZZLE.state Awareness.ignorant
+.. condition:: PUZZLE.state tos.mixins.types.Awareness.ignorant
 
 |PLAYER| stands |LOCALE|.
 
-It's empty and quiet.
+The Foyer is carpeted grey and gloomy. Further on is a bar area.
+The Box Office and Cloakroom are in darkness. There are doors to a corridor on the left.
 
 Indicate
 --------
 
-.. condition:: PUZZLE.state Awareness.indicate
+.. condition:: PUZZLE.state tos.mixins.types.Awareness.indicate
 
 |PLAYER| stands |LOCALE|.
 
 Sees |PUZZLE|.
 
-.. property:: PUZZLE.state Awareness.discover
+.. property:: PUZZLE.state tos.mixins.types.Awareness.discover
 
 Discover
 --------
 
-.. condition:: PUZZLE.state Awareness.discover
+.. condition:: PUZZLE.state tos.mixins.types.Awareness.discover
 
 |PLAYER| stands |LOCALE|.
 
@@ -62,11 +68,25 @@ Sees |PUZZLE|.
 Familiar
 --------
 
-.. condition:: PUZZLE.state Awareness.familiar
+.. condition:: PUZZLE.state tos.mixins.types.Awareness.familiar
 
 |PLAYER| stands |LOCALE|.
 
 Sees |PUZZLE|.
+
+Approach
+--------
+
+.. condition:: EDWARD.state tos.mixins.types.Proximity.inbound
+
+|PLAYER| hears someone coming.
+
+Leaving
+-------
+
+.. condition:: EDWARD.state tos.mixins.types.Proximity.outward
+
+|EDWARD| leaves abruptly.
 
 Hint
 ----

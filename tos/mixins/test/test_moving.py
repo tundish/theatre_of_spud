@@ -37,7 +37,7 @@ from turberfield.utils.assembly import Assembly
 class TestTrack(Navigator):
     """ A unidirectonal loop of 16 nodes."""
 
-    topology = {str(n): [str((n + 1) % 16)] for n in range(16)}
+    topology = {str(n): [str(n-1), str((n + 1) % 16)] if n else [str((n + 1) % 16)] for n in range(16)}
     spots = {i: [i] for i in topology}
 
     Arriving = enum.Enum("Arriving", spots, type=Navigator)

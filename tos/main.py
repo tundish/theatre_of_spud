@@ -50,6 +50,7 @@ def main(opts):
         presenter = story.represent(lines)
         if opts.debug:
             print(presenter.text, file=sys.stderr)
+            print(*story.drama.ensemble, sep="\n", file=sys.stderr)
         for frame in presenter.frames:
             animation = presenter.animate(frame, dwell=presenter.dwell, pause=presenter.pause)
             if not animation:

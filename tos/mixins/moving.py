@@ -73,10 +73,18 @@ class Moving(Directing):
                 continue
 
             hops = list(self.nav.route(
-                self.player.get_state(self.nav.Location), mob.get_state(self.nav.Location)
+                mob.get_state(self.nav.Location), self.player.get_state(self.nav.Location)
             ))
+            if not mob.get_state(self.nav.Departed):
+                prox = Proximity.outside
+            elif mob.get_state(self.nav.Departed).name == self.player.get_state(self.nav.Location).name:
+                prox = Proximity.outward
+            else:
+                prox = Proximity.inbound
             mob.state = {
-                0: Proximity.unknown, 1: Proximity.present, 2: Proximity.outside
+                0: Proximity.unknown,
+                1: Proximity.present,
+                2: prox,
             }.get(len(hops), Proximity.distant)
         return rv
 

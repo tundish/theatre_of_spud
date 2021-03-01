@@ -19,6 +19,7 @@
 
 import unittest
 
+from tos.mixins.types import Proximity
 from tos.mixins.types import Character
 from tos.mixins.patrolling import Patrolling
 
@@ -46,51 +47,67 @@ class TestPatrolling(unittest.TestCase):
         ))
 
     def test_simple(self):
-        p = Character(names=["player"])
-        c = Character(names=["tester"])
+        p = Character(names=["player"]).set_state(self.drama.nav.Location["14"])
+        c = Character(names=["tester"]).set_state(self.drama.nav.Location["14"])
         self.drama.player = p
         self.drama.add(p, c)
         self.drama.patrols = {
-            c: Patrolling.Patrol(c, [self.drama.nav.Location["2"], self.drama.nav.Location["7"]], 0)
+            c: Patrolling.Patrol(c, [self.drama.nav.Location["14"], self.drama.nav.Location["4"]], 0)
         }
-        for n in range(20):
+        for n in range(28):
             metadata = self.drama.interlude(None, None)
             locn = c.get_state(self.drama.nav.Location)
             self.assertTrue(locn)
-            with self.subTest(n=n, locn=locn):
+            hops = list(self.drama.nav.route(
+                 c.get_state(self.drama.nav.Location), p.get_state(self.drama.nav.Location)
+            ))
+            with self.subTest(n=n, locn=locn, hops=len(hops)):
                 if n == 0:
-                    self.assertEqual("2", c.get_state(self.drama.nav.Departed).name)
-                    self.assertEqual("2", c.get_state(self.drama.nav.Location).name)
-                    self.assertEqual("2", c.get_state(self.drama.nav.Arriving).name)
+                    self.assertEqual("14", c.get_state(self.drama.nav.Location).name)
+                    self.assertEqual("14", c.get_state(self.drama.nav.Arriving).name)
+                    self.assertEqual(Proximity.present, c.get_state(Proximity))
                 elif n == 1:
-                    self.assertEqual("2", c.get_state(self.drama.nav.Departed).name)
-                    self.assertEqual("2", c.get_state(self.drama.nav.Location).name)
-                    self.assertEqual("7", c.get_state(self.drama.nav.Arriving).name)
+                    self.assertEqual("14", c.get_state(self.drama.nav.Departed).name)
+                    self.assertEqual("14", c.get_state(self.drama.nav.Location).name)
+                    self.assertEqual("4", c.get_state(self.drama.nav.Arriving).name)
+                    self.assertEqual(Proximity.present, c.get_state(Proximity))
                 elif n == 2:
-                    self.assertEqual("2", c.get_state(self.drama.nav.Departed).name)
-                    self.assertEqual("3", c.get_state(self.drama.nav.Location).name)
-                    self.assertEqual("7", c.get_state(self.drama.nav.Arriving).name)
+                    self.assertEqual("14", c.get_state(self.drama.nav.Departed).name)
+                    self.assertEqual("15", c.get_state(self.drama.nav.Location).name)
+                    self.assertEqual("4", c.get_state(self.drama.nav.Arriving).name)
+                    self.assertEqual(Proximity.outward, c.get_state(Proximity))
+                elif n == 3:
+                    self.assertEqual("14", c.get_state(self.drama.nav.Departed).name)
+                    self.assertEqual("0", c.get_state(self.drama.nav.Location).name)
+                    self.assertEqual("4", c.get_state(self.drama.nav.Arriving).name)
+                    self.assertEqual(Proximity.distant, c.get_state(Proximity))
                 elif n == 6:
-                    self.assertEqual("7", c.get_state(self.drama.nav.Departed).name)
-                    self.assertEqual("7", c.get_state(self.drama.nav.Location).name)
-                    self.assertEqual("7", c.get_state(self.drama.nav.Arriving).name)
+                    self.assertEqual("14", c.get_state(self.drama.nav.Departed).name)
+                    self.assertEqual("3", c.get_state(self.drama.nav.Location).name)
+                    self.assertEqual("4", c.get_state(self.drama.nav.Arriving).name)
+                    self.assertEqual(Proximity.distant, c.get_state(Proximity))
                 elif n == 7:
-                    self.assertEqual("7", c.get_state(self.drama.nav.Departed).name)
-                    self.assertEqual("7", c.get_state(self.drama.nav.Location).name)
-                    self.assertEqual("2", c.get_state(self.drama.nav.Arriving).name)
+                    self.assertEqual("14", c.get_state(self.drama.nav.Departed).name)
+                    self.assertEqual("4", c.get_state(self.drama.nav.Location).name)
+                    self.assertEqual("4", c.get_state(self.drama.nav.Arriving).name)
+                    self.assertEqual(Proximity.distant, c.get_state(Proximity))
                 elif n == 8:
-                    self.assertEqual("7", c.get_state(self.drama.nav.Departed).name)
-                    self.assertEqual("8", c.get_state(self.drama.nav.Location).name)
-                    self.assertEqual("2", c.get_state(self.drama.nav.Arriving).name)
+                    self.assertEqual("4", c.get_state(self.drama.nav.Departed).name)
+                    self.assertEqual("4", c.get_state(self.drama.nav.Location).name)
+                    self.assertEqual("14", c.get_state(self.drama.nav.Arriving).name)
+                    self.assertEqual(Proximity.distant, c.get_state(Proximity))
+                elif n == 9:
+                    self.assertEqual("4", c.get_state(self.drama.nav.Departed).name)
+                    self.assertEqual("5", c.get_state(self.drama.nav.Location).name)
+                    self.assertEqual("14", c.get_state(self.drama.nav.Arriving).name)
+                    self.assertEqual(Proximity.distant, c.get_state(Proximity))
+                elif n == 10:
+                    self.assertEqual("4", c.get_state(self.drama.nav.Departed).name)
+                    self.assertEqual("6", c.get_state(self.drama.nav.Location).name)
+                    self.assertEqual("14", c.get_state(self.drama.nav.Arriving).name)
+                    self.assertEqual(Proximity.distant, c.get_state(Proximity))
                 elif n == 17:
-                    self.assertEqual("7", c.get_state(self.drama.nav.Departed).name)
-                    self.assertEqual("1", c.get_state(self.drama.nav.Location).name)
-                    self.assertEqual("2", c.get_state(self.drama.nav.Arriving).name)
-                elif n == 18:
-                    self.assertEqual("2", c.get_state(self.drama.nav.Departed).name)
-                    self.assertEqual("2", c.get_state(self.drama.nav.Location).name)
-                    self.assertEqual("2", c.get_state(self.drama.nav.Arriving).name)
-                elif n == 19:
-                    self.assertEqual("2", c.get_state(self.drama.nav.Departed).name)
-                    self.assertEqual("2", c.get_state(self.drama.nav.Location).name)
-                    self.assertEqual("7", c.get_state(self.drama.nav.Arriving).name)
+                    self.assertEqual("4", c.get_state(self.drama.nav.Departed).name)
+                    self.assertEqual("13", c.get_state(self.drama.nav.Location).name)
+                    self.assertEqual("14", c.get_state(self.drama.nav.Arriving).name)
+                    self.assertEqual(Proximity.inbound, c.get_state(Proximity))

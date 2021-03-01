@@ -14,48 +14,51 @@
    :states: tos.types.Motivation.leader
             tos.mixins.types.Proximity.present
 
+.. entity:: PUZZLE
+   :types:  tos.mixins.types.Artifact
+   :states: tos.map.Map.Location.foyer
+
 .. entity:: STORY
    :types:  tos.story.Story
 
 .. entity:: SETTINGS
    :types:  turberfield.catchphrase.render.Settings
 
+.. |EDWARD| property:: EDWARD.name
+.. |PLAYER| property:: PLAYER.name
 
 Threats
 =======
 
-Tempest
--------
+Ignorant
+--------
 
-[LIONHEART]_
+.. condition:: EDWARD.state tos.mixins.types.Awareness.ignorant
 
-    But, as 'tis, we cannot miss him.
-    He serves in offices that profit us.
+|EDWARD| is here.
 
-[LIONHEART]_
+He is a tall man with grey hair swept back in an elaborate quiff.
+He contemplates |PLAYER| with narrowed eyes
 
-    What, ho! Slave. Caliban!
-    Thou earth, thou. Speak!
+.. property:: EDWARD.state tos.mixins.types.Awareness.familiar
 
-[LIONHEART]_
+Lights
+------
 
-    I pitied thee. Took pains to make thee speak.
-    Taught thee each hour one thing or other.
+.. condition:: PUZZLE.state tos.mixins.types.Awareness.ignorant
 
-[LIONHEART]_
+[EDWARD]_
 
-    These three have robbed me.
+    Good evening |PLAYER|, are you well?
 
-    And this demi-devil; for he's a bastard one,
-    has plotted with them to take my life.
+[PLAYER]_
 
-Titus
------
+    Hello, Edward, yes. A bit nervous.
 
-King Lear
----------
+[EDWARD]_
 
-[LIONHEART]_
+    First night. A trial, and lets hope, a triumph!
 
-    Through tattered clothes great vices do appear; Robes and furred gowns hide all.
+    That mob of hoodlums is hanging around outside.
 
+|EDWARD|'s eyebrows arch dramatically. The light of a green exit sign catches the side of his ruddy, aquiline nose.

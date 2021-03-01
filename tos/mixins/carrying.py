@@ -23,6 +23,7 @@ from tos.mixins.types import Awareness
 
 
 class Carrying(Moving):
+    """Handling objects"""
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

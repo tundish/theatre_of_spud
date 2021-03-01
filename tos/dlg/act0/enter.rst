@@ -31,7 +31,7 @@ Mist
 .. condition:: STORY.drama.turns 0
 
 The Winter afternoon darkens early.
-A cold mist has formed in the last hour of the day.
+A cold mist has formed in the last hour of day.
 
 |PLAYER| stands |LOCALE|.
 
