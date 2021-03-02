@@ -27,8 +27,10 @@
 .. |EDWARD| property:: EDWARD.name
 .. |PLAYER| property:: PLAYER.name
 
-Threats
-=======
+Lionheart
+=========
+
+{0}
 
 Ignorant
 --------

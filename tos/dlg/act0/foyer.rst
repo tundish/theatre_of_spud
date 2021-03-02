@@ -30,20 +30,22 @@
 .. |LOCALE| property:: STORY.drama.scenery
 .. |PUZZLE| property:: PUZZLE.name
 
-Entrance
-========
+Foyer
+=====
 
 {0}
+
+.. property:: STORY.prompt ?
 
 Ignorant
 --------
 
 .. condition:: PUZZLE.state tos.mixins.types.Awareness.ignorant
 
-|PLAYER| stands |LOCALE|.
-
 The Foyer is carpeted grey and gloomy. Further on is a bar area.
 The Box Office and Cloakroom are in darkness. There are doors to a corridor on the left.
+
+.. property:: PUZZLE.state tos.mixins.types.Awareness.familiar
 
 Indicate
 --------

@@ -19,7 +19,6 @@
 
 from collections.abc import Callable
 import importlib.resources
-import random
 import re
 
 from turberfield.catchphrase.presenter import Presenter
@@ -100,23 +99,28 @@ class Story(Renderer):
     def load_drama(self, act=0, player_name="", ensemble=None):
         ensemble = ensemble or [
             Character(names=["Edward Lionheart"]).set_state(
-                Awareness.ignorant, Motivation.leader, Map.Location.stage
+                Awareness.ignorant, Motivation.leader, Map.Location.stage, 1
             )
         ]
-        drama = self.acts[act](
-            Map(),
-            patrols=[Patrolling.Patrol(ensemble[0], [Map.Location.stage, Map.Location.foyer],0)]
-        )
+        drama = self.acts[act](Map())
 
         for obj in ensemble:
+            obj.state = 1
             drama.add(obj)
 
         if player_name:
-            drama.player = Character(names=[player_name]).set_state(Mode.playing, Map.Location.car_park)
+            drama.player = Character(names=[player_name]).set_state(Mode.playing, Map.Location.car_park, 1)
             for obj in drama.build():
                 drama.add(obj)
             drama.add(drama.player)
 
+        drama.patrols.update(drama.build_patrols(
+            Patrolling.Patrol(
+                next(iter(drama.lookup["Edward Lionheart"])),
+                [Map.Location.stage, Map.Location.foyer],
+                0
+            )
+        ))
         return drama
 
     def load_folder(self, act=0):

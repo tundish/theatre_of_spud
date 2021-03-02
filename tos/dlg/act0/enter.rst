@@ -18,7 +18,6 @@
 
 
 .. |PLAYER| property:: PLAYER.name
-.. |LOCALE| property:: STORY.drama.scenery
 
 Entrance
 ========
@@ -30,64 +29,59 @@ Mist
 
 .. condition:: STORY.drama.turns 0
 
-The Winter afternoon darkens early.
+A Winter afternoon.
+
+It is darkening early.
 A cold mist has formed in the last hour of day.
 
-|PLAYER| stands |LOCALE|.
+|PLAYER| is crossing the road from the High Street.
+To the right, about 30 yards away, a couple of young men are sitting on a wall.
 
-.. property:: STORY.prompt For commands to use, enter 'help'.
+Suddenly a car appears.
 
+.. property:: STORY.prompt Enter 'wait' to allow the car to pass.
 
 Traffic
 -------
 
 .. condition:: STORY.drama.turns 1
 
-There isn't much traffic.
+The car speeds off, leaving billows of vapour to settle below street lights.
 
-|PLAYER| stands |LOCALE|.
-
-Dusk
-----
-
-.. condition:: STORY.drama.turns 2
-
-On the other side of the road, about 30 yards away, a couple of young men are sitting on a wall.
-
-|PLAYER| stands |LOCALE|.
+.. property:: STORY.prompt You can shorten 'wait' to 'w'. Try that now.
 
 More
 ----
 
+.. condition:: STORY.drama.turns 2
+
+There is a shout. Someone's name.
+Three more figures walk over from the direction of the Croft.
+
+.. property:: STORY.prompt Enter 'help' for useful commands.
+
+Banter
+------
+
 .. condition:: STORY.drama.turns 3
 
-Three figures walk over from the direction of the Church.
-They join the others by the wall.
+|PLAYER| can hear cursing and youthful banter.
 
-|PLAYER| stands |LOCALE|.
-
-Uncouth
--------
+Nasty
+-----
 
 .. condition:: STORY.drama.turns 4
-.. condition:: STORY.drama.turns 6
 
-|PLAYER| can hear talking from over the road. Someone hawks and spits.
-
-|PLAYER| stands |LOCALE|.
+Over by the wall, someone hawks and spits.
 
 Smoking
 -------
 
 .. condition:: STORY.drama.turns 5
-.. condition:: STORY.drama.turns 7
-.. condition:: STORY.drama.turns 9
 
 It is quite dark now.
 
 |PLAYER| can make out the glow of cigarettes from the group by the wall.
-
-|PLAYER| stands |LOCALE|.
 
 Hint
 ----
