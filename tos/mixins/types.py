@@ -37,7 +37,6 @@ class Named(DataObject):
 class Artifact(Named, Stateful): pass
 class Character(Named, Stateful): pass
 
-
 class Awareness(EnumFactory, enum.Enum):
 
     ignorant = enum.auto()

@@ -53,6 +53,10 @@ class Lights(Carrying, Moving):
         lights = next(iter(self.lookup["lights"]))
         for obj in (fuse, lights):
             if self.player.get_state(self.nav.Location) == obj.get_state(self.nav.Location):
+                if obj is fuse:
+                    self.active.add(self.do_get)
+                else:
+                    self.active.discard(self.do_get)
                 if obj.get_state(Awareness) == Awareness.indicate:
                     self.active.add(self.do_lights_off)
                     self.active.add(self.do_lights_on)
@@ -99,10 +103,3 @@ class Lights(Carrying, Moving):
         lights.state = Switch.closed
         if lights.get_state(Awareness) == Awareness.complete:
             yield "The exterior lights come on."
-
-    def do_look(self, this, text, *args):
-        """
-        look | look around
-
-        """
-        yield from super().do_look(this, text, *args)

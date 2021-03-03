@@ -49,7 +49,7 @@ class Helpful(Drama):
         self.pause()
         active = {i.__name__: i for i in self.active}
         for c in reversed(self.__class__.__mro__):
-            if c in (Drama, Drama, object):
+            if c in (Drama, object):
                 continue
 
             rv = []

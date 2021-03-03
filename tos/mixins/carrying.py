@@ -17,6 +17,8 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+import random
+
 from tos.mixins.moving import Moving
 from tos.mixins.types import Artifact
 from tos.mixins.types import Awareness
@@ -31,6 +33,15 @@ class Carrying(Moving):
 
     def interlude(self, folder, index, **kwargs):
         rv = super().interlude(folder, index, **kwargs)
+        if any(
+            i for i in self.ensemble
+            if isinstance(i, Artifact)
+            and self.player.get_state(self.nav.Location) == i.get_state(self.nav.Location)
+        ):
+            self.active.add(self.do_get)
+        else:
+            self.active.discard(self.do_get)
+
         mobs = [
             i for i in self.ensemble
             if hasattr(i, "state") and i.get_state(Awareness) == Awareness.carrying
@@ -52,3 +63,18 @@ class Carrying(Moving):
 
         obj.state = self.nav.Departed[locn.name]
         obj.state = Awareness.carrying
+
+    def do_look(self, this, text, *args):
+        """
+        look | look around
+
+        """
+        yield from super().do_look(this, text, *args)
+        artifacts = [
+            i for i in self.ensemble
+            if isinstance(i, Artifact)
+            and self.player.get_state(self.nav.Location) == i.get_state(self.nav.Location)
+        ]
+        yield random.choice(["In view:", "We can see:"])
+        yield from ("* {0.names[0]}".format(i) for i in artifacts)
+

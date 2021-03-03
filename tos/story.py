@@ -17,6 +17,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+from collections import Counter
 from collections.abc import Callable
 import importlib.resources
 import re
@@ -109,7 +110,9 @@ class Story(Renderer):
             drama.add(obj)
 
         if player_name:
-            drama.player = Character(names=[player_name]).set_state(Mode.playing, Map.Location.car_park, 1)
+            drama.player = Character(
+                names=[player_name], tally=Counter()
+            ).set_state(Mode.playing, Map.Location.car_park, 1)
             for obj in drama.build():
                 drama.add(obj)
             drama.add(drama.player)
@@ -157,6 +160,8 @@ class Story(Renderer):
             ensemble=self.drama.ensemble + [self, self.drama, self.settings],
             shot="Drama output"
         )
+        stem = self.folder.paths[n].split(".")[0]
+        self.drama.player.tally[stem] += 1
         if presenter and not(presenter.dwell or presenter.pause):
             setattr(self.settings, "catchphrase-reveal-extends", "none")
             setattr(self.settings, "catchphrase-states-scrolls", "scroll")

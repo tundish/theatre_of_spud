@@ -105,6 +105,8 @@ class LightsTests(unittest.TestCase):
 
     def test_get_fuse(self):
         self.test_find_fuse()
+        self.assertEqual(Map.Location.lighting, self.drama.player.get_state(Map.Location))
+        self.assertIn(self.drama.do_get, self.drama.active)
         fuse = next(iter(self.drama.lookup["fuse"]))
         options = list(self.drama.match("get the fuse"))
         fn, args, kwargs = self.drama.interpret(options)

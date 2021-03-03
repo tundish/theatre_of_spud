@@ -40,7 +40,7 @@ Ignorant
 |EDWARD| is here.
 
 He is a tall man with grey hair swept back in an elaborate quiff.
-He contemplates |PLAYER| with narrowed eyes
+He contemplates |PLAYER| with narrowed eyes.
 
 .. property:: EDWARD.state tos.mixins.types.Awareness.familiar
 
@@ -55,12 +55,22 @@ Lights
 
 [PLAYER]_
 
-    Hello, Edward, yes. A bit nervous.
+    Hello Edward; yes. A bit nervous.
 
 [EDWARD]_
 
-    First night. A trial, and lets hope, a triumph!
+    First night, yes.
+
+    A trial, and then let's hope, a triumph!
+
+|EDWARD|'s eyebrows arch dramatically. The glow of a green exit sign catches the side of his ruddy, aquiline nose.
+
+[EDWARD]_
 
     That mob of hoodlums is hanging around outside.
 
-|EDWARD|'s eyebrows arch dramatically. The light of a green exit sign catches the side of his ruddy, aquiline nose.
+    Would you make sure to keep the outside lights switched on?
+
+    We don't want any more damage to the cars.
+
+.. property:: PUZZLE.state tos.mixins.types.Awareness.indicate

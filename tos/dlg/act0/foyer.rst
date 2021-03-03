@@ -40,12 +40,12 @@ Foyer
 Ignorant
 --------
 
-.. condition:: PUZZLE.state tos.mixins.types.Awareness.ignorant
+.. condition:: PLAYER.tally[foyer] 1
 
 The Foyer is carpeted grey and gloomy. Further on is a bar area.
 The Box Office and Cloakroom are in darkness. There are doors to a corridor on the left.
 
-.. property:: PUZZLE.state tos.mixins.types.Awareness.familiar
+.. property:: EDWARD.state tos.mixins.types.Mode.default
 
 Indicate
 --------
