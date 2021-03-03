@@ -44,8 +44,20 @@ class Lights(Carrying, Moving):
 
     def build(self):
         yield from super().build()
-        yield Artifact(names=["lights"]).set_state(Awareness.ignorant, self.nav.Location.foyer, Switch.broken)
-        yield Artifact(names=["fuse"]).set_state(Awareness.ignorant, self.nav.Location.lighting)
+        yield Artifact(
+            names=["fuse"],
+            detail={
+                0: ["It's an inline fuse.", "It says, '13A'."],
+            },
+        ).set_state(Awareness.ignorant, self.nav.Location.lighting)
+        yield Artifact(
+            names=["lights"],
+            detail={
+                Switch.broken: ["There's empty slot here.", "The little neon lamp is out"],
+                Switch.closed: ["The lights are on", "The switch is in the 'on' position."],
+                Switch.opened: ["The lights are off", "The switch is in the 'off' position."],
+            },
+        ).set_state(Awareness.ignorant, self.nav.Location.foyer, Switch.broken)
 
     def interlude(self, folder, index, **kwargs):
         rv = super().interlude(folder, index, **kwargs)
@@ -63,6 +75,9 @@ class Lights(Carrying, Moving):
                     obj.state = Awareness.discover
                 elif obj.get_state(Awareness) == Awareness.discover:
                     obj.state = Awareness.familiar
+                self.active.add(self.do_examine_lights)
+            else:
+                self.active.discard(self.do_examine_lights)
 
         if fuse.get_state(self.nav.Location) == self.nav.Location.foyer:
             self.active.add(self.do_fit_fuse)
@@ -103,3 +118,12 @@ class Lights(Carrying, Moving):
         lights.state = Switch.closed
         if lights.get_state(Awareness) == Awareness.complete:
             yield "The exterior lights come on."
+
+    def do_examine_lights(self, this, text, /, *, obj:Artifact):
+        """
+        check {obj.names[0]}
+        examine {obj.names[0]}
+
+        """
+        state = obj.get_state(Switch)
+        yield random.choice(obj.detail[state])
