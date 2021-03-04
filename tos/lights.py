@@ -53,11 +53,19 @@ class Lights(Carrying, Moving):
         yield Artifact(
             names=["lights"],
             detail={
-                Switch.broken: ["There's empty slot here.", "The little neon lamp is out"],
-                Switch.closed: ["The lights are on", "The switch is in the 'on' position."],
-                Switch.opened: ["The lights are off", "The switch is in the 'off' position."],
+                Awareness.indicate: ["On the wall is a chunky metal switch."],
+                Awareness.discover: [
+                    "It's a switch for the lights outside.",
+                    "This switch operates the lights in the Car park."
+                ],
+                Awareness.familiar: [
+                    "There's an empty slot here.",
+                    "The little neon lamp is out."
+                ],
+                Switch.closed: ["The switch is in the 'on' position."],
+                Switch.opened: ["The switch is in the 'off' position."],
             },
-        ).set_state(Awareness.ignorant, self.nav.Location.foyer, Switch.broken)
+        ).set_state(Awareness.ignorant, self.nav.Location.foyer, Switch.opened)
 
     def interlude(self, folder, index, **kwargs):
         rv = super().interlude(folder, index, **kwargs)
@@ -65,6 +73,8 @@ class Lights(Carrying, Moving):
         lights = next(iter(self.lookup["lights"]))
         for obj in (fuse, lights):
             if self.player.get_state(self.nav.Location) == obj.get_state(self.nav.Location):
+                self.active.add(self.do_examine)
+
                 if obj is fuse:
                     self.active.add(self.do_get)
                 else:
@@ -75,9 +85,6 @@ class Lights(Carrying, Moving):
                     obj.state = Awareness.discover
                 elif obj.get_state(Awareness) == Awareness.discover:
                     obj.state = Awareness.familiar
-                self.active.add(self.do_examine_lights)
-            else:
-                self.active.discard(self.do_examine_lights)
 
         if fuse.get_state(self.nav.Location) == self.nav.Location.foyer:
             self.active.add(self.do_fit_fuse)
@@ -94,7 +101,6 @@ class Lights(Carrying, Moving):
         """
         next(iter(self.lookup["fuse"])).state = Awareness.complete
         next(iter(self.lookup["lights"])).state = Awareness.complete
-        next(iter(self.lookup["lights"])).state = random.choice([Switch.closed, Switch.opened])
         yield ""
 
     def do_lights_off(self, this, text, *args):
@@ -104,9 +110,17 @@ class Lights(Carrying, Moving):
 
         """
         lights = next(iter(self.lookup["lights"]))
-        lights.state = Switch.opened
-        if lights.get_state(Awareness) == Awareness.complete:
-            yield "The exterior lights go out."
+        if lights.get_state(Switch) == Switch.opened:
+            yield "The switch is already in the 'off' position."
+        else:
+            lights.state = Switch.opened
+            if lights.get_state(Awareness) == Awareness.complete:
+                yield "The exterior lights go out."
+            else:
+                yield random.choice([
+                    "The switch goes to the 'off' position.",
+                    "The switch clicks off.",
+                ])
 
     def do_lights_on(self, this, text, *args):
         """
@@ -115,15 +129,34 @@ class Lights(Carrying, Moving):
 
         """
         lights = next(iter(self.lookup["lights"]))
+        if lights.get_state(Switch) == Switch.closed:
+            yield "The switch is already in the 'on' position."
+        else:
+            lights.state = Switch.closed
+            if lights.get_state(Awareness) == Awareness.complete:
+                yield random.choice([
+                    "The exterior lights come on.",
+                ])
+            else:
+                yield random.choice([
+                    "The switch goes to the 'on' position.",
+                    "The switch clicks on.",
+                ])
+                yield random.choice([
+                    "But the lights aren't working.",
+                    "Nothing happens outside.",
+                ])
+
         lights.state = Switch.closed
         if lights.get_state(Awareness) == Awareness.complete:
             yield "The exterior lights come on."
 
-    def do_examine_lights(self, this, text, /, *, obj:Artifact):
+    def do_examine(self, this, text, /, *args, obj: Artifact):
         """
         check {obj.names[0]}
         examine {obj.names[0]}
 
         """
+        yield from super().do_examine(this, text, *args, obj=obj)
         state = obj.get_state(Switch)
-        yield random.choice(obj.detail[state])
+        yield random.choice(obj.detail.get(state, [""]))

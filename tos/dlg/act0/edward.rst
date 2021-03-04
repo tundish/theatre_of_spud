@@ -69,7 +69,7 @@ Lights
 
     That mob of hoodlums is hanging around outside.
 
-    Would you make sure to keep the outside lights switched on?
+    Would you make sure to keep the security lights switched on?
 
     We don't want any more damage to the cars.
 

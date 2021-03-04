@@ -52,9 +52,7 @@ Indicate
 
 .. condition:: PUZZLE.state tos.mixins.types.Awareness.indicate
 
-|PLAYER| stands |LOCALE|.
-
-Sees |PUZZLE|.
+|PLAYER| notices the |PUZZLE|.
 
 .. property:: PUZZLE.state tos.mixins.types.Awareness.discover
 
@@ -63,18 +61,14 @@ Discover
 
 .. condition:: PUZZLE.state tos.mixins.types.Awareness.discover
 
-|PLAYER| stands |LOCALE|.
-
-Sees |PUZZLE|.
+|PLAYER| studies the |PUZZLE|.
 
 Familiar
 --------
 
 .. condition:: PUZZLE.state tos.mixins.types.Awareness.familiar
 
-|PLAYER| stands |LOCALE|.
-
-Sees |PUZZLE|.
+|PLAYER| wonders what to do about the |PUZZLE|.
 
 Approach
 --------

@@ -36,6 +36,7 @@ class Directing(Drama):
     def pause(self, quit=False):
         if quit:
             self.player.set_state(Mode.success)
+            self.active.clear()
         else:
             self.player.set_state(Mode.pausing)
 

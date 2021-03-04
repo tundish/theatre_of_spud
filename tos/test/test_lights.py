@@ -68,8 +68,7 @@ class LightsTests(unittest.TestCase):
         self.assertIn(self.drama.do_get, self.drama.active)
         options = list(self.drama.match("get the fuse"))
         fn, args, kwargs = self.drama.interpret(options)
-        dlg = "\n".join(self.drama(fn, *args, **kwargs))
-        self.assertIn("there is no fuse here", dlg.lower())
+        self.assertFalse(fn)
 
     def test_no_fit_fuse(self):
         self.assertIn(self.drama.do_get, self.drama.active)
@@ -88,7 +87,7 @@ class LightsTests(unittest.TestCase):
                 fn, args, kwargs = self.drama.interpret(options)
                 self.assertTrue(fn)
                 dlg = "\n".join(self.drama(fn, *args, **kwargs))
-                self.assertFalse(dlg)
+                self.assertIn("off", dlg)
 
     def test_no_light_on(self):
         self.assertIn(self.drama.do_lights_on, self.drama.active)
@@ -101,7 +100,7 @@ class LightsTests(unittest.TestCase):
                 fn, args, kwargs = self.drama.interpret(options)
                 self.assertTrue(fn)
                 dlg = "\n".join(self.drama(fn, *args, **kwargs))
-                self.assertFalse(dlg)
+                self.assertIn("on", dlg)
 
     def test_get_fuse(self):
         self.test_find_fuse()
@@ -128,13 +127,13 @@ class LightsTests(unittest.TestCase):
         self.test_fetch_fuse()
         lights = next(iter(self.drama.lookup["lights"]))
         fuse = next(iter(self.drama.lookup["fuse"]))
-        self.assertEqual(Switch.broken, lights.get_state(Switch))
+        self.assertEqual(Switch.opened, lights.get_state(Switch))
         options = list(self.drama.match("fit the fuse"))
         fn, args, kwargs = self.drama.interpret(options)
         dlg = "\n".join(self.drama(fn, *args, **kwargs))
         self.assertEqual(Awareness.complete, fuse.get_state(Awareness))
         self.assertEqual(Map.Location.foyer, fuse.get_state(Map.Location))
-        self.assertNotEqual(Switch.broken, lights.get_state(Switch))
+        self.assertEqual(Switch.opened, lights.get_state(Switch))
 
     def test_light_off(self):
         self.test_fit_fuse()
@@ -148,7 +147,7 @@ class LightsTests(unittest.TestCase):
                 fn, args, kwargs = self.drama.interpret(options)
                 self.assertTrue(fn)
                 dlg = "\n".join(self.drama(fn, *args, **kwargs))
-                self.assertIn("out", dlg)
+                self.assertIn("off", dlg.replace("out", "off"))
                 self.assertEqual(Switch.opened, lights.get_state(Switch))
 
     def test_light_on(self):

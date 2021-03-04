@@ -20,6 +20,7 @@
 import random
 
 from tos.mixins.moving import Moving
+from tos.mixins.navigator import Navigator
 from tos.mixins.types import Artifact
 from tos.mixins.types import Awareness
 
@@ -46,9 +47,27 @@ class Carrying(Moving):
             i for i in self.ensemble
             if hasattr(i, "state") and i.get_state(Awareness) == Awareness.carrying
         ]
+        if mobs:
+            self.active.add(self.do_examine)
+
         for mob in mobs:
             mob.state = self.player.get_state(self.nav.Location)
         return rv
+
+    def interpret(self, options):
+        locn = self.player.get_state(self.nav.Location)
+        text = ""
+        for fn, args, kwargs in options:
+            text = args[0]
+            if all(
+                isinstance(i, Navigator)
+                or i.get_state(self.nav.Location) == locn
+                or i.get_state(Awareness) == Awareness.carrying
+                for i in kwargs.values()
+            ):
+                return (fn, args, kwargs)
+        else:
+            return (None, [text], {})
 
     def do_get(self, this, text, /, *, obj: Artifact):
         """
@@ -70,11 +89,27 @@ class Carrying(Moving):
 
         """
         yield from super().do_look(this, text, *args)
+        carrying = {
+            i for i in self.ensemble
+            if isinstance(i, Artifact) and i.get_state(Awareness) == Awareness.carrying
+        }
         artifacts = [
             i for i in self.ensemble
-            if isinstance(i, Artifact)
+            if isinstance(i, Artifact) and i not in carrying
             and self.player.get_state(self.nav.Location) == i.get_state(self.nav.Location)
         ]
-        yield random.choice(["In view:", "We can see:"])
-        yield from ("* {0.names[0]}".format(i) for i in artifacts)
+        if carrying:
+            yield "Carrying:"
+            yield from ("* {0.names[0]}".format(i) for i in carrying)
+        if artifacts:
+            yield random.choice(["In view:", "We can see:"])
+            yield from ("* {0.names[0]}".format(i) for i in artifacts)
 
+    def do_examine(self, this, text, /, *args, obj: Artifact):
+        """
+        check {obj.names[0]}
+        examine {obj.names[0]}
+
+        """
+        state = obj.get_state(Awareness)
+        yield random.choice(obj.detail.get(state, [""]))
