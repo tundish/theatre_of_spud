@@ -120,7 +120,7 @@ class Story(Renderer):
         drama.patrols.update(drama.build_patrols(
             Patrolling.Patrol(
                 next(iter(drama.lookup["Edward Lionheart"])),
-                [Map.Location.stage, Map.Location.foyer],
+                [Map.Location.wings, Map.Location.foyer],
                 0
             )
         ))

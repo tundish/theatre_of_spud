@@ -23,6 +23,7 @@ from tos.mixins.moving import Moving
 from tos.mixins.navigator import Navigator
 from tos.mixins.types import Artifact
 from tos.mixins.types import Awareness
+from tos.mixins.types import Mode
 
 
 class Carrying(Moving):
@@ -34,6 +35,9 @@ class Carrying(Moving):
 
     def interlude(self, folder, index, **kwargs):
         rv = super().interlude(folder, index, **kwargs)
+        if self.player.get_state(Mode) == Mode.success:
+            return rv
+
         if any(
             i for i in self.ensemble
             if isinstance(i, Artifact)

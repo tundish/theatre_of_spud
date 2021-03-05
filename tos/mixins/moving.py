@@ -53,6 +53,7 @@ class Moving(Directing):
 
     def interlude(self, folder, index, **kwargs):
         rv = super().interlude(folder, index, **kwargs)
+
         mobs = [self.player] + [i for i in self.ensemble if hasattr(i, "state") and i is not self.player]
         for mob in mobs:
             if (mob.get_state(self.nav.Arriving)
