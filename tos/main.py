@@ -46,7 +46,7 @@ def main(opts):
     story.drama = story.load_drama(player_name=name)
     story.folder = story.load_folder()
     lines = []
-    while True:
+    while story.drama.active:
         presenter = story.represent(lines)
         if opts.debug:
             print(presenter.text, file=sys.stderr)
@@ -60,16 +60,12 @@ def main(opts):
                 if not opts.skip:
                     time.sleep(duration)
 
-        #if story.drama.active and not all(story.metadata.values()):
-        if story.drama.active:
-            story.input = input("{0} ".format(story.prompt)).strip() or story.input
-            fn, args, kwargs = story.drama.interpret(story.drama.match(story.input))
-            try:
-                lines = list(story.drama(fn, *args, **kwargs))
-            except TypeError:
-                lines = [story.refusal.format(story.input)]
-        else:
-            break
+        story.input = input("{0} ".format(story.prompt)).strip() or story.input
+        fn, args, kwargs = story.drama.interpret(story.drama.match(story.input))
+        try:
+            lines = list(story.drama(fn, *args, **kwargs))
+        except TypeError:
+            lines = [story.refusal.format(story.input)]
 
 
 def run():
