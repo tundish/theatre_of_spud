@@ -24,11 +24,11 @@ In a room
 
 {0}
 
-Info
-----
+Bar
+---
 
-.. condition:: PLAYER.state tos.mixins.types.Motion.routed
+.. condition:: PLAYER.state tos.map.Map.Location.bar
 
-|PLAYER| leaves towards the |LOCALE|.
+|PLAYER| contemplates the Bar.
 
 .. property:: STORY.prompt ?

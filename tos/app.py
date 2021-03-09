@@ -53,15 +53,20 @@ async def get_frame(request):
         frame = story.presenter.frames.pop(0)
         animation = story.presenter.animate(frame)
 
-    refresh = Presenter.refresh_animations(animation, min_val=2) if story.presenter.pending else None
-    refresh_target = "/{0.hex}".format(uid) if story.drama.active else None
-
-    title = next(iter(story.presenter.metadata.get("project", ["Theatre Of Spud"])), "Theatre Of Spud")
     controls = [
         "\n".join(story.render_action_form(action, autofocus=not n))
         for n, action in enumerate(story.actions)
         if not story.presenter.pending
     ]
+
+    refresh_target = "/{0.hex}".format(uid) if story.drama.active else None
+    if story.presenter.pending:
+        refresh = Presenter.refresh_animations(animation, min_val=2)
+    else:
+        refresh = None
+        story.metadata.update(story.drama.interlude(story.folder, story.index))
+
+    title = next(iter(story.presenter.metadata.get("project", ["Theatre Of Spud"])), "Theatre Of Spud")
     rv = story.render_body_html(title=title, next_=refresh_target, refresh=refresh).format(
         '<link rel="stylesheet" href="/css/theme/tos.css" />',
         story.render_dict_to_css(vars(story.settings)),

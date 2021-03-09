@@ -60,6 +60,7 @@ def main(opts):
                 if not opts.skip:
                     time.sleep(duration)
 
+        story.metadata.update(story.drama.interlude(story.folder, story.index))
         story.input = input("{0} ".format(story.prompt)).strip() or story.input
         fn, args, kwargs = story.drama.interpret(story.drama.match(story.input))
         try:

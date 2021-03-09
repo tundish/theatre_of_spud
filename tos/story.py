@@ -84,6 +84,7 @@ class Story(Renderer):
         self.settings = Settings(**self.definitions)
         self.drama = None
         self.folder = None
+        self.index = None
         self.input = ""
         self.prompt = "?"
         self.refusal = "'{0}' is not an option right now."
@@ -146,21 +147,18 @@ class Story(Renderer):
         else:
             return refresh_state
 
-    def represent(self, lines=[], index=None, loop=None):
+    def represent(self, lines=[]):
         #if all(self.metadata.values()):
         #    act = self.metadata.get("act", 0)
         #    self.drama = self.load(act)
         #    self.metadata["act"] = act + 1
 
-        self.metadata.update(self.drama.interlude(self.folder, index, loop=loop))
-        # if "act" in metadata
-
-        n, presenter = Presenter.build_presenter(
+        self.index, presenter = Presenter.build_presenter(
             self.folder, *lines,
             ensemble=self.drama.ensemble + [self, self.drama, self.settings],
             shot="Drama output"
         )
-        stem = self.folder.paths[n].split(".")[0]
+        stem = self.folder.paths[self.index].split(".")[0]
         self.drama.player.tally[stem] += 1
         if presenter and not(presenter.dwell or presenter.pause):
             setattr(self.settings, "catchphrase-reveal-extends", "none")
