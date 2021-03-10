@@ -31,4 +31,16 @@ Bar
 
 |PLAYER| contemplates the Bar.
 
-.. property:: STORY.prompt ?
+Office
+------
+
+.. condition:: PLAYER.state tos.map.Map.Location.office
+
+The Box Office is a tiny room.
+
+Behind |PLAYER| is the door back to the Foyer.
+On the left is a split aluminium window facing the Foyer entrance.
+
+There is a desk and a chair, and a rotary telephone fixed to the wall on the right.
+
+There is nothing else here. Everything of value is locked away.

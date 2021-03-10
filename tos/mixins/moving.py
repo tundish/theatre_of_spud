@@ -108,7 +108,7 @@ class Moving(Directing):
         if len(hops) > 2:
             yield f"{self.player.name} heads off to the {locn.value[0]}."
         else:
-            yield f"{self.player.name} enters the {locn.value[0]}."
+            yield f"{self.player.name} moves towards the {locn.value[0]}."
 
     def do_look(self, this, text, *args):
         """
