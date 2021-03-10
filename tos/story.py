@@ -77,7 +77,7 @@ class Story(Renderer):
         @property
         def turns(self):
             return len([i for i in self.history
-                        if i.fn not in (self.do_help, self.do_history, self.do_hint, self.do_look)])
+                        if i.fn not in (self.do_help, self.do_history, self.do_hint)])
 
     def __init__(self, cfg=None, **kwargs):
         self.acts = [self.Act1]

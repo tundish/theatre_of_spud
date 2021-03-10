@@ -39,7 +39,7 @@ async def get_frame(request):
         uid = uuid.UUID(hex=request.match_info["story"])
         story = request.app["stories"][uid]
     except (KeyError, ValueError):
-        raise web.HTTPNotFound(reason="User sent invalid command.")
+        raise web.HTTPNotFound(reason="Session unknown.")
     else:
         log = logging.getLogger("tos.{0!s}".format(uid))
 
