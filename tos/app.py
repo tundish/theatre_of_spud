@@ -58,7 +58,11 @@ async def get_frame(request):
     while not animation:
         try:
             frame = story.presenter.frames.pop(0)
-        except (AttributeError, IndexError):
+        except AttributeError:
+            story.presenter = story.represent(lines)
+            continue
+        except IndexError:
+            story.metadata.update(story.drama.interlude(story.folder, story.index))
             story.presenter = story.represent(lines)
             continue
         else:
@@ -75,7 +79,7 @@ async def get_frame(request):
         refresh = Presenter.refresh_animations(animation, min_val=2)
     else:
         refresh = None
-        story.metadata.update(story.drama.interlude(story.folder, story.index))
+        story.input = "next"
 
     title = next(iter(story.presenter.metadata.get("project", ["Theatre Of Spud"])), "Theatre Of Spud")
     rv = story.render_body_html(title=title, next_=refresh_target, refresh=refresh).format(
@@ -84,6 +88,7 @@ async def get_frame(request):
         story.render_animated_frame_to_html(animation, controls)
     )
     log.info("Turn {0.drama.turns}".format(story))
+    log.debug(story.drama.player.tally)
     return web.Response(text=rv, content_type="text/html")
 
 
