@@ -42,8 +42,14 @@ Ignorant
 
 .. condition:: PLAYER.tally[foyer] 1
 
-The Foyer is carpeted grey and gloomy. Further on is a bar area.
-The Box Office and Cloakroom are in darkness. There are doors to a corridor on the left.
+The Foyer is carpeted grey and gloomy.
+
+The Box Office and Cloakroom are in darkness.
+
+There are doors to a corridor on the left.
+
+Further on is the bar area.
+
 
 .. property:: EDWARD.state tos.mixins.types.Mode.default
 

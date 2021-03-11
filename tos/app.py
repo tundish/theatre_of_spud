@@ -43,15 +43,26 @@ async def get_frame(request):
     else:
         log = logging.getLogger("tos.{0!s}".format(uid))
 
-    try:
-        animation = None
-        while not animation:
+    if story.input:
+        fn, args, kwargs = story.drama.interpret(story.drama.match(story.input))
+        try:
+            lines = list(story.drama(fn, *args, **kwargs))
+        except TypeError:
+            lines = [story.refusal.format(story.input)]
+        finally:
+            story.input = ""
+    else:
+        lines = []
+
+    animation = None
+    while not animation:
+        try:
             frame = story.presenter.frames.pop(0)
+        except (AttributeError, IndexError):
+            story.presenter = story.represent(lines)
+            continue
+        else:
             animation = story.presenter.animate(frame, dwell=story.presenter.dwell, pause=story.presenter.pause)
-    except (AttributeError, IndexError):
-        story.presenter = story.represent()
-        frame = story.presenter.frames.pop(0)
-        animation = story.presenter.animate(frame)
 
     controls = [
         "\n".join(story.render_action_form(action, autofocus=not n))
@@ -92,13 +103,6 @@ async def post_command(request):
         raise web.HTTPUnauthorized(reason="User sent invalid command.")
 
     story.input = cmd
-    fn, args, kwargs = story.drama.interpret(story.drama.match(cmd))
-    try:
-        lines = list(story.drama(fn, *args, **kwargs))
-    except TypeError:
-        lines = [story.refusal.format(story.input)]
-
-    story.presenter = story.represent(lines)
     raise web.HTTPFound("/{0.hex}".format(uid))
 
 

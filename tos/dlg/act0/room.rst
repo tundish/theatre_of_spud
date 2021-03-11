@@ -24,12 +24,55 @@ In a room
 
 {0}
 
+Auditorium
+----------
+
+.. condition:: PLAYER.state tos.map.Map.Location.auditorium
+
+The Auditorium has seats for about 150 people in two blocks.
+
+Steps lead up to the rear exit.
+
+The curtains to the stage are drawn closed.
+
+Backstage
+---------
+
+.. condition:: PLAYER.state tos.map.Map.Location.backstage
+
+|PLAYER| stands in a long corridor of breeze block, painted white.
+
+There are a couple of dressing rooms here, and a small toilet.
+
+Balcony
+-------
+
+.. condition:: PLAYER.state tos.map.Map.Location.balcony
+
+|PLAYER| is standing on the narrow balcony behind the Auditorium.
+
+Through a door is the Lighting Box. Downstairs is the Bar.
+
 Bar
 ---
 
 .. condition:: PLAYER.state tos.map.Map.Location.bar
 
 |PLAYER| contemplates the Bar.
+
+Car Park
+--------
+
+.. condition:: PLAYER.state tos.map.Map.Location.car_park
+
+|PLAYER| is outside in the Car Park. There is an exit on to a lane which meets the main road.
+
+Cloaks
+------
+
+.. condition:: PLAYER.state tos.map.Map.Location.cloaks
+
+The Cloakroom is an oddly elongated space with an open counter on to the Foyer.
 
 Office
 ------

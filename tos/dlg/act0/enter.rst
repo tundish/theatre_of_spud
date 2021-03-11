@@ -53,7 +53,7 @@ Traffic
 
 The car speeds off, leaving billows of vapour to settle beneath the street lights.
 
-.. property:: STORY.prompt You can shorten 'wait' to 'w'. Try that now.
+.. property:: STORY.prompt To read on, enter 'next' or 'n'.
 
 More
 ----

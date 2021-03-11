@@ -39,6 +39,7 @@ class Moving(Directing):
         self.nav = nav
         self.active.add(self.do_go)
         self.active.add(self.do_look)
+        self.active.add(self.do_next)
         self.active.add(self.do_where)
 
     @property
@@ -117,10 +118,18 @@ class Moving(Directing):
         """
         self.pause()
         locn = self.player.get_state(self.nav.Location)
+        yield "**{0}**".format(locn.value[0].title())
         yield random.choice(["Exits are:", "We are close to:", "Nearby:"])
         yield from (
             "* the {0}".format(self.nav.Location[i].value[0].title()) for i in self.nav.topology[locn.name]
         )
+
+    def do_next(self, this, text, *args):
+        """
+        n | next
+
+        """
+        yield f"{self.player.name} is {self.scenery}."
 
     def do_where(self, this, text, *args):
         """

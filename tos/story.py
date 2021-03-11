@@ -160,6 +160,7 @@ class Story(Renderer):
         )
         stem = self.folder.paths[self.index].split(".")[0]
         self.drama.player.tally[stem] += 1
+        print(self.drama.player.tally)
         if presenter and not(presenter.dwell or presenter.pause):
             setattr(self.settings, "catchphrase-reveal-extends", "none")
             setattr(self.settings, "catchphrase-states-scrolls", "scroll")
