@@ -74,6 +74,24 @@ Cloaks
 
 The Cloakroom is an oddly elongated space with an open counter on to the Foyer.
 
+Corridor
+--------
+
+.. condition:: PLAYER.state tos.map.Map.Location.corridor
+
+The Corridor is draughty, and the carpet worn.
+
+It runs the length of the Auditorium and ends in a door to Backstage.
+
+Costume
+-------
+
+.. condition:: PLAYER.state tos.map.Map.Location.costume
+
+The Costume Room is chilly, and slightly damp.
+
+Racks of clothing take up some of the space. The rest is given over to lighting equipment and crates of props.
+
 Office
 ------
 
