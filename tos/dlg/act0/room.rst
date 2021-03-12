@@ -49,7 +49,7 @@ Balcony
 
 .. condition:: PLAYER.state tos.map.Map.Location.balcony
 
-|PLAYER| is standing on the narrow balcony behind the Auditorium.
+|PLAYER| is standing on the narrow Balcony behind the Auditorium.
 
 Through a door is the Lighting Box. Downstairs is the Bar.
 
@@ -59,6 +59,10 @@ Bar
 .. condition:: PLAYER.state tos.map.Map.Location.bar
 
 |PLAYER| contemplates the Bar.
+
+It's an L-shaped space around the Kitchen counter.
+
+A window looks out over the Car Park to the lane beyond.
 
 Car Park
 --------
@@ -92,6 +96,33 @@ The Costume Room is chilly, and slightly damp.
 
 Racks of clothing take up some of the space. The rest is given over to lighting equipment and crates of props.
 
+Kitchen
+-------
+
+.. condition:: PLAYER.state tos.map.Map.Location.kitchen
+
+The Kitchen is simply equipped.
+
+There are two or three cupboards, a fridge, and a sink with a water boiler above it.
+
+Under the counter are cups, plates and glasses.
+
+Lighting
+--------
+
+.. condition:: PLAYER.state tos.map.Map.Location.lighting
+
+The Lighting Box has room for two people. 
+
+The control panel is roughly framed. It has a patch bay and a mixer for sound.
+
+There are variac controls for the lighting.
+There is a fuse box on the far wall.
+
+There is a glass panel looking out over the Auditorium to the Stage.
+
+A couple of tall stools are the only furniture.
+
 Office
 ------
 
@@ -105,3 +136,41 @@ On the left is a split aluminium window facing the Foyer entrance.
 There is a desk and a chair, and a rotary telephone fixed to the wall on the right.
 
 There is nothing else here. Everything of value is locked away.
+
+Passage
+-------
+
+.. condition:: PLAYER.state tos.map.Map.Location.passage
+
+The Passage is draughty, and the carpet worn.
+
+It runs the length of the Auditorium and ends in a door to Backstage.
+
+Stage
+-----
+
+.. condition:: PLAYER.state tos.map.Map.Location.stage
+
+The Stage is quite dark, lit only by pale round working lights.
+
+The scene is set for a bedroom and balcony. There is a Central European feel to the blankets and drapery.
+
+Stairs
+------
+
+.. condition:: PLAYER.state tos.map.Map.Location.stairs
+
+A zig-zag stairway between the Bar and the Balcony.
+
+It runs the length of the Auditorium and ends in a door to Backstage.
+
+Wings
+-----
+
+.. condition:: PLAYER.state tos.map.Map.Location.wings
+
+Either side of the Stage is framed by black wooden panels. They are angled to allow three ways on and off.
+
+The walls are of black painted brick.
+
+Overhead is the lighting gantry.
