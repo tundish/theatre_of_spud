@@ -98,8 +98,8 @@ class Story(Renderer):
             "Enter"
         )
 
-    def load_drama(self, act=0, player_name="", ensemble=None):
-        ensemble = ensemble or [
+    def load_drama(self, act=0, player_name="", drama=None):
+        ensemble = [
             Character(names=["Edward Lionheart"]).set_state(
                 Awareness.ignorant, Motivation.leader, Map.Location.stage, 1
             )
@@ -114,7 +114,7 @@ class Story(Renderer):
             drama.player = Character(
                 names=[player_name], tally=Counter()
             ).set_state(Mode.playing, Map.Location.car_park, 1)
-            for obj in drama.build():
+            for obj in drama.build(ensemble):
                 drama.add(obj)
             drama.add(drama.player)
 

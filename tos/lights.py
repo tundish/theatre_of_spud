@@ -42,15 +42,18 @@ class Lights(Carrying, Moving):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-    def build(self):
-        yield from super().build()
-        yield Artifact(
+    def build(self, ensemble=None):
+        ensemble = ensemble or []
+        n = next((n for n, i in enumerate(ensemble) if "fuse" in i.names), None)
+        yield ensemble.pop[n] if n is not None else Artifact(
             names=["fuse"],
             detail={
                 0: ["It's an inline fuse.", "It says, '13A'."],
             },
         ).set_state(Awareness.ignorant, self.nav.Location.lighting)
-        yield Artifact(
+
+        n = next((n for n, i in enumerate(ensemble) if "lights" in i.names), None)
+        yield ensemble.pop[n] if n is not None else Artifact(
             names=["lights"],
             detail={
                 Awareness.indicate: ["On the wall is a chunky metal switch."],
@@ -66,6 +69,8 @@ class Lights(Carrying, Moving):
                 Switch.opened: ["The switch is in the 'off' position."],
             },
         ).set_state(Awareness.ignorant, self.nav.Location.foyer, Switch.opened)
+
+        yield from super().build(ensemble)
 
     def interlude(self, folder, index, **kwargs):
         rv = super().interlude(folder, index, **kwargs)

@@ -45,3 +45,4 @@ class StoryTests(unittest.TestCase):
         s = Story()
         s.drama = s.load_drama(player_name="tester")
         self.assertIsInstance(s.drama.player, Character)
+        self.assertIsInstance(s.drama, Story.Act1)
