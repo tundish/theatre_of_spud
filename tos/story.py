@@ -105,7 +105,6 @@ class Story(Renderer):
             )
         ]
         drama = self.acts[act](Map())
-
         for obj in ensemble:
             obj.state = 1
             drama.add(obj)
@@ -117,6 +116,9 @@ class Story(Renderer):
             for obj in drama.build(ensemble):
                 drama.add(obj)
             drama.add(drama.player)
+
+        next(iter(drama.lookup["fuse"])).state = Map.Location.lighting
+        next(iter(drama.lookup["lights"])).state = Map.Location.foyer
 
         drama.patrols.update(drama.build_patrols(
             Patrolling.Patrol(

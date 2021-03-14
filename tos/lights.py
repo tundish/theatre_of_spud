@@ -22,7 +22,6 @@ import random
 
 from turberfield.dialogue.types import EnumFactory
 
-from tos.map import Map
 from tos.mixins.carrying import Carrying
 from tos.mixins.moving import Moving
 from tos.mixins.types import Awareness
@@ -50,7 +49,7 @@ class Lights(Carrying, Moving):
             detail={
                 0: ["It's an inline fuse.", "It says, '13A'."],
             },
-        ).set_state(Awareness.ignorant, self.nav.Location.lighting)
+        ).set_state(Awareness.ignorant)
 
         n = next((n for n, i in enumerate(ensemble) if "lights" in i.names), None)
         yield ensemble.pop[n] if n is not None else Artifact(
@@ -68,7 +67,7 @@ class Lights(Carrying, Moving):
                 Switch.closed: ["The switch is in the 'on' position."],
                 Switch.opened: ["The switch is in the 'off' position."],
             },
-        ).set_state(Awareness.ignorant, self.nav.Location.foyer, Switch.opened)
+        ).set_state(Awareness.ignorant, Switch.opened)
 
         yield from super().build(ensemble)
 
@@ -78,8 +77,6 @@ class Lights(Carrying, Moving):
         lights = next(iter(self.lookup["lights"]))
         for obj in (fuse, lights):
             if self.player.get_state(self.nav.Location) == obj.get_state(self.nav.Location):
-                self.active.add(self.do_examine)
-
                 if obj is fuse:
                     self.active.add(self.do_get)
                 else:
@@ -91,7 +88,7 @@ class Lights(Carrying, Moving):
                 elif obj.get_state(Awareness) == Awareness.discover:
                     obj.state = Awareness.familiar
 
-        if fuse.get_state(self.nav.Location) == self.nav.Location.foyer:
+        if fuse.get_state(self.nav.Location) == lights.get_state(self.nav.Location):
             self.active.add(self.do_fit_fuse)
         else:
             self.active.discard(self.do_fit_fuse)
@@ -155,13 +152,3 @@ class Lights(Carrying, Moving):
         lights.state = Switch.closed
         if lights.get_state(Awareness) == Awareness.complete:
             yield "The exterior lights come on."
-
-    def do_examine(self, this, text, /, *args, obj: Artifact):
-        """
-        check {obj.names[0]}
-        examine {obj.names[0]}
-
-        """
-        yield from super().do_examine(this, text, *args, obj=obj)
-        state = obj.get_state(Switch)
-        yield random.choice(obj.detail.get(state, [""]))
