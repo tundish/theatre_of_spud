@@ -68,7 +68,6 @@ class Story(Renderer):
     }
 
     def __init__(self, cfg=None, **kwargs):
-        self.acts = [Act1, Act2]
         self.settings = Settings(**self.definitions)
         self.drama = None
         self.folder = None
@@ -86,16 +85,19 @@ class Story(Renderer):
             "Enter"
         )
 
-    def load_drama(self, act=0, player_name="", drama=None):
+    def load_drama(self, player_name="", drama=None):
         ensemble = [
             Character(names=["Edward Lionheart"]).set_state(
                 Awareness.ignorant, Motivation.leader, Map.Location.stage, 1
             )
         ]
-        drama = self.acts[act](Map())
+        index = drama.index if drama else 0
+        typ = [Act1, Act2][index]
+        drama = typ(Map())
         for obj in ensemble:
             obj.state = 1
             drama.add(obj)
+            print(drama)
 
         if player_name:
             drama.player = Character(
@@ -160,5 +162,6 @@ class Story(Renderer):
         return presenter
 
     def update(self, metadata: dict):
-        # New act?
+        if metadata.get("done"):
+            self.drama = self.load_drama(self.drama)
         self.metadata.update(metadata)
