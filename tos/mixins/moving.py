@@ -90,7 +90,7 @@ class Moving(Directing):
             }.get(len(hops), Proximity.distant)
         return rv
 
-    def do_go(self, this, text, /, *, locn: Navigator.__subclasses__()):
+    def do_go(self, this, text, /, *args, locn: Navigator.__subclasses__()):
         """
         enter {locn.value[0]}
         enter {locn.value[1]}

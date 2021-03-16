@@ -27,6 +27,7 @@ from tos.mixins.moving import Moving
 from tos.mixins.types import Awareness
 from tos.mixins.types import Artifact
 
+from tos.map import Map
 
 @enum.unique
 class Switch(EnumFactory, enum.Enum):
@@ -93,6 +94,18 @@ class Lights(Carrying, Moving):
         else:
             self.active.discard(self.do_fit_fuse)
         return rv
+
+    def do_go(self, this, text, /, *args, locn: Map.Location):
+        """
+        enter {locn.value[0]}
+        enter {locn.value[1]}
+        enter {locn.value[2]}
+        go {locn.value[0]} | go to {locn.value[0]}
+        go {locn.value[1]} | go to {locn.value[1]}
+        go {locn.value[2]} | go to {locn.value[2]}
+
+        """
+        yield from super().do_go(this, text, locn=locn)
 
     def do_fit_fuse(self, this, text, *args):
         """

@@ -97,7 +97,6 @@ class Story(Renderer):
         for obj in ensemble:
             obj.state = 1
             drama.add(obj)
-            print(drama)
 
         if player_name:
             drama.player = Character(
