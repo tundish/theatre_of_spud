@@ -102,18 +102,18 @@ class Story(Renderer):
         if player_name:
             drama.player = Character(
                 names=[player_name], tally=Counter()
-            ).set_state(Mode.playing, Map.Location.car_park, 1)
+            ).set_state(Mode.playing, drama.nav.Location.car_park, 1)
             for obj in drama.build(ensemble):
                 drama.add(obj)
             drama.add(drama.player)
 
-        next(iter(drama.lookup["fuse"])).state = Map.Location.lighting
-        next(iter(drama.lookup["lights"])).state = Map.Location.foyer
+        next(iter(drama.lookup["fuse"])).state = drama.nav.Location.lighting
+        next(iter(drama.lookup["lights"])).state = drama.nav.Location.foyer
 
         drama.patrols.update(drama.build_patrols(
             Patrolling.Patrol(
                 next(iter(drama.lookup["Edward Lionheart"])),
-                [Map.Location.wings, Map.Location.foyer],
+                [drama.nav.Location.wings, drama.nav.Location.foyer],
                 0
             )
         ))

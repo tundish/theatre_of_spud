@@ -33,11 +33,11 @@ class LightsTests(unittest.TestCase):
         self.drama = Lights(Map())
         for obj in self.drama.build():
             self.drama.add(obj)
-        self.drama.player = Character(names=["tester"]).set_state(Mode.playing, Map.Location.car_park)
+        self.drama.player = Character(names=["tester"]).set_state(Mode.playing, self.drama.nav.Location.car_park)
         next(iter(self.drama.lookup["fuse"])).state = Awareness.indicate
-        next(iter(self.drama.lookup["fuse"])).state = Map.Location.lighting
+        next(iter(self.drama.lookup["fuse"])).state = self.drama.nav.Location.lighting
         next(iter(self.drama.lookup["lights"])).state = Awareness.indicate
-        next(iter(self.drama.lookup["lights"])).state = Map.Location.foyer
+        next(iter(self.drama.lookup["lights"])).state = self.drama.nav.Location.foyer
         self.drama.active.add(self.drama.do_lights_off)
         self.drama.active.add(self.drama.do_lights_on)
 
