@@ -34,6 +34,29 @@ class Named(DataObject):
         return random.choice(getattr(self, "names", [""]))
 
 
+class Material(Stateful):
+
+    def __init__(self, parent=None, **kwargs):
+        super().__init__(**kwargs)
+        self.parent = parent or self
+
+    def get_state(self, typ=int, default=0):
+        """Report state from parent. """
+        if self.parent is self:
+            return super().get_state(typ, default)
+        else:
+            return self.parent.get_state(typ, default)
+
+
+class Space(Named, Stateful):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def contents(self, ensemble):
+        return [i for i in ensemble if getattr(i, "parent", None) is self]
+
+
 class Artifact(Named, Stateful): pass
 class Character(Named, Stateful): pass
 

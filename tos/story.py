@@ -18,7 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from collections import Counter
-from collections.abc import Callable
 import importlib.resources
 import re
 
@@ -29,13 +28,10 @@ from turberfield.catchphrase.render import Renderer
 from turberfield.catchphrase.render import Settings
 from turberfield.dialogue.model import SceneScript
 
-# import logging
-# logging.basicConfig(level=logging.DEBUG)
-
 import tos
-from tos.lights import Lights
+from tos.acts import Act1
+from tos.acts import Act2
 from tos.map import Map
-from tos.mixins.helpful import Helpful
 from tos.mixins.patrolling import Patrolling
 from tos.mixins.types import Awareness
 from tos.mixins.types import Character
@@ -71,16 +67,8 @@ class Story(Renderer):
         "player": re.compile("[A-Za-z]{2,24}")
     }
 
-
-    class Act1(Lights, Patrolling, Helpful):
-
-        @property
-        def turns(self):
-            return len([i for i in self.history
-                        if i.fn not in (self.do_help, self.do_history, self.do_hint)])
-
     def __init__(self, cfg=None, **kwargs):
-        self.acts = [self.Act1]
+        self.acts = [Act1, Act2]
         self.settings = Settings(**self.definitions)
         self.drama = None
         self.folder = None
@@ -150,10 +138,10 @@ class Story(Renderer):
             return refresh_state
 
     def represent(self, lines=[]):
-        #if all(self.metadata.values()):
-        #    act = self.metadata.get("act", 0)
-        #    self.drama = self.load(act)
-        #    self.metadata["act"] = act + 1
+        # if all(self.metadata.values()):
+        #     act = self.metadata.get("act", 0)
+        #     self.drama = self.load(act)
+        #     self.metadata["act"] = act + 1
 
         self.index, presenter = Presenter.build_presenter(
             self.folder, *lines,

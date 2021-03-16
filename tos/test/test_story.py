@@ -21,6 +21,7 @@ import unittest
 
 from turberfield.dialogue.model import SceneScript
 
+from tos.acts import Act1
 from tos.story import Story
 from tos.mixins.types import Character
 
@@ -45,4 +46,4 @@ class StoryTests(unittest.TestCase):
         s = Story()
         s.drama = s.load_drama(player_name="tester")
         self.assertIsInstance(s.drama.player, Character)
-        self.assertIsInstance(s.drama, Story.Act1)
+        self.assertIsInstance(s.drama, Act1)
