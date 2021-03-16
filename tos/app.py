@@ -62,7 +62,7 @@ async def get_frame(request):
             story.presenter = story.represent(lines)
             continue
         except IndexError:
-            story.metadata.update(story.drama.interlude(story.folder, story.index))
+            story.update(story.drama.interlude(story.folder, story.index))
             story.presenter = story.represent(lines)
             continue
         else:

@@ -61,7 +61,7 @@ class Helpful(Drama):
                         # Filter out single letter commands for RST compatibility
                     )
                     rv.append("* {0}".format(cmd))
-                except KeyError:
+                except (IndexError, KeyError):
                     continue
 
             if rv and c.__doc__:

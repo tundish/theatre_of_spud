@@ -158,3 +158,7 @@ class Story(Renderer):
             setattr(self.settings, "catchphrase-states-scrolls", "visible")
 
         return presenter
+
+    def update(self, metadata: dict):
+        # New act?
+        self.metadata.update(metadata)
