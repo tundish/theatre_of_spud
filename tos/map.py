@@ -125,4 +125,3 @@ class Map(Navigator):
 Arriving = Map.Arriving
 Departed = Map.Departed
 Location = Map.Location
-print(Navigator.__subclasses__())

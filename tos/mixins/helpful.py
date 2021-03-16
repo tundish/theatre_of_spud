@@ -56,15 +56,12 @@ class Helpful(Drama):
             for a in dir(c):
                 try:
                     fn = active.pop(a)
-                    cmds = list(i for i in CommandParser.expand_commands(fn, self.ensemble))
-                    print(*cmds)
                     cmd, *others = random.choice(
                         [i for i in CommandParser.expand_commands(fn, self.ensemble) if len(i[0]) > 1]
                         # Filter out single letter commands for RST compatibility
                     )
                     rv.append("* {0}".format(cmd))
-                #except (IndexError, KeyError) as e:
-                except (KeyError,) as e:
+                except (IndexError, KeyError):
                     continue
 
             if rv and c.__doc__:
