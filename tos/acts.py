@@ -21,6 +21,10 @@ from tos.calls import Calls
 from tos.lights import Lights
 from tos.mixins.helpful import Helpful
 from tos.mixins.patrolling import Patrolling
+from tos.mixins.types import Awareness
+from tos.mixins.types import Character
+from tos.mixins.types import Mode
+from tos.types import Motivation
 
 
 class Act1(Lights, Patrolling, Helpful):
@@ -30,5 +34,28 @@ class Act1(Lights, Patrolling, Helpful):
         return len([i for i in self.history
                     if i.fn not in (self.do_help, self.do_history, self.do_hint)])
 
+    def build(self, ensemble=None, **kwargs):
+        for obj in super().build(ensemble):
+            if "fuse" in getattr(obj, "names", []): obj.state = self.nav.Location.lighting
+            if "lights" in getattr(obj, "names", []): obj.state = self.nav.Location.foyer
+
+            yield obj
+
+        ed = Character(names=["Edward Lionheart"]).set_state(
+            Awareness.ignorant, Motivation.leader, self.nav.Location.stage, 1
+        )
+        self.patrols.update(self.build_patrols(
+            Patrolling.Patrol(ed, [self.nav.Location.wings, self.nav.Location.foyer], 0)
+        ))
+        yield ed
+
+        player_name = kwargs.get("player_name", "Alan")
+        self.player = Character(names=[player_name]).set_state(Mode.playing, self.nav.Location.car_park, 1)
+        yield self.player
+
+
+
 class Act2(Calls, Patrolling, Helpful):
-    pass
+
+    def build(self, ensemble=None, **kwargs):
+        yield from super().build(ensemble)

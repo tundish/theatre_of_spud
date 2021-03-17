@@ -28,7 +28,7 @@ class Calls(Moving):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-    def build(self):
+    def build(self, ensemble=None):
         yield from super().build()
         yield Artifact(
             names=["phone", "telephone"],

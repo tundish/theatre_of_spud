@@ -31,14 +31,8 @@ from turberfield.dialogue.model import SceneScript
 from turberfield.dialogue.types import Stateful
 
 import tos
-from tos.acts import Act1
-from tos.acts import Act2
+from tos.acts import Act1, Act2
 from tos.map import Map
-from tos.mixins.patrolling import Patrolling
-from tos.mixins.types import Awareness
-from tos.mixins.types import Character
-from tos.mixins.types import Mode
-from tos.types import Motivation
 
 version = tos.__version__
 
@@ -118,35 +112,13 @@ class Story(Renderer, Stateful):
         return self.bookmark
 
     def build_drama(self, pkg, player_name="", **kwargs):
-        ensemble = [
-            Character(names=["Edward Lionheart"]).set_state(
-                Awareness.ignorant, Motivation.leader, Map.Location.stage, 1
-            )
-        ]
         drama_class = self.dramas[pkg]
         drama = drama_class(Map())
-        for obj in ensemble:
-            obj.state = 1
+
+        ensemble = []
+        for obj in drama.build(ensemble, player_name=player_name):
             drama.add(obj)
 
-        if player_name:
-            drama.player = Character(
-                names=[player_name]
-            ).set_state(Mode.playing, drama.nav.Location.car_park, 1)
-            for obj in drama.build(ensemble):
-                drama.add(obj)
-            drama.add(drama.player)
-
-        for i in drama.lookup["fuse"]: i.state = drama.nav.Location.lighting
-        for i in drama.lookup["lights"]: i.state = drama.nav.Location.foyer
-
-        drama.patrols.update(drama.build_patrols(
-            Patrolling.Patrol(
-                next(iter(drama.lookup["Edward Lionheart"])),
-                [drama.nav.Location.wings, drama.nav.Location.foyer],
-                0
-            )
-        ))
         return drama
 
     def refresh_target(self, url):
