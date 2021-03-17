@@ -85,9 +85,6 @@ class Story(Renderer):
 
     def __init__(self, cfg=None, **kwargs):
         self.settings = Settings(**self.definitions)
-        #self.drama = None
-        #self.folder = None
-        #self.index = None
         self.input = ""
         self.prompt = "?"
         self.refusal = "'{0}' is not an option right now."
@@ -96,12 +93,11 @@ class Story(Renderer):
             "tos.dlg.act1": Act1,
             "tos.dlg.act2": Act2,
         }
-        #self.metadata = {}
 
     @property
     def actions(self):
         yield Action(
-            "cmd", None, "/{0.id.hex}/cmd/", [self.drama.player], "post",
+            "cmd", None, "/{0.id.hex}/cmd/", [self.bookmark.drama.player], "post",
             [Parameter("cmd", True, self.validators["command"], [self.prompt], ">")],
             "Enter"
         )
@@ -125,8 +121,8 @@ class Story(Renderer):
                 Awareness.ignorant, Motivation.leader, Map.Location.stage, 1
             )
         ]
-        typ = self.dramas[pkg]
-        drama = typ(Map())
+        drama_class = self.dramas[pkg]
+        drama = drama_class(Map())
         for obj in ensemble:
             obj.state = 1
             drama.add(obj)

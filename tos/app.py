@@ -44,9 +44,9 @@ async def get_frame(request):
         log = logging.getLogger("tos.{0!s}".format(uid))
 
     if story.input:
-        fn, args, kwargs = story.drama.interpret(story.drama.match(story.input))
+        fn, args, kwargs = story.bookmark.drama.interpret(story.bookmark.drama.match(story.input))
         try:
-            lines = list(story.drama(fn, *args, **kwargs))
+            lines = list(story.bookmark.drama(fn, *args, **kwargs))
         except TypeError:
             lines = [story.refusal.format(story.input)]
         finally:
@@ -62,7 +62,7 @@ async def get_frame(request):
             story.presenter = story.represent(lines)
             continue
         except IndexError:
-            story.update(story.drama.interlude(story.folder, story.index))
+            story.update(story.presenter.index)
             story.presenter = story.represent(lines)
             continue
         else:
@@ -74,7 +74,7 @@ async def get_frame(request):
         if not story.presenter.pending
     ]
 
-    refresh_target = "/{0.hex}".format(uid) if story.drama.active else None
+    refresh_target = "/{0.hex}".format(uid) if story.bookmark.drama.active else None
     if story.presenter.pending:
         refresh = Presenter.refresh_animations(animation, min_val=2)
     else:
@@ -87,8 +87,8 @@ async def get_frame(request):
         story.render_dict_to_css(vars(story.settings)),
         story.render_animated_frame_to_html(animation, controls)
     )
-    log.info("Turn {0.drama.turns}".format(story))
-    log.debug(story.drama.player.tally)
+    log.info("Turn {0.bookmark.drama.turns}".format(story))
+    log.debug(story.bookmark.drama.player.tally)
     return web.Response(text=rv, content_type="text/html")
 
 
@@ -119,9 +119,8 @@ async def post_player(request):
         raise web.HTTPUnauthorized(reason="User input invalid name.")
 
     story = Story()
-    story.drama = story.load_drama(player_name=name)
-    story.folder = story.load_folder()
-    uid = story.drama.player.id
+    bookmark = story.load(player_name=name, description="Theatre of Spud")
+    uid = bookmark.drama.player.id
     request.app["stories"][uid] = story
     log.info("Player {0} created story {1!s}".format(name, uid))
     raise web.HTTPFound("/{0.hex}".format(uid))
