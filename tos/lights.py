@@ -49,6 +49,7 @@ class Lights(Carrying, Moving):
             names=["fuse"],
             detail={
                 0: ["It's an inline fuse.", "It says, '13A'."],
+                Awareness.carrying: ["It's an inline fuse.", "It says, '13A'."]
             },
         ).set_state(Awareness.ignorant)
 

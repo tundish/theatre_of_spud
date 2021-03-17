@@ -107,15 +107,14 @@ class Story(Renderer, Stateful):
 
     @property
     def bookmark(self):
-        return self.bookmarks[-1] if self.bookmarks else None
+        return self.bookmarks[0] if self.bookmarks else None
 
-    def build(self, bookmark=None, /, **kwargs):
-        pkg = list(self.dramas.keys())[self.state - 1]
-        if not bookmark:
-            folder = self.build_folder(pkg, **kwargs)
-            drama = self.build_drama(pkg, **kwargs)
-            bookmark = Bookmark(pkg, folder, Counter(), drama)
-            self.bookmarks.append(bookmark)
+    def build(self, pkg=None, /, **kwargs):
+        pkg = pkg or list(self.dramas.keys())[self.state - 1]
+        folder = self.build_folder(pkg, **kwargs)
+        drama = self.build_drama(pkg, **kwargs)
+        bookmark = Bookmark(pkg, folder, Counter(), drama)
+        self.bookmarks.insert(0, bookmark)
         return self.bookmark
 
     def build_drama(self, pkg, player_name="", **kwargs):
@@ -138,8 +137,8 @@ class Story(Renderer, Stateful):
                 drama.add(obj)
             drama.add(drama.player)
 
-        next(iter(drama.lookup["fuse"])).state = drama.nav.Location.lighting
-        next(iter(drama.lookup["lights"])).state = drama.nav.Location.foyer
+        for i in drama.lookup["fuse"]: i.state = drama.nav.Location.lighting
+        for i in drama.lookup["lights"]: i.state = drama.nav.Location.foyer
 
         drama.patrols.update(drama.build_patrols(
             Patrolling.Patrol(
@@ -175,8 +174,11 @@ class Story(Renderer, Stateful):
         return presenter
 
     def update(self, index):
-        metadata = self.bookmark.drama.interlude(self.bookmark.folder, index)
-        self.bookmark.folder.metadata.update(metadata)
-        stem = self.bookmark.folder.paths[index].split(".")[0]
-        self.bookmark.tally[stem] += 1
-        bookmark = self.build(self.bookmark)
+        bookmark = self.bookmark
+        metadata = bookmark.drama.interlude(bookmark.folder, index)
+        bookmark.folder.metadata.update(metadata)
+        stem = bookmark.folder.paths[index].split(".")[0]
+        bookmark.tally[stem] += 1
+        pkg = list(self.dramas.keys())[self.state - 1]
+        if pkg != bookmark.package:
+            return self.build(pkg)
