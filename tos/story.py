@@ -28,6 +28,7 @@ from turberfield.catchphrase.render import Parameter
 from turberfield.catchphrase.render import Renderer
 from turberfield.catchphrase.render import Settings
 from turberfield.dialogue.model import SceneScript
+from turberfield.dialogue.types import Stateful
 
 import tos
 from tos.acts import Act1
@@ -42,10 +43,10 @@ from tos.types import Motivation
 version = tos.__version__
 
 
-Bookmark = namedtuple("Bookmark", ["package", "folder", "index", "drama"])
+Bookmark = namedtuple("Bookmark", ["package", "folder", "tally", "drama"])
 
 
-class Story(Renderer):
+class Story(Renderer, Stateful):
     """
     Some methods of this class are likely to end up in a later
     version of the Catchphrase library.
@@ -72,7 +73,7 @@ class Story(Renderer):
     }
 
     @staticmethod
-    def load_folder(pkg, **kwargs):
+    def build_folder(pkg, **kwargs):
         path = importlib.resources.files(pkg)
         description = kwargs.get("description", "")
         return SceneScript.Folder(
@@ -84,11 +85,13 @@ class Story(Renderer):
         )
 
     def __init__(self, cfg=None, **kwargs):
+        super().__init__()
         self.settings = Settings(**self.definitions)
         self.input = ""
         self.prompt = "?"
         self.refusal = "'{0}' is not an option right now."
         self.bookmarks = []
+        self.state = 1
         self.dramas = {
             "tos.dlg.act1": Act1,
             "tos.dlg.act2": Act2,
@@ -106,16 +109,16 @@ class Story(Renderer):
     def bookmark(self):
         return self.bookmarks[-1] if self.bookmarks else None
 
-    def load(self, bookmark=None, /, **kwargs):
+    def build(self, bookmark=None, /, **kwargs):
+        pkg = list(self.dramas.keys())[self.state - 1]
         if not bookmark:
-            pkg = next(iter(self.dramas.keys()))
-            folder = self.load_folder(pkg, **kwargs)
-            drama = self.load_drama(pkg, **kwargs)
-            mark = Bookmark(pkg, folder, 0, drama)
-            self.bookmarks.append(mark)
-        return self.bookmarks[-1]
+            folder = self.build_folder(pkg, **kwargs)
+            drama = self.build_drama(pkg, **kwargs)
+            bookmark = Bookmark(pkg, folder, Counter(), drama)
+            self.bookmarks.append(bookmark)
+        return self.bookmark
 
-    def load_drama(self, pkg, player_name="", **kwargs):
+    def build_drama(self, pkg, player_name="", **kwargs):
         ensemble = [
             Character(names=["Edward Lionheart"]).set_state(
                 Awareness.ignorant, Motivation.leader, Map.Location.stage, 1
@@ -129,7 +132,7 @@ class Story(Renderer):
 
         if player_name:
             drama.player = Character(
-                names=[player_name], tally=Counter()
+                names=[player_name]
             ).set_state(Mode.playing, drama.nav.Location.car_park, 1)
             for obj in drama.build(ensemble):
                 drama.add(obj)
@@ -162,8 +165,6 @@ class Story(Renderer):
             ensemble=self.bookmark.drama.ensemble + [self, self.bookmark.drama, self.settings],
             shot="Drama output"
         )
-        stem = self.bookmark.folder.paths[presenter.index].split(".")[0]
-        self.bookmark.drama.player.tally[stem] += 1
         if presenter and not(presenter.dwell or presenter.pause):
             setattr(self.settings, "catchphrase-reveal-extends", "none")
             setattr(self.settings, "catchphrase-states-scrolls", "scroll")
@@ -176,4 +177,6 @@ class Story(Renderer):
     def update(self, index):
         metadata = self.bookmark.drama.interlude(self.bookmark.folder, index)
         self.bookmark.folder.metadata.update(metadata)
-        self.bookmarks[-1] = self.bookmark._replace(index=index)
+        stem = self.bookmark.folder.paths[index].split(".")[0]
+        self.bookmark.tally[stem] += 1
+        bookmark = self.build(self.bookmark)

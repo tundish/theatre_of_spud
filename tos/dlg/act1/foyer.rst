@@ -18,6 +18,9 @@
    :types:  tos.mixins.types.Artifact
    :states: tos.map.Map.Location.foyer
 
+.. entity:: DRAMA
+   :types:  turberfield.catchphrase.drama.Drama
+
 .. entity:: STORY
    :types:  tos.story.Story
 
@@ -40,7 +43,7 @@ Foyer
 Ignorant
 --------
 
-.. condition:: PLAYER.tally[foyer] 1
+.. condition:: STORY.bookmark.tally[foyer] 0
 
 The Foyer is carpeted grey and gloomy.
 
@@ -93,7 +96,17 @@ Leaving
 Hint
 ----
 
-.. condition:: STORY.drama.history[0].args[0] hint
+.. condition:: DRAMA.history[0].args[0] hint
 
 I wonder if there's anyone around?
 
+Complete
+--------
+
+.. condition:: PUZZLE.state tos.mixins.types.Awareness.complete
+
+[PLAYER]_
+
+    Right. What next then?
+
+.. property:: STORY.state 2

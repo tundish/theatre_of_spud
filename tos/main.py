@@ -43,13 +43,13 @@ def parser():
 def main(opts):
     name = input("Enter your character's first name: ") or "Francis"
     story = Story(**vars(opts))
-    story.load(player_name=name, description="Theatre of Spud")
+    story.build(player_name=name, description="Theatre of Spud")
     lines = []
     while story.bookmark.drama.active:
         presenter = story.represent(lines)
         if opts.debug:
             print(presenter.text, file=sys.stderr)
-            print(*story.drama.ensemble, sep="\n", file=sys.stderr)
+            print(*story.bookmark.drama.ensemble, sep="\n", file=sys.stderr)
         for frame in presenter.frames:
             animation = presenter.animate(frame, dwell=presenter.dwell, pause=presenter.pause)
             if not animation:

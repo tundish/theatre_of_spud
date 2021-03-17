@@ -14,6 +14,9 @@
    :types:  tos.mixins.types.Character
    :states: tos.types.Motivation.leader
 
+.. entity:: DRAMA
+   :types:  turberfield.catchphrase.drama.Drama
+
 .. entity:: STORY
    :types:  tos.story.Story
 
@@ -31,7 +34,7 @@ Entrance
 Mist
 ----
 
-.. condition:: PLAYER.tally[enter] 1
+.. condition:: STORY.bookmark.tally[enter] 0
 
 A Winter afternoon.
 
@@ -49,7 +52,7 @@ Suddenly a car appears.
 Traffic
 -------
 
-.. condition:: PLAYER.tally[enter] 2
+.. condition:: STORY.bookmark.tally[enter] 1
 
 The car speeds off, leaving billows of vapour to settle beneath the street lights.
 
@@ -58,7 +61,7 @@ The car speeds off, leaving billows of vapour to settle beneath the street light
 More
 ----
 
-.. condition:: PLAYER.tally[enter] 3
+.. condition:: STORY.bookmark.tally[enter] 2
 
 There is a shout. Someone's name.
 Three more figures saunter over from the direction of the Croft.
@@ -68,21 +71,21 @@ Three more figures saunter over from the direction of the Croft.
 Banter
 ------
 
-.. condition:: PLAYER.tally[enter] 4
+.. condition:: STORY.bookmark.tally[enter] 3
 
 |PLAYER| can hear cursing and youthful banter.
 
 Nasty
 -----
 
-.. condition:: PLAYER.tally[enter] 5
+.. condition:: STORY.bookmark.tally[enter] 4
 
 Over by the wall, someone hawks and spits.
 
 Smoking
 -------
 
-.. condition:: PLAYER.tally[enter] 6
+.. condition:: STORY.bookmark.tally[enter] 5
 
 It is quite dark now.
 
@@ -91,7 +94,7 @@ It is quite dark now.
 Hint
 ----
 
-.. condition:: STORY.drama.history[0].args[0] hint
+.. condition:: DRAMA.history[0].args[0] hint
 
 It's not nice out here. Better get inside.
 

@@ -119,7 +119,7 @@ async def post_player(request):
         raise web.HTTPUnauthorized(reason="User input invalid name.")
 
     story = Story()
-    bookmark = story.load(player_name=name, description="Theatre of Spud")
+    bookmark = story.build(player_name=name, description="Theatre of Spud")
     uid = bookmark.drama.player.id
     request.app["stories"][uid] = story
     log.info("Player {0} created story {1!s}".format(name, uid))

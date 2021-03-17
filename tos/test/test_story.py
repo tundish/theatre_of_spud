@@ -30,7 +30,7 @@ class StoryTests(unittest.TestCase):
 
     def test_actions(self):
         s = Story()
-        s.drama = s.load_drama("tos.dlg.act1", player_name="tester")
+        bookmark = s.build(player_name="tester")
         self.assertTrue(s.actions)
         action = next(s.actions)
         form = "\n".join(s.render_action_form(action, autofocus=True))
@@ -44,6 +44,6 @@ class StoryTests(unittest.TestCase):
 
     def test_progression(self):
         s = Story()
-        s.drama = s.load_drama("tos.dlg.act1", player_name="tester")
+        s.drama = s.build_drama("tos.dlg.act1", player_name="tester")
         self.assertIsInstance(s.drama.player, Character)
         self.assertIsInstance(s.drama, Act1)
