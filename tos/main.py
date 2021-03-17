@@ -43,8 +43,7 @@ def parser():
 def main(opts):
     name = input("Enter your character's first name: ") or "Francis"
     story = Story(**vars(opts))
-    story.drama = story.load_drama(player_name=name)
-    story.folder = story.load_folder()
+    bookmark = story.load(player_name=name)
     lines = []
     while story.drama.active:
         presenter = story.represent(lines)

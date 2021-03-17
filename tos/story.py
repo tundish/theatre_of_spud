@@ -18,6 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from collections import Counter
+from collections import namedtuple
 import importlib.resources
 import re
 
@@ -40,6 +41,8 @@ from tos.types import Motivation
 
 version = tos.__version__
 
+
+Bookmark = namedtuple("Bookmark", ["package"])
 
 class Story(Renderer):
     """
@@ -67,6 +70,17 @@ class Story(Renderer):
         "player": re.compile("[A-Za-z]{2,24}")
     }
 
+    @staticmethod
+    def load_folder(bookmark):
+        path = importlib.resources.files(bookmark.package)
+        return SceneScript.Folder(
+            pkg=bookmark.package,
+            description="Theatre of Spud",
+            metadata={},
+            paths=sorted(i.name for i in path.glob("*.rst")),
+            interludes=None
+        )
+
     def __init__(self, cfg=None, **kwargs):
         self.settings = Settings(**self.definitions)
         self.drama = None
@@ -75,6 +89,7 @@ class Story(Renderer):
         self.input = ""
         self.prompt = "?"
         self.refusal = "'{0}' is not an option right now."
+        self.bookmarks = []
         self.metadata = {}
 
     @property
@@ -84,6 +99,12 @@ class Story(Renderer):
             [Parameter("cmd", True, self.validators["command"], [self.prompt], ">")],
             "Enter"
         )
+
+    def load(self, bookmark=None, /, **kwargs):
+        bookmark = bookmark or Bookmark("tos.dlg.act0")
+        self.folder = self.load_folder(bookmark)
+        self.drama = self.load_drama(**kwargs)
+        return bookmark
 
     def load_drama(self, player_name="", drama=None):
         ensemble = [
@@ -117,17 +138,6 @@ class Story(Renderer):
             )
         ))
         return drama
-
-    def load_folder(self, act=0):
-        pkg = f"tos.dlg.act{act}"
-        path = importlib.resources.files(pkg)
-        return SceneScript.Folder(
-            pkg=pkg,
-            description="Theatre of Spud",
-            metadata={},
-            paths=sorted(i.name for i in path.glob("*.rst")),
-            interludes=None
-        )
 
     def refresh_target(self, url):
         refresh_state = getattr(self.settings, "catchphrase-states-refresh", "inherit").lower()
