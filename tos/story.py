@@ -42,7 +42,8 @@ from tos.types import Motivation
 version = tos.__version__
 
 
-Bookmark = namedtuple("Bookmark", ["package"])
+Bookmark = namedtuple("Bookmark", ["package", "folder", "index", "drama"])
+
 
 class Story(Renderer):
     """
@@ -71,11 +72,12 @@ class Story(Renderer):
     }
 
     @staticmethod
-    def load_folder(bookmark):
-        path = importlib.resources.files(bookmark.package)
+    def load_folder(pkg, **kwargs):
+        path = importlib.resources.files(pkg)
+        description = kwargs.get("description", "")
         return SceneScript.Folder(
-            pkg=bookmark.package,
-            description="Theatre of Spud",
+            pkg=pkg,
+            description=description,
             metadata={},
             paths=sorted(i.name for i in path.glob("*.rst")),
             interludes=None
@@ -83,14 +85,18 @@ class Story(Renderer):
 
     def __init__(self, cfg=None, **kwargs):
         self.settings = Settings(**self.definitions)
-        self.drama = None
-        self.folder = None
-        self.index = None
+        #self.drama = None
+        #self.folder = None
+        #self.index = None
         self.input = ""
         self.prompt = "?"
         self.refusal = "'{0}' is not an option right now."
         self.bookmarks = []
-        self.metadata = {}
+        self.dramas = {
+            "tos.dlg.act1": Act1,
+            "tos.dlg.act2": Act2,
+        }
+        #self.metadata = {}
 
     @property
     def actions(self):
@@ -100,20 +106,26 @@ class Story(Renderer):
             "Enter"
         )
 
-    def load(self, bookmark=None, /, **kwargs):
-        bookmark = bookmark or Bookmark("tos.dlg.act0")
-        self.folder = self.load_folder(bookmark)
-        self.drama = self.load_drama(**kwargs)
-        return bookmark
+    @property
+    def bookmark(self):
+        return self.bookmarks[-1] if self.bookmarks else None
 
-    def load_drama(self, player_name="", drama=None):
+    def load(self, bookmark=None, /, **kwargs):
+        if not bookmark:
+            pkg = next(iter(self.dramas.keys()))
+            folder = self.load_folder(pkg, **kwargs)
+            drama = self.load_drama(pkg, **kwargs)
+            mark = Bookmark(pkg, folder, 0, drama)
+            self.bookmarks.append(mark)
+        return self.bookmarks[-1]
+
+    def load_drama(self, pkg, player_name="", **kwargs):
         ensemble = [
             Character(names=["Edward Lionheart"]).set_state(
                 Awareness.ignorant, Motivation.leader, Map.Location.stage, 1
             )
         ]
-        index = drama.index if drama else 0
-        typ = [Act1, Act2][index]
+        typ = self.dramas[pkg]
         drama = typ(Map())
         for obj in ensemble:
             obj.state = 1
@@ -149,18 +161,13 @@ class Story(Renderer):
             return refresh_state
 
     def represent(self, lines=[]):
-        # if all(self.metadata.values()):
-        #     act = self.metadata.get("act", 0)
-        #     self.drama = self.load(act)
-        #     self.metadata["act"] = act + 1
-
-        self.index, presenter = Presenter.build_presenter(
-            self.folder, *lines,
-            ensemble=self.drama.ensemble + [self, self.drama, self.settings],
+        presenter = Presenter.build_presenter(
+            self.bookmark.folder, *lines,
+            ensemble=self.bookmark.drama.ensemble + [self, self.bookmark.drama, self.settings],
             shot="Drama output"
         )
-        stem = self.folder.paths[self.index].split(".")[0]
-        self.drama.player.tally[stem] += 1
+        stem = self.bookmark.folder.paths[presenter.index].split(".")[0]
+        self.bookmark.drama.player.tally[stem] += 1
         if presenter and not(presenter.dwell or presenter.pause):
             setattr(self.settings, "catchphrase-reveal-extends", "none")
             setattr(self.settings, "catchphrase-states-scrolls", "scroll")
@@ -170,7 +177,7 @@ class Story(Renderer):
 
         return presenter
 
-    def update(self, metadata: dict):
-        if metadata.get("done"):
-            self.drama = self.load_drama(self.drama)
-        self.metadata.update(metadata)
+    def update(self, index):
+        metadata = self.bookmark.drama.interlude(self.bookmark.folder, index)
+        self.bookmark.folder.metadata.update(metadata)
+        self.bookmarks[-1] = self.bookmark._replace(index=index)

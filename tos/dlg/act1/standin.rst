@@ -6,12 +6,12 @@
 :version:   |VERSION|
 
 .. entity:: PLAYER
-   :types:  tos.types.Character
-   :states: tos.types.Motivation.player
+   :types:  tos.mixins.types.Character
+   :states: tos.mixins.types.Mode.playing
 
 .. entity:: NPC
-   :types:  tos.types.Character
-   :states: tos.types.Motivation.acting
+   :types:  tos.mixins.types.Character
+   :states: tos.types.Motivation.mother
 
 .. entity:: STORY
    :types:  tos.story.Story

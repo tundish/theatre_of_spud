@@ -43,9 +43,9 @@ def parser():
 def main(opts):
     name = input("Enter your character's first name: ") or "Francis"
     story = Story(**vars(opts))
-    bookmark = story.load(player_name=name)
+    story.load(player_name=name, description="Theatre of Spud")
     lines = []
-    while story.drama.active:
+    while story.bookmark.drama.active:
         presenter = story.represent(lines)
         if opts.debug:
             print(presenter.text, file=sys.stderr)
@@ -59,11 +59,11 @@ def main(opts):
                 if not opts.skip:
                     time.sleep(duration)
 
-        story.update(story.drama.interlude(story.folder, story.index))
+        story.update(presenter.index)
         story.input = input("{0} ".format(story.prompt)).strip() or story.input
-        fn, args, kwargs = story.drama.interpret(story.drama.match(story.input))
+        fn, args, kwargs = story.bookmark.drama.interpret(story.bookmark.drama.match(story.input))
         try:
-            lines = list(story.drama(fn, *args, **kwargs))
+            lines = list(story.bookmark.drama(fn, *args, **kwargs))
         except TypeError:
             lines = [story.refusal.format(story.input)]
 
