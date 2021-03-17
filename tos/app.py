@@ -88,7 +88,7 @@ async def get_frame(request):
         story.render_animated_frame_to_html(animation, controls)
     )
     log.info("Turn {0.bookmark.drama.turns}".format(story))
-    log.debug(story.bookmark.drama.player.tally)
+    log.debug(story.bookmark.tally)
     return web.Response(text=rv, content_type="text/html")
 
 

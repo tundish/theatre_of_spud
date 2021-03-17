@@ -30,7 +30,7 @@
 
 .. |PLAYER| property:: PLAYER.name
 .. |EDWARD| property:: EDWARD.name
-.. |LOCALE| property:: STORY.drama.scenery
+.. |LOCALE| property:: STORY.bookmark.drama.scenery
 .. |PUZZLE| property:: PUZZLE.name
 
 Foyer

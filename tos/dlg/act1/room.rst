@@ -17,7 +17,7 @@
 
 
 .. |PLAYER| property:: PLAYER.name
-.. |LOCALE| property:: STORY.drama.location
+.. |LOCALE| property:: STORY.bookmark.drama.location
 
 In a room
 =========
