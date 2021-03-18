@@ -64,6 +64,7 @@ More
 .. condition:: STORY.bookmark.tally[enter] 2
 
 There is a shout. Someone's name.
+
 Three more figures saunter over from the direction of the Croft.
 
 .. property:: STORY.prompt Enter 'help' for useful commands.

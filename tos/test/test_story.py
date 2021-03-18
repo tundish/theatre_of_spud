@@ -24,6 +24,7 @@ from turberfield.dialogue.model import SceneScript
 from tos.acts import Act1
 from tos.story import Story
 from tos.mixins.types import Character
+from tos.mixins.types import Proximity
 
 
 class StoryTests(unittest.TestCase):
@@ -42,8 +43,47 @@ class StoryTests(unittest.TestCase):
         self.assertIn('pattern="[\\w ]{1,36}"', form)  # Don't forget the space
         self.assertIn('<button type="submit">Enter</button>', form, form)
 
-    def test_progression(self):
+    def test_build_drama(self):
         s = Story()
-        s.drama = s.build_drama("tos.dlg.act1", player_name="tester")
-        self.assertIsInstance(s.drama.player, Character)
-        self.assertIsInstance(s.drama, Act1)
+        drama = s.build_drama("tos.dlg.act1", player_name="tester")
+        self.assertIsInstance(drama.player, Character)
+        self.assertIsInstance(drama, Act1)
+
+    def test_build(self):
+        s = Story()
+        bookmark = s.build("tos.dlg.act1", player_name="tester")
+        self.assertIsInstance(bookmark.drama.player, Character)
+        self.assertIsInstance(bookmark.drama, Act1)
+
+    def test_patrol(self):
+        story = Story()
+        response = []
+        commands = ["wait", "next", "help", "enter foyer", "next"]
+        story.build(player_name="tester", description="Patrol Test")
+        ed = next(iter(story.bookmark.drama.lookup["Edward Lionheart"]))
+        for cmd in commands:
+            story.input = cmd
+            fn, args, kwargs = story.bookmark.drama.interpret(story.bookmark.drama.match(cmd))
+            try:
+                response = list(story.bookmark.drama(fn, *args, **kwargs))
+            except TypeError:
+                response = [story.refusal.format(story.input)]
+
+            presenter = story.represent(response)
+            for frame in presenter.frames:
+                animation = presenter.animate(frame)
+                if not animation: continue
+                lines = [line for (line, duration) in story.render_frame_to_terminal(animation)]
+                print("\n".join(lines))
+
+            story.update(presenter.index)
+
+            if cmd == "enter foyer":
+                self.assertEqual(
+                    story.bookmark.drama.nav.Location.foyer,
+                    story.bookmark.drama.player.get_state(story.bookmark.drama.nav.Location),
+                    story.bookmark.drama.player
+                )
+                self.assertEqual(Proximity.inbound, ed.get_state(Proximity), ed)
+
+        self.assertEqual(Proximity.inbound, ed.get_state(Proximity), ed)
