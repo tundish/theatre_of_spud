@@ -84,6 +84,12 @@ class StoryTests(unittest.TestCase):
                     story.bookmark.drama.player.get_state(story.bookmark.drama.nav.Location),
                     story.bookmark.drama.player
                 )
-                self.assertEqual(Proximity.inbound, ed.get_state(Proximity), ed)
+                self.assertEqual(Proximity.outside, ed.get_state(Proximity), ed)
 
-        self.assertEqual(Proximity.inbound, ed.get_state(Proximity), ed)
+        else:
+            self.assertEqual(
+                story.bookmark.drama.nav.Location.foyer,
+                ed.get_state(story.bookmark.drama.nav.Location),
+                ed
+            )
+            self.assertEqual(Proximity.present, ed.get_state(Proximity), ed)

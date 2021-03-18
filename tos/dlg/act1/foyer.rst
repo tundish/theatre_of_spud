@@ -83,6 +83,7 @@ Approach
 --------
 
 .. condition:: EDWARD.state tos.mixins.types.Proximity.inbound
+.. condition:: EDWARD.state tos.mixins.types.Proximity.outside
 
 |PLAYER| hears someone coming.
 

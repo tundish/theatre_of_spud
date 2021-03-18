@@ -42,7 +42,7 @@ class Act1(Lights, Patrolling, Helpful):
             yield obj
 
         ed = Character(names=["Edward Lionheart"]).set_state(
-            Awareness.ignorant, Motivation.leader, self.nav.Location.wings, 1
+            Awareness.ignorant, Motivation.leader, self.nav.Location.corridor, 1
         )
         self.patrols.update(self.build_patrols(
             Patrolling.Patrol(
