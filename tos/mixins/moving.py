@@ -116,7 +116,6 @@ class Moving(Directing):
         look | look around
 
         """
-        self.pause()
         locn = self.player.get_state(self.nav.Location)
         yield "**{0}**".format(locn.value[0].title())
         yield random.choice(["Exits are:", "We are close to:", "Nearby:"])

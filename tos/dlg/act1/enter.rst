@@ -46,7 +46,9 @@ To the right, about 30 yards away, a couple of young men are sitting on a wall.
 
 Suddenly a car appears.
 
-.. property:: STORY.prompt Enter 'wait' to allow the car to pass.
+Waiting is a good idea now.
+
+.. property:: STORY.prompt Enter 'wait' or 'w' to allow the car to pass.
 .. property:: EDWARD.state tos.mixins.types.Mode.pausing
 
 Traffic
@@ -55,6 +57,8 @@ Traffic
 .. condition:: STORY.bookmark.tally[enter] 1
 
 The car speeds off, leaving billows of vapour to settle beneath the street lights.
+
+|PLAYER| hesitates.
 
 .. property:: STORY.prompt To read on, enter 'next' or 'n'.
 
@@ -67,7 +71,7 @@ There is a shout. Someone's name.
 
 Three more figures saunter over from the direction of the Croft.
 
-.. property:: STORY.prompt Enter 'help' for useful commands.
+.. property:: STORY.prompt Get clues for |PLAYER| by typing 'look'.
 
 Banter
 ------
@@ -75,6 +79,8 @@ Banter
 .. condition:: STORY.bookmark.tally[enter] 3
 
 |PLAYER| can hear cursing and youthful banter.
+
+.. property:: STORY.prompt Enter 'help' for useful commands.
 
 Nasty
 -----

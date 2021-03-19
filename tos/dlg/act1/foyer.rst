@@ -49,9 +49,9 @@ The Foyer is carpeted grey and gloomy.
 
 The Box Office and Cloakroom are in darkness.
 
-There are doors to a corridor on the left.
+There are doors to a Corridor on the left.
 
-Further on is the bar area.
+Further on is the Bar area.
 
 
 .. property:: EDWARD.state tos.mixins.types.Mode.default
