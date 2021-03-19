@@ -24,6 +24,7 @@ from turberfield.dialogue.model import SceneScript
 from tos.acts import Act1
 from tos.story import Story
 from tos.mixins.types import Character
+from tos.mixins.types import Motion
 from tos.mixins.types import Proximity
 
 
@@ -55,41 +56,50 @@ class StoryTests(unittest.TestCase):
         self.assertIsInstance(bookmark.drama.player, Character)
         self.assertIsInstance(bookmark.drama, Act1)
 
+class TestAct1(unittest.TestCase):
+
     def test_patrol(self):
         story = Story()
         response = []
         commands = ["wait", "next", "help", "enter foyer", "next"]
         story.build(player_name="tester", description="Patrol Test")
         ed = next(iter(story.bookmark.drama.lookup["Edward Lionheart"]))
-        for cmd in commands:
-            story.input = cmd
-            fn, args, kwargs = story.bookmark.drama.interpret(story.bookmark.drama.match(cmd))
-            try:
-                response = list(story.bookmark.drama(fn, *args, **kwargs))
-            except TypeError:
-                response = [story.refusal.format(story.input)]
+        for n, cmd in enumerate(commands):
+            with self.subTest(cmd=cmd, n=n):
+                story.input = cmd
+                fn, args, kwargs = story.bookmark.drama.interpret(story.bookmark.drama.match(cmd))
+                try:
+                    response = list(story.bookmark.drama(fn, *args, **kwargs))
+                except TypeError:
+                    response = [story.refusal.format(story.input)]
 
-            presenter = story.represent(response)
-            for frame in presenter.frames:
-                animation = presenter.animate(frame)
-                if not animation: continue
-                lines = [line for (line, duration) in story.render_frame_to_terminal(animation)]
-                print("\n".join(lines))
+                presenter = story.represent(response)
+                for frame in presenter.frames:
+                    animation = presenter.animate(frame)
+                    if not animation: continue
+                    lines = [line for (line, duration) in story.render_frame_to_terminal(animation)]
 
-            story.update(presenter.index)
+                story.update(presenter.index)
 
-            if cmd == "enter foyer":
-                self.assertEqual(
-                    story.bookmark.drama.nav.Location.foyer,
-                    story.bookmark.drama.player.get_state(story.bookmark.drama.nav.Location),
-                    story.bookmark.drama.player
-                )
-                self.assertEqual(Proximity.outside, ed.get_state(Proximity), ed)
-
-        else:
-            self.assertEqual(
-                story.bookmark.drama.nav.Location.foyer,
-                ed.get_state(story.bookmark.drama.nav.Location),
-                ed
-            )
-            self.assertEqual(Proximity.present, ed.get_state(Proximity), ed)
+                if n < 3:
+                    self.assertFalse(ed.get_state(Motion))
+                    self.assertEqual(
+                        story.bookmark.drama.nav.Location.corridor,
+                        ed.get_state(story.bookmark.drama.nav.Location), ed
+                    )
+                    self.assertEqual(Proximity.distant, ed.get_state(Proximity), ed)
+                elif cmd == "enter foyer":
+                    self.assertEqual(
+                        story.bookmark.drama.nav.Location.foyer,
+                        story.bookmark.drama.player.get_state(story.bookmark.drama.nav.Location),
+                        story.bookmark.drama.player
+                    )
+                    self.assertEqual(Proximity.outside, ed.get_state(Proximity), ed)
+                elif n == 4:
+                    self.assertEqual(Motion.patrol, ed.get_state(Motion))
+                    self.assertEqual(
+                        story.bookmark.drama.nav.Location.foyer,
+                        ed.get_state(story.bookmark.drama.nav.Location),
+                        ed
+                    )
+                    self.assertEqual(Proximity.present, ed.get_state(Proximity), ed)

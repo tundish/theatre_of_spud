@@ -46,7 +46,7 @@ class Act1(Lights, Patrolling, Helpful):
         )
         self.patrols.update(self.build_patrols(
             Patrolling.Patrol(
-                ed, [self.nav.Location.wings, self.nav.Location.foyer], 0)
+                ed, [self.nav.Location.wings, self.nav.Location.corridor, self.nav.Location.foyer], 1)
         ))
         yield ed
 
