@@ -42,7 +42,7 @@ class Patrolling(Moving):
             if c.get_state(Mode) == Mode.pausing:
                 continue
 
-            if c.get_state(Motion) == Motion.static:
+            else:
                 c.state = Motion.patrol
 
             pos = p.pos or 0

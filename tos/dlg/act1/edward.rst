@@ -61,16 +61,14 @@ Lights
 
     First night, yes.
 
-    A trial, and then let's hope, a triumph!
+    What is an evening's trial, when with dawn we be met with triumph?
 
 |EDWARD|'s eyebrows arch dramatically. The glow of a green exit sign catches the side of his ruddy, aquiline nose.
 
 [EDWARD]_
 
     That mob of hoodlums is hanging around outside.
-
     Would you make sure to keep the security lights switched on?
-
     We don't want any more damage to the cars.
 
 .. property:: PUZZLE.state tos.mixins.types.Awareness.indicate

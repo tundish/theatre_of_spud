@@ -56,12 +56,13 @@ class StoryTests(unittest.TestCase):
         self.assertIsInstance(bookmark.drama.player, Character)
         self.assertIsInstance(bookmark.drama, Act1)
 
+
 class TestAct1(unittest.TestCase):
 
     def test_patrol(self):
         story = Story()
         response = []
-        commands = ["wait", "next", "help", "enter foyer", "next"]
+        commands = ["wait", "next", "help", "enter foyer"] + ["w"] * 8
         story.build(player_name="tester", description="Patrol Test")
         ed = next(iter(story.bookmark.drama.lookup["Edward Lionheart"]))
         for n, cmd in enumerate(commands):
@@ -81,7 +82,7 @@ class TestAct1(unittest.TestCase):
 
                 story.update(presenter.index)
 
-                if n < 3:
+                if n < 2:
                     self.assertFalse(ed.get_state(Motion))
                     self.assertEqual(
                         story.bookmark.drama.nav.Location.corridor,
@@ -95,7 +96,7 @@ class TestAct1(unittest.TestCase):
                         story.bookmark.drama.player
                     )
                     self.assertEqual(Proximity.outside, ed.get_state(Proximity), ed)
-                elif n == 4:
+                elif n == 5:
                     self.assertEqual(Motion.patrol, ed.get_state(Motion))
                     self.assertEqual(
                         story.bookmark.drama.nav.Location.foyer,
