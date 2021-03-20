@@ -87,6 +87,7 @@ class Carrying(Moving):
 
         obj.state = self.nav.Departed[locn.name]
         obj.state = Proximity.carried
+        yield f"Now carrying the {obj.name}."
 
     def do_look(self, this, text, *args):
         """
