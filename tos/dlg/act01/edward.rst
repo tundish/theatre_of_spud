@@ -71,4 +71,4 @@ Lights
     Would you make sure to keep the security lights switched on?
     We don't want any more damage to the cars.
 
-.. property:: PUZZLE.state tos.mixins.types.Awareness.indicate
+.. property:: PUZZLE.state tos.mixins.types.Awareness.discover

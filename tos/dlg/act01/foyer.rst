@@ -59,11 +59,11 @@ Further on is the Bar area.
 Indicate
 --------
 
-.. condition:: PUZZLE.state tos.mixins.types.Awareness.indicate
+.. condition:: PUZZLE.state tos.mixins.types.Significance.indicate
 
 |PLAYER| notices the |PUZZLE|.
 
-.. property:: PUZZLE.state tos.mixins.types.Awareness.discover
+.. property:: PUZZLE.state tos.mixins.types.Significance.emphasis
 
 Discover
 --------

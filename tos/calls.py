@@ -35,7 +35,7 @@ class Calls(Moving):
             names=["phone", "telephone"],
             detail={
                 0: ["The telephone is mounted on the wall.", "It's a grey rotary telephone."],
-                Awareness.indicate: ["The phone is ringing."],
+                Significance.indicate: ["The phone is ringing."],
             },
             messages = [
                 Knowledge.Message(

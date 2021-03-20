@@ -25,6 +25,8 @@ from tos.map import Map
 from tos.mixins.types import Awareness
 from tos.mixins.types import Character
 from tos.mixins.types import Mode
+from tos.mixins.types import Proximity
+from tos.mixins.types import Significance
 
 
 class LightsTests(unittest.TestCase):
@@ -34,16 +36,16 @@ class LightsTests(unittest.TestCase):
         for obj in self.drama.build():
             self.drama.add(obj)
         self.drama.player = Character(names=["tester"]).set_state(Mode.playing, self.drama.nav.Location.car_park)
-        next(iter(self.drama.lookup["fuse"])).state = Awareness.indicate
+        next(iter(self.drama.lookup["fuse"])).state = Significance.indicate
         next(iter(self.drama.lookup["fuse"])).state = self.drama.nav.Location.lighting
-        next(iter(self.drama.lookup["lights"])).state = Awareness.indicate
+        next(iter(self.drama.lookup["lights"])).state = Significance.indicate
         next(iter(self.drama.lookup["lights"])).state = self.drama.nav.Location.foyer
         self.drama.active.add(self.drama.do_lights_off)
         self.drama.active.add(self.drama.do_lights_on)
 
     def test_find_lights(self):
         lights = next(iter(self.drama.lookup["lights"]))
-        self.assertEqual(Awareness.indicate, lights.get_state(Awareness))
+        self.assertEqual(Significance.indicate, lights.get_state(Significance))
         self.assertEqual(Map.Location.foyer, lights.get_state(Map.Location))
         options = list(self.drama.match("go to the foyer"))
         fn, args, kwargs = self.drama.interpret(options)
@@ -56,7 +58,7 @@ class LightsTests(unittest.TestCase):
 
     def test_find_fuse(self):
         fuse = next(iter(self.drama.lookup["fuse"]))
-        self.assertEqual(Awareness.indicate, fuse.get_state(Awareness))
+        self.assertEqual(Significance.indicate, fuse.get_state(Significance))
         self.assertEqual(Map.Location.lighting, fuse.get_state(Map.Location))
         options = list(self.drama.match("go to the lighting box"))
         fn, args, kwargs = self.drama.interpret(options)
@@ -112,7 +114,7 @@ class LightsTests(unittest.TestCase):
         options = list(self.drama.match("get the fuse"))
         fn, args, kwargs = self.drama.interpret(options)
         dlg = "\n".join(self.drama(fn, *args, **kwargs))
-        self.assertEqual(Awareness.carrying, fuse.get_state(Awareness))
+        self.assertEqual(Proximity.carried, fuse.get_state(Proximity))
 
     def test_fetch_fuse(self):
         self.test_get_fuse()

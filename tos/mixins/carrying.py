@@ -23,6 +23,7 @@ from tos.mixins.moving import Moving
 from tos.mixins.navigator import Navigator
 from tos.mixins.types import Artifact
 from tos.mixins.types import Awareness
+from tos.mixins.types import Proximity
 from tos.mixins.types import Mode
 
 
@@ -49,7 +50,7 @@ class Carrying(Moving):
 
         mobs = [
             i for i in self.ensemble
-            if hasattr(i, "state") and i.get_state(Awareness) == Awareness.carrying
+            if hasattr(i, "state") and i.get_state(Proximity) == Proximity.carried
         ]
         if mobs:
             self.active.add(self.do_examine)
@@ -66,7 +67,7 @@ class Carrying(Moving):
             if all(
                 isinstance(i, Navigator)
                 or i.get_state(self.nav.Location) == locn
-                or i.get_state(Awareness) == Awareness.carrying
+                or i.get_state(Proximity) == Proximity.carried
                 for i in kwargs.values()
             ):
                 return (fn, args, kwargs)
@@ -85,7 +86,7 @@ class Carrying(Moving):
             return
 
         obj.state = self.nav.Departed[locn.name]
-        obj.state = Awareness.carrying
+        obj.state = Proximity.carried
 
     def do_look(self, this, text, *args):
         """
@@ -95,7 +96,7 @@ class Carrying(Moving):
         yield from super().do_look(this, text, *args)
         carrying = {
             i for i in self.ensemble
-            if isinstance(i, Artifact) and i.get_state(Awareness) == Awareness.carrying
+            if isinstance(i, Artifact) and i.get_state(Proximity) == Proximity.carried
         }
         artifacts = [
             i for i in self.ensemble
@@ -115,5 +116,5 @@ class Carrying(Moving):
         examine {obj.names[0]}
 
         """
-        state = obj.get_state(Awareness)
+        state = obj.get_state(Proximity)
         yield random.choice(obj.detail.get(state, [""]))

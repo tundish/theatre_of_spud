@@ -24,8 +24,10 @@ from turberfield.dialogue.types import EnumFactory
 
 from tos.mixins.carrying import Carrying
 from tos.mixins.moving import Moving
-from tos.mixins.types import Awareness
 from tos.mixins.types import Artifact
+from tos.mixins.types import Awareness
+from tos.mixins.types import Proximity
+from tos.mixins.types import Significance
 
 from tos.map import Map
 
@@ -49,7 +51,7 @@ class Lights(Carrying, Moving):
             names=["fuse"],
             detail={
                 0: ["It's an inline fuse.", "It says, '13A'."],
-                Awareness.carrying: ["It's an inline fuse.", "It says, '13A'."]
+                Proximity.carried: ["It's an inline fuse.", "It says, '13A'."]
             },
         ).set_state(Awareness.ignorant)
 
@@ -57,7 +59,7 @@ class Lights(Carrying, Moving):
         yield ensemble.pop[n] if n is not None else Artifact(
             names=["lights"],
             detail={
-                Awareness.indicate: ["On the wall is a chunky metal switch."],
+                Significance.indicate: ["On the wall is a chunky metal switch."],
                 Awareness.discover: [
                     "It's a switch for the lights outside.",
                     "This switch operates the lights in the Car park."
@@ -83,7 +85,7 @@ class Lights(Carrying, Moving):
                     self.active.add(self.do_get)
                 else:
                     self.active.discard(self.do_get)
-                if obj.get_state(Awareness) == Awareness.indicate:
+                if obj.get_state(Significance) == Significance.indicate:
                     self.active.add(self.do_lights_off)
                     self.active.add(self.do_lights_on)
                     obj.state = Awareness.discover
