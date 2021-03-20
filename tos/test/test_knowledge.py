@@ -19,7 +19,7 @@
 
 import unittest
 
-from tos.sicknote import Knowledge
+from tos.knowledge import Knowledge
 
 
 class KnowledgeTests(unittest.TestCase):

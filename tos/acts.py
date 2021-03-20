@@ -55,7 +55,6 @@ class Act01(Lights, Patrolling, Helpful):
         yield self.player
 
 
-
 class Act02(Calls, Patrolling, Helpful):
 
     def build(self, ensemble=None, **kwargs):

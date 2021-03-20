@@ -17,6 +17,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+from tos.knowledge import Knowledge
 from tos.mixins.moving import Moving
 from tos.mixins.types import Awareness
 from tos.mixins.types import Artifact
@@ -36,6 +37,35 @@ class Calls(Moving):
                 0: ["The telephone is mounted on the wall.", "It's a grey rotary telephone."],
                 Awareness.indicate: ["The phone is ringing."],
             },
+            messages = [
+                Knowledge.Message(
+                    Knowledge.Noun("Angela Grant", "f"), (Knowledge.Noun("Danny", "m"),),
+                    ("{nouns[0].name} is going to the football",
+                     "{nouns[0].name}'s Dad has got tickets to the football"),
+                    ("{nouns[0].name} is at Fellows Park",
+                     "{nouns[0].name} can't do the play tonight",
+                    ),
+                    ("officer", "danny")
+                ),
+                Knowledge.Message(
+                    Knowledge.Noun("Sarah Scott", "f"), (Knowledge.Noun("Michael", "m"),),
+                    ("{nouns[0].name} is going to the football",
+                     "{nouns[0].name}'s Dad has got tickets to the football"),
+                    ("{nouns[0].name} is at Fellows Park",
+                     "{nouns[0].name} can't do the play tonight",
+                    ),
+                    ("bluntschli", "michael")
+                ),
+                Knowledge.Message(
+                    Knowledge.Noun("Paul Robbins", "m"), (Knowledge.Noun("Hayley", "f"),),
+                    ("{nouns[0].name} is going to the football",
+                     "{nouns[0].name}'s Dad has got tickets to the football"),
+                    ("{nouns[0].name} is at Fellows Park",
+                     "{nouns[0].name} can't do the play tonight",
+                    ),
+                    ("louka", "hayley")
+                ),
+            ],
         ).set_state(Awareness.ignorant, self.nav.Location.office)
 
     def interlude(self, folder, index, **kwargs):
