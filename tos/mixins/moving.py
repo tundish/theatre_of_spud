@@ -73,16 +73,23 @@ class Moving(Directing):
 
             if not self.player.get_state(self.nav.Location):
                 continue
+            elif mob.get_state(Proximity) == Proximity.carried:
+                mob.state = self.player.get_state(self.nav.Location)
+                continue
 
             hops = list(self.nav.route(
                 mob.get_state(self.nav.Location), self.player.get_state(self.nav.Location)
             ))
-            if not mob.get_state(self.nav.Departed):
-                prox = Proximity.outside
-            elif mob.get_state(self.nav.Departed).name == self.player.get_state(self.nav.Location).name:
+            prox = Proximity.outside
+            if (mob.get_state(self.nav.Departed)
+                and mob.get_state(self.nav.Departed).name == self.player.get_state(self.nav.Location).name
+            ):
                 prox = Proximity.outward
-            else:
+            elif (mob.get_state(self.nav.Arriving)
+                and mob.get_state(self.nav.Arriving).name == self.player.get_state(self.nav.Location).name
+            ):
                 prox = Proximity.inbound
+
             mob.state = {
                 0: Proximity.unknown,
                 1: Proximity.present,

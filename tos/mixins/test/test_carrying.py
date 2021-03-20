@@ -57,3 +57,26 @@ class TestCarrying(unittest.TestCase):
         
         dlg = "\n".join(self.drama(self.drama.do_get, "", obj=t))
         self.assertEqual("Now carrying the thing.", dlg)
+
+        p.state = self.drama.nav.Arriving["7"]
+
+        metadata = self.drama.interlude(None, None)
+        locn = p.get_state(self.drama.nav.Location)
+        self.assertEqual("5", p.get_state(self.drama.nav.Location).name)
+        self.assertEqual("5", t.get_state(self.drama.nav.Location).name)
+        self.assertEqual(Proximity.carried, t.get_state(Proximity))
+
+        # Drop the thing.
+        t.state = Proximity.present
+
+        metadata = self.drama.interlude(None, None)
+        locn = p.get_state(self.drama.nav.Location)
+        self.assertEqual("6", p.get_state(self.drama.nav.Location).name)
+        self.assertEqual("5", t.get_state(self.drama.nav.Location).name)
+        self.assertEqual(Proximity.outside, t.get_state(Proximity))
+
+        metadata = self.drama.interlude(None, None)
+        locn = p.get_state(self.drama.nav.Location)
+        self.assertEqual("7", p.get_state(self.drama.nav.Location).name)
+        self.assertEqual("5", t.get_state(self.drama.nav.Location).name)
+        self.assertEqual(Proximity.distant, t.get_state(Proximity))
