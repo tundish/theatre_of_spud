@@ -31,7 +31,7 @@ from turberfield.dialogue.model import SceneScript
 from turberfield.dialogue.types import Stateful
 
 import tos
-from tos.acts import Act1, Act2
+from tos.acts import Act01, Act02
 from tos.map import Map
 
 version = tos.__version__
@@ -87,8 +87,8 @@ class Story(Renderer, Stateful):
         self.bookmarks = []
         self.state = 1
         self.dramas = {
-            "tos.dlg.act1": Act1,
-            "tos.dlg.act2": Act2,
+            "tos.dlg.act01": Act01,
+            "tos.dlg.act02": Act02,
         }
 
     @property

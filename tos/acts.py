@@ -27,7 +27,7 @@ from tos.mixins.types import Mode
 from tos.types import Motivation
 
 
-class Act1(Lights, Patrolling, Helpful):
+class Act01(Lights, Patrolling, Helpful):
 
     @property
     def turns(self):
@@ -56,7 +56,7 @@ class Act1(Lights, Patrolling, Helpful):
 
 
 
-class Act2(Calls, Patrolling, Helpful):
+class Act02(Calls, Patrolling, Helpful):
 
     def build(self, ensemble=None, **kwargs):
         yield from super().build(ensemble)

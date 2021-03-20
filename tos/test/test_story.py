@@ -21,7 +21,7 @@ import unittest
 
 from turberfield.dialogue.model import SceneScript
 
-from tos.acts import Act1
+from tos.acts import Act01
 from tos.story import Story
 from tos.mixins.types import Character
 from tos.mixins.types import Motion
@@ -46,15 +46,15 @@ class StoryTests(unittest.TestCase):
 
     def test_build_drama(self):
         s = Story()
-        drama = s.build_drama("tos.dlg.act1", player_name="tester")
+        drama = s.build_drama("tos.dlg.act01", player_name="tester")
         self.assertIsInstance(drama.player, Character)
-        self.assertIsInstance(drama, Act1)
+        self.assertIsInstance(drama, Act01)
 
     def test_build(self):
         s = Story()
-        bookmark = s.build("tos.dlg.act1", player_name="tester")
+        bookmark = s.build("tos.dlg.act01", player_name="tester")
         self.assertIsInstance(bookmark.drama.player, Character)
-        self.assertIsInstance(bookmark.drama, Act1)
+        self.assertIsInstance(bookmark.drama, Act01)
 
 
 class TestAct1(unittest.TestCase):
