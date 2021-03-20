@@ -34,8 +34,12 @@ def parser():
         help="Write generated dialogue for debugging."
     )
     rv.add_argument(
-        "--skip", action="store_true", default=False,
+        "--quick", action="store_true", default=False,
         help="Don't perform timed animations."
+    )
+    rv.add_argument(
+        "--state", type=int, default=1,
+        help="Apply state to the story."
     )
     return rv
 
@@ -43,6 +47,7 @@ def parser():
 def main(opts):
     name = input("Enter your character's first name: ") or "Francis"
     story = Story(**vars(opts))
+    story.state = opts.state
     story.build(player_name=name, description="Theatre of Spud")
     lines = []
     while story.bookmark.drama.active:
@@ -56,7 +61,7 @@ def main(opts):
                 continue
             for line, duration in story.render_frame_to_terminal(animation):
                 print(line, "\n")
-                if not opts.skip:
+                if not opts.quick:
                     time.sleep(duration)
 
         story.update(presenter.index)
