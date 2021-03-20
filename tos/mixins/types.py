@@ -62,26 +62,27 @@ class Character(Named, Stateful): pass
 
 class Awareness(EnumFactory, enum.Enum):
 
-    ignorant = enum.auto()
-    indicate = enum.auto()
-    discover = enum.auto()
-    familiar = enum.auto()
     carrying = enum.auto()
     complete = enum.auto()
+    discover = enum.auto()
+    emphasis = enum.auto()
+    familiar = enum.auto()
+    ignorant = enum.auto()
+    indicate = enum.auto()
 
 
 class Proximity(EnumFactory, enum.Enum):
 
     audible = enum.auto()
     distant = enum.auto()
-    present = enum.auto()
     huddled = enum.auto()
     inbound = enum.auto()
     outside = enum.auto()
     outward = enum.auto()
+    present = enum.auto()
     tactile = enum.auto()
-    visible = enum.auto()
     unknown = enum.auto()
+    visible = enum.auto()
     whisper = enum.auto()
 
 
