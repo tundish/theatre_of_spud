@@ -47,10 +47,31 @@ class Telegraph(Drama):
         rv = super().interlude(folder, index, **kwargs)
         for i in self.messengers:
             if not i.get_state(Significance):
-                i.state = Significance.innocent
+                i.state = Significance.notknown
             elif i.get_state(Significance) == Significance.indicate:
                 i.state = Significance.emphasis
+            elif i.get_state(Significance) == Significance.silenced:
+                continue
 
+            messenger = self.messengers[i]
+            n = messenger.pending
+            if not n:
+                state = i.get_state(Significance)
+                if state in (Significance.notknown, Significance.inactive):
+                    i.state = Significance.indicate
+                elif state == Significance.declined:
+                    i.state = Significance.inactive
+                elif state == Significance.accepted:
+                    i.state = Significance.inactive
+                    n = messenger.period
+                    try:
+                        messenger.messages.rotate(-1)
+                    except AttributeError:
+                        messenger.messages.pop(0)
+            else:
+                n -= 1
+
+            self.messengers[i] = self.messengers[i]._replace(pending=n)
         return rv
 
 
@@ -62,7 +83,6 @@ class TestTelegraph(unittest.TestCase):
     def test_modes(self):
         a = Artifact(names=["joke book"])
         b = Artifact(names=["news channel"])
-        self.drama.add(a, b)
         self.drama.messengers = {
             a: Telegraph.Messenger(a, ["englishman", "irishman", "scotsman"], 4, period=1),
             b: Telegraph.Messenger(a, deque(["headlines", "weather", "sport"]), 0, period=3)
@@ -72,5 +92,37 @@ class TestTelegraph(unittest.TestCase):
             with self.subTest(n=n, msgs=self.drama.messengers):
                 if n == 0:
                     self.assertEqual(2, len(self.drama.messengers))
+                    self.assertEqual(Significance.notknown, a.get_state(Significance))
+                    self.assertEqual(Significance.indicate, b.get_state(Significance))
+                    self.assertEqual("headlines", self.drama.messengers[b].messages[0])
+                elif n == 1:
+                    self.assertEqual(Significance.notknown, a.get_state(Significance))
+                    self.assertEqual(Significance.emphasis, b.get_state(Significance))
+                    self.assertEqual("headlines", self.drama.messengers[b].messages[0])
+                    b.state = Significance.accepted
+                elif n == 2:
+                    self.assertEqual(Significance.notknown, a.get_state(Significance))
+                    self.assertEqual(Significance.inactive, b.get_state(Significance))
+                    self.assertEqual("weather", self.drama.messengers[b].messages[0])
+                elif n == 4:
+                    self.assertEqual(Significance.indicate, a.get_state(Significance))
+                    self.assertEqual(Significance.inactive, b.get_state(Significance))
+                    self.assertEqual("weather", self.drama.messengers[b].messages[0])
+                elif n == 5:
+                    self.assertEqual(Significance.emphasis, a.get_state(Significance))
+                    self.assertEqual(Significance.inactive, b.get_state(Significance))
+                    self.assertEqual("englishman", self.drama.messengers[a].messages[0])
+                    a.state = Significance.accepted
+                elif n == 6:
+                    self.assertEqual(Significance.inactive, a.get_state(Significance))
+                    self.assertEqual("irishman", self.drama.messengers[a].messages[0])
                 elif n == 7:
+                    self.assertEqual(Significance.indicate, a.get_state(Significance))
+                    self.assertEqual("irishman", self.drama.messengers[a].messages[0])
+                    a.state = Significance.declined
+                elif n == 8:
+                    self.assertEqual(Significance.indicate, a.get_state(Significance))
+                    self.assertEqual("irishman", self.drama.messengers[a].messages[0])
+                    a.state = Significance.accepted
+                elif n == 12:
                     self.assertEqual(1, len(self.drama.messengers))

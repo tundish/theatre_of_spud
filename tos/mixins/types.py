@@ -67,16 +67,22 @@ class Awareness(EnumFactory, enum.Enum):
     discover = enum.auto()
     familiar = enum.auto()
     complete = enum.auto()
-    forgetit = enum.auto()
+    remember = enum.auto()
 
 
 class Significance(EnumFactory, enum.Enum):
 
-    innocent = enum.auto()
+    notknown = enum.auto()
+    inactive = enum.auto()
+    silenced = enum.auto()
     indicate = enum.auto()
     emphasis = enum.auto()
     elevated = enum.auto()
+    alarming = enum.auto()
+    accepted = enum.auto()
+    declined = enum.auto()
     reducing = enum.auto()
+    diminish = enum.auto()
     resolved = enum.auto()
 
 
