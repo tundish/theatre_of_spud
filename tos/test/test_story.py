@@ -95,12 +95,12 @@ class TestAct1(unittest.TestCase):
                         story.bookmark.drama.player.get_state(story.bookmark.drama.nav.Location),
                         story.bookmark.drama.player
                     )
-                    self.assertEqual(Proximity.outside, ed.get_state(Proximity), ed)
+                    self.assertEqual(Proximity.present, ed.get_state(Proximity), ed)
                 elif n == 5:
                     self.assertEqual(Motion.patrol, ed.get_state(Motion))
                     self.assertEqual(
-                        story.bookmark.drama.nav.Location.foyer,
+                        story.bookmark.drama.nav.Location.corridor,
                         ed.get_state(story.bookmark.drama.nav.Location),
                         ed
                     )
-                    self.assertEqual(Proximity.present, ed.get_state(Proximity), ed)
+                    self.assertEqual(Proximity.outward, ed.get_state(Proximity), ed)

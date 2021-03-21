@@ -54,7 +54,7 @@ class LightsTests(unittest.TestCase):
         self.assertEqual(Map.Location.foyer, self.drama.player.get_state(Map.Location))
         self.assertEqual(Awareness.discover, lights.get_state(Awareness))
         metadata = self.drama.interlude(None, None)
-        self.assertEqual(Awareness.familiar, lights.get_state(Awareness))
+        self.assertEqual(Awareness.discover, lights.get_state(Awareness))
 
     def test_find_fuse(self):
         fuse = next(iter(self.drama.lookup["fuse"]))

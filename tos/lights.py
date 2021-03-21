@@ -89,8 +89,6 @@ class Lights(Carrying, Moving):
                     self.active.add(self.do_lights_off)
                     self.active.add(self.do_lights_on)
                     obj.state = Awareness.discover
-                elif obj.get_state(Awareness) == Awareness.discover:
-                    obj.state = Awareness.familiar
 
         if fuse.get_state(self.nav.Location) == lights.get_state(self.nav.Location):
             self.active.add(self.do_fit_fuse)
@@ -128,6 +126,7 @@ class Lights(Carrying, Moving):
 
         """
         lights = next(iter(self.lookup["lights"]))
+        lights.state = Awareness.familiar
         if lights.get_state(Switch) == Switch.opened:
             yield "The switch is already in the 'off' position."
         else:
@@ -147,6 +146,7 @@ class Lights(Carrying, Moving):
 
         """
         lights = next(iter(self.lookup["lights"]))
+        lights.state = Awareness.familiar
         if lights.get_state(Switch) == Switch.closed:
             yield "The switch is already in the 'on' position."
         else:
