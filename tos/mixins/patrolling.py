@@ -28,13 +28,13 @@ class Patrolling(Moving):
 
     Patrol = namedtuple("Patrol", ["npc", "orders", "pos"])
 
-    def __init__(self, *args, patrols=[], **kwargs):
-        super().__init__(*args, **kwargs)
-        self.patrols = self.build_patrols(*patrols)
-
     @staticmethod
     def build_patrols(*args):
         return {i.npc: i for i in args}
+
+    def __init__(self, *args, patrols=[], **kwargs):
+        super().__init__(*args, **kwargs)
+        self.patrols = self.build_patrols(*patrols)
 
     def interlude(self, folder, index, **kwargs):
         rv = super().interlude(folder, index, **kwargs)

@@ -63,6 +63,7 @@ class Character(Named, Stateful): pass
 class Awareness(EnumFactory, enum.Enum):
 
     ignorant = enum.auto()
+    rumoured = enum.auto()
     discover = enum.auto()
     familiar = enum.auto()
     complete = enum.auto()
@@ -75,6 +76,7 @@ class Significance(EnumFactory, enum.Enum):
     indicate = enum.auto()
     emphasis = enum.auto()
     elevated = enum.auto()
+    reducing = enum.auto()
     resolved = enum.auto()
 
 
