@@ -18,6 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import enum
+import inspect
 import pickle
 import sys
 import unittest
@@ -92,6 +93,12 @@ class MovingTests(unittest.TestCase):
     def setUp(self):
         nav = Map()
         self.drama = Moving(nav)
+
+        # This unfortunately necessary when `-m unittest discover`.
+        s = inspect.signature(self.drama.do_go, follow_wrapped=True)
+        p = s.parameters.copy()
+        p["locn"] = p["locn"].replace(annotation=[nav.Arriving])
+        self.drama.do_go.__func__.__signature__ = s.replace(parameters=p.values())
 
     def test_movement(self):
         self.drama.player = Character(names=["player"]).set_state(
