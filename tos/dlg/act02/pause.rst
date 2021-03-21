@@ -24,5 +24,5 @@ Paused
 {0}
 
 .. property:: STORY.prompt ?
-.. property:: PLAYER.state tos.stage.Motivation.player
+.. property:: PLAYER.state tos.mixins.types.Mode.playing
 .. property:: SETTINGS.catchphrase-colour-gravity hsl(209.33, 96.92%, 12.75%)

@@ -34,10 +34,10 @@ class FirstPositions:
 
     def build(self, ensemble=None, **kwargs):
         yield from super().build(ensemble)
-        ed = Character(names=["Edward Lionheart"]).set_state(
+
+        yield Character(names=["Edward Lionheart"]).set_state(
             Awareness.ignorant, Motivation.leader, self.nav.Location.corridor, 1
         )
-        yield ed
 
         player_name = kwargs.get("player_name", "Alan")
         self.player = Character(names=[player_name]).set_state(Mode.playing, self.nav.Location.car_park, 1)
