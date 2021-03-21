@@ -17,62 +17,13 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+from collections import deque
 import unittest
 
 from tos.mixins.types import Artifact
 from tos.mixins.types import Significance
 from tos.mixins.types import Proximity
-from tos.mixins.patrolling import Patrolling
-
-from tos.mixins.test.test_moving import TestTrack
-
-
-from collections import deque
-from collections import namedtuple
-from turberfield.catchphrase.drama import Drama
-
-class Telegraph(Drama):
-
-    Messenger = namedtuple("Messenger", ["npc", "messages", "pending", "period"])
-
-    @staticmethod
-    def build_messengers(*args):
-        return {i.npc: i for i in args}
-
-    def __init__(self, *args, messengers=[], **kwargs):
-        super().__init__(*args, **kwargs)
-        self.messengers = self.build_messengers(*messengers)
-
-    def interlude(self, folder, index, **kwargs):
-        rv = super().interlude(folder, index, **kwargs)
-        for i in self.messengers:
-            if not i.get_state(Significance):
-                i.state = Significance.notknown
-            elif i.get_state(Significance) == Significance.indicate:
-                i.state = Significance.emphasis
-            elif i.get_state(Significance) == Significance.silenced:
-                continue
-
-            messenger = self.messengers[i]
-            n = messenger.pending
-            if not n:
-                state = i.get_state(Significance)
-                if state in (Significance.notknown, Significance.inactive):
-                    i.state = Significance.indicate
-                elif state == Significance.declined:
-                    i.state = Significance.inactive
-                elif state == Significance.accepted:
-                    i.state = Significance.inactive
-                    n = messenger.period
-                    try:
-                        messenger.messages.rotate(-1)
-                    except AttributeError:
-                        messenger.messages.pop(0)
-            else:
-                n -= 1
-
-            self.messengers[i] = self.messengers[i]._replace(pending=n)
-        return rv
+from tos.mixins.telegraph import Telegraph
 
 
 class TestTelegraph(unittest.TestCase):
@@ -88,8 +39,8 @@ class TestTelegraph(unittest.TestCase):
             b: Telegraph.Messenger(a, deque(["headlines", "weather", "sport"]), 0, period=3)
         }
         for n in range(28):
-            metadata = self.drama.interlude(None, None)
-            with self.subTest(n=n, msgs=self.drama.messengers):
+            with self.subTest(n=n, m=self.drama.messengers):
+                metadata = self.drama.interlude(None, None)
                 if n == 0:
                     self.assertEqual(2, len(self.drama.messengers))
                     self.assertEqual(Significance.notknown, a.get_state(Significance))
@@ -113,16 +64,38 @@ class TestTelegraph(unittest.TestCase):
                     self.assertEqual(Significance.inactive, b.get_state(Significance))
                     self.assertEqual("englishman", self.drama.messengers[a].messages[0])
                     a.state = Significance.accepted
+                    b.state = Significance.accepted
                 elif n == 6:
                     self.assertEqual(Significance.inactive, a.get_state(Significance))
                     self.assertEqual("irishman", self.drama.messengers[a].messages[0])
                 elif n == 7:
-                    self.assertEqual(Significance.indicate, a.get_state(Significance))
+                    self.assertEqual(Significance.inactive, a.get_state(Significance))
                     self.assertEqual("irishman", self.drama.messengers[a].messages[0])
-                    a.state = Significance.declined
                 elif n == 8:
                     self.assertEqual(Significance.indicate, a.get_state(Significance))
                     self.assertEqual("irishman", self.drama.messengers[a].messages[0])
+                    a.state = Significance.declined
+                elif n == 9:
+                    self.assertEqual(Significance.inactive, a.get_state(Significance))
+                    self.assertEqual("irishman", self.drama.messengers[a].messages[0])
+                elif n == 10:
+                    self.assertEqual(Significance.indicate, a.get_state(Significance))
+                    self.assertEqual(Significance.indicate, b.get_state(Significance))
+                    self.assertEqual("sport", self.drama.messengers[b].messages[0])
+                    self.assertEqual("irishman", self.drama.messengers[a].messages[0])
                     a.state = Significance.accepted
+                    b.state = Significance.accepted
+                elif n == 11:
+                    self.assertEqual(Significance.inactive, a.get_state(Significance))
+                    self.assertEqual("scotsman", self.drama.messengers[a].messages[0])
                 elif n == 12:
+                    self.assertEqual(Significance.inactive, a.get_state(Significance))
+                    self.assertEqual("scotsman", self.drama.messengers[a].messages[0])
+                elif n == 13:
+                    self.assertEqual(Significance.indicate, a.get_state(Significance))
+                    self.assertEqual("scotsman", self.drama.messengers[a].messages[0])
+                    a.state = Significance.accepted
+                elif n == 15:
+                    self.assertEqual(Significance.indicate, b.get_state(Significance))
+                    self.assertEqual("headlines", self.drama.messengers[b].messages[0])
                     self.assertEqual(1, len(self.drama.messengers))
