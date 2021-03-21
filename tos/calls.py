@@ -21,6 +21,7 @@ from tos.knowledge import Knowledge
 from tos.mixins.moving import Moving
 from tos.mixins.types import Awareness
 from tos.mixins.types import Artifact
+from tos.mixins.types import Significance
 
 
 class Calls(Moving):

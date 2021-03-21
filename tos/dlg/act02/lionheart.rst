@@ -6,24 +6,24 @@
 :version:   |VERSION|
 
 .. entity:: PLAYER
-   :types:  tos.types.Character
-   :states: tos.types.Motivation.player
+   :types:  tos.mixins.types.Character
+   :states: tos.mixins.types.Mode.playing
 
 .. entity:: EDWARD
-   :types:  tos.types.Character
+   :types:  tos.mixins.types.Character
    :states: tos.types.Motivation.acting
 
 .. entity:: SPUD
-   :types:  tos.types.Character
-   :states: tos.move.Location.foyer
-            tos.types.Motivation.paused
+   :types:  tos.mixins.types.Character
+   :states: tos.map.Map.Location.foyer
+            tos.mixins.types.Mode.pausing
 
 .. entity:: BILL
-   :types:  tos.types.Character
+   :types:  tos.mixins.types.Character
    :states: tos.types.Motivation.acting
 
 .. entity:: BRENDA
-   :types:  tos.types.Character
+   :types:  tos.mixins.types.Character
    :states: tos.types.Motivation.acting
 
 .. entity:: STORY

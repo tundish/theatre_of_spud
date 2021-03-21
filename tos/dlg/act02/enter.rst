@@ -6,8 +6,8 @@
 :version:   |VERSION|
 
 .. entity:: PLAYER
-   :types:  tos.types.Character
-   :states: tos.types.Motivation.player
+   :types:  tos.mixins.types.Character
+   :states: tos.mixins.types.Mode.playing
 
 .. entity:: STORY
    :types:  tos.story.Story

@@ -8,8 +8,8 @@
 :pause:     0
 
 .. entity:: PLAYER
-   :types:  tos.types.Character
-   :states: tos.types.Motivation.paused
+   :types:  tos.mixins.types.Character
+   :states: tos.mixins.types.Mode.pausing
 
 .. entity:: STORY
    :types:  tos.story.Story

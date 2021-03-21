@@ -8,12 +8,12 @@
 :pause:     1
 
 .. entity:: PLAYER
-   :types:  tos.types.Character
-   :states: tos.types.Motivation.paused
+   :types:  tos.mixins.types.Character
+   :states: tos.mixins.types.Mode.pausing
 
 .. entity:: NPC
-   :types:  tos.types.Character
-   :states: tos.types.Motivation.paused
+   :types:  tos.mixins.types.Character
+   :states: tos.mixins.types.Mode.pausing
 
 .. entity:: SETTINGS
    :types:  turberfield.catchphrase.render.Settings
