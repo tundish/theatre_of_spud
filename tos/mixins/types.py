@@ -74,15 +74,16 @@ class Significance(EnumFactory, enum.Enum):
 
     notknown = enum.auto()
     inactive = enum.auto()
-    silenced = enum.auto()
     indicate = enum.auto()
     emphasis = enum.auto()
     elevated = enum.auto()
     alarming = enum.auto()
+    suppress = enum.auto()
     accepted = enum.auto()
     declined = enum.auto()
     reducing = enum.auto()
     diminish = enum.auto()
+    silenced = enum.auto()
     resolved = enum.auto()
 
 

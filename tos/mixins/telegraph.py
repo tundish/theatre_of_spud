@@ -43,7 +43,7 @@ class Telegraph(Drama):
                 i.state = Significance.notknown
             elif i.get_state(Significance) == Significance.indicate:
                 i.state = Significance.emphasis
-            elif i.get_state(Significance) == Significance.silenced:
+            elif i.get_state(Significance) == Significance.suppress:
                 continue
 
             messenger = self.messengers[i]
