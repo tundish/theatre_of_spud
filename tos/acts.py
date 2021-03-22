@@ -74,35 +74,37 @@ class Act02(FirstPositions, Calls, Telegraph, Helpful):
                     0: ["The telephone is mounted on the wall.", "It's a grey rotary telephone."],
                     Significance.indicate: ["The phone is ringing."],
                 })
-                obj.messages.extend([
-                    Knowledge.Message(
-                        Knowledge.Noun("Angela Grant", "f"), (Knowledge.Noun("Danny", "m"),),
-                        ("{nouns[0].name} is going to the football",
-                         "{nouns[0].name}'s Dad has got tickets to the football"),
-                        ("{nouns[0].name} is at Fellows Park",
-                         "{nouns[0].name} can't do the play tonight",
+                self.messengers.update({
+                    obj: Telegraph.Messenger(obj, [
+                        Knowledge.Message(
+                            Knowledge.Noun("Angela Grant", "f"), (Knowledge.Noun("Danny", "m"),),
+                            ("{nouns[0].name} is going to the football",
+                             "{nouns[0].name}'s Dad has got tickets to the football"),
+                            ("{nouns[0].name} is at Fellows Park",
+                             "{nouns[0].name} can't do the play tonight",
+                            ),
+                            ("officer", "danny")
                         ),
-                        ("officer", "danny")
-                    ),
-                    Knowledge.Message(
-                        Knowledge.Noun("Sarah Scott", "f"), (Knowledge.Noun("Michael", "m"),),
-                        ("{nouns[0].name} is going to the football",
-                         "{nouns[0].name}'s Dad has got tickets to the football"),
-                        ("{nouns[0].name} is at Fellows Park",
-                         "{nouns[0].name} can't do the play tonight",
+                        Knowledge.Message(
+                            Knowledge.Noun("Sarah Scott", "f"), (Knowledge.Noun("Michael", "m"),),
+                            ("{nouns[0].name} is going to the football",
+                             "{nouns[0].name}'s Dad has got tickets to the football"),
+                            ("{nouns[0].name} is at Fellows Park",
+                             "{nouns[0].name} can't do the play tonight",
+                            ),
+                            ("bluntschli", "michael")
                         ),
-                        ("bluntschli", "michael")
-                    ),
-                    Knowledge.Message(
-                        Knowledge.Noun("Paul Robbins", "m"), (Knowledge.Noun("Hayley", "f"),),
-                        ("{nouns[0].name} is going to the football",
-                         "{nouns[0].name}'s Dad has got tickets to the football"),
-                        ("{nouns[0].name} is at Fellows Park",
-                         "{nouns[0].name} can't do the play tonight",
+                        Knowledge.Message(
+                            Knowledge.Noun("Paul Robbins", "m"), (Knowledge.Noun("Hayley", "f"),),
+                            ("{nouns[0].name} is going to the football",
+                             "{nouns[0].name}'s Dad has got tickets to the football"),
+                            ("{nouns[0].name} is at Fellows Park",
+                             "{nouns[0].name} can't do the play tonight",
+                            ),
+                            ("louka", "hayley")
                         ),
-                        ("louka", "hayley")
-                    ),
-                ])
+                    ], 1, period=2)
+                })
                 obj.state = self.nav.Location.office
 
             yield obj
