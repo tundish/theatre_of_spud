@@ -17,13 +17,18 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+import random
+
 from tos.calls import Calls
 from tos.knowledge import Knowledge
 from tos.lights import Lights
+from tos.map import Map
 from tos.mixins.helpful import Helpful
+from tos.mixins.moving import Moving
 from tos.mixins.patrolling import Patrolling
 from tos.mixins.telegraph import Telegraph
 from tos.mixins.types import Awareness
+from tos.mixins.types import Artifact
 from tos.mixins.types import Character
 from tos.mixins.types import Mode
 from tos.mixins.types import Significance
@@ -65,7 +70,7 @@ class Act01(FirstPositions, Lights, Patrolling, Helpful):
             yield obj
 
 
-class Act02(FirstPositions, Calls, Telegraph, Helpful):
+class Act02(FirstPositions, Calls, Telegraph, Moving, Helpful):
 
     def build(self, ensemble=None, **kwargs):
         for obj in super().build(ensemble):
@@ -108,3 +113,30 @@ class Act02(FirstPositions, Calls, Telegraph, Helpful):
                 obj.state = self.nav.Location.office
 
             yield obj
+
+    def do_go(self, this, text, /, *args, locn: Map.Location):
+        """
+        enter {locn.value[0]}
+        enter {locn.value[1]}
+        enter {locn.value[2]}
+        go {locn.value[0]} | go to {locn.value[0]}
+        go {locn.value[1]} | go to {locn.value[1]}
+        go {locn.value[2]} | go to {locn.value[2]}
+
+        """
+        yield from super().do_go(this, text, locn=locn)
+
+    def do_look(self, this, text, *args):
+        """
+        look | look around
+
+        """
+        yield from super().do_look(this, text, *args)
+        artifacts = [
+            i for i in self.ensemble
+            if isinstance(i, Artifact)
+            and self.player.get_state(self.nav.Location) == i.get_state(self.nav.Location)
+        ]
+        if artifacts:
+            yield random.choice(["In view:", "We can see:"])
+            yield from ("* {0.names[0]}".format(i) for i in artifacts)
