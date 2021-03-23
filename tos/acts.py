@@ -70,7 +70,7 @@ class Act01(FirstPositions, Lights, Patrolling, Helpful):
             yield obj
 
 
-class Act02(FirstPositions, Calls, Telegraph, Moving, Helpful):
+class Act02(FirstPositions, Calls, Helpful):
 
     def build(self, ensemble=None, **kwargs):
         for obj in super().build(ensemble):

@@ -20,35 +20,33 @@
 import random
 
 from tos.mixins.moving import Moving
+from tos.mixins.telegraph import Telegraph
 from tos.mixins.types import Awareness
 from tos.mixins.types import Artifact
 from tos.mixins.types import Significance
 
 
-class Calls(Moving):
+class Calls(Telegraph, Moving):
     """Taking phone calls"""
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
 
     def __call__(self, fn, *args, **kwargs):
         yield from super().__call__(fn, *args, **kwargs)
 
-        phone = next(iter(self.lookup["phone"]))
-        if phone.get_state(Significance) == Significance.indicate:
-            yield random.choice([
-                "Suddenly, the {0.name} rings.".format(phone),
-                "The {0.name} starts to ring.".format(phone),
-                "The {0.name} begins ringing.".format(phone),
-            ])
-        elif phone.get_state(Significance) in (
-            Significance.emphasis, Significance.elevated, Significance.alarming
-        ):
-            yield random.choice([
-                "The {0.name} rings again.".format(phone),
-                "The {0.name} continues to ring.".format(phone),
-                "The {0.name} is still ringing.".format(phone),
-            ])
+        for obj in self.messengers:
+            if obj.get_state(Significance) == Significance.indicate:
+                yield random.choice([
+                    "Suddenly, the {0.name} rings.".format(obj),
+                    "The {0.name} starts to ring.".format(obj),
+                    "The {0.name} begins ringing.".format(obj),
+                ])
+            elif obj.get_state(Significance) in (
+                Significance.emphasis, Significance.elevated, Significance.alarming
+            ):
+                yield random.choice([
+                    "The {0.name} rings again.".format(obj),
+                    "The {0.name} continues to ring.".format(obj),
+                    "The {0.name} is still ringing.".format(obj),
+                ])
 
     def build(self, ensemble=None):
         yield from super().build()
@@ -60,5 +58,25 @@ class Calls(Moving):
 
     def interlude(self, folder, index, **kwargs):
         rv = super().interlude(folder, index, **kwargs)
-        phone = next(iter(self.lookup["phone"]))
+        self.active.discard(self.do_receive_call)
+        for obj in self.messengers:
+            if self.player.get_state(self.nav.Location) == obj.get_state(self.nav.Location):
+                if obj.get_state(Significance) not in (
+                    Significance.notknown, Significance.inactive, Significance.silenced,
+                    Significance.suppress, Significance.resolved
+                ):
+                    obj.state += 1
+                    self.active.add(self.do_receive_call)
         return rv
+
+    def do_receive_call(self, this, text, /, *args, obj: Artifact):
+        """
+        answer {obj.names[0]} | answer the {obj.names[0]}
+        get {obj.names[0]} | get the {obj.names[0]}
+        pick up {obj.names[0]} | pick up the {obj.names[0]}
+
+        """
+        obj.state = 0
+        obj.state = Significance.silenced
+        yield f"|PLAYER| answers the {obj.name}"
+
