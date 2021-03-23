@@ -41,11 +41,11 @@ class FirstPositions:
         yield from super().build(ensemble)
 
         yield Character(names=["Edward Lionheart"]).set_state(
-            Awareness.ignorant, Motivation.leader, self.nav.Location.corridor, 1
+            Awareness.ignorant, Motivation.leader, self.nav.Location.corridor
         )
 
         player_name = kwargs.get("player_name", "Alan")
-        self.player = Character(names=[player_name]).set_state(Mode.playing, self.nav.Location.car_park, 1)
+        self.player = Character(names=[player_name]).set_state(Mode.playing, self.nav.Location.car_park)
         yield self.player
 
 
@@ -72,8 +72,19 @@ class Act01(FirstPositions, Lights, Patrolling, Helpful):
 
 class Act02(FirstPositions, Calls, Helpful):
 
+    def __call__(self, fn, *args, **kwargs):
+        phone = next(iter(self.lookup["phone"]))
+        for line in super().__call__(fn, *args, **kwargs):
+            if "ring" in line and not phone.state % 2:
+                continue
+            else:
+                yield line
+
     def build(self, ensemble=None, **kwargs):
         for obj in super().build(ensemble):
+            if obj.get_state(Mode) == Mode.playing:
+                obj.state = self.nav.Location.foyer
+
             if "phone" in getattr(obj, "names", []):
                 obj.detail.update({
                     0: ["The telephone is mounted on the wall.", "It's a grey rotary telephone."],

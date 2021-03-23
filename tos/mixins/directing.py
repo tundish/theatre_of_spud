@@ -19,6 +19,7 @@
 
 
 from tos.mixins.types import Mode
+from tos.mixins.types import Proximity
 
 from turberfield.catchphrase.drama import Drama
 
@@ -32,6 +33,19 @@ class Directing(Drama):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.active.add(self.do_quit)
+
+    def interlude(self, folder, index, **kwargs):
+        rv = super().interlude(folder, index, **kwargs)
+
+        if not self.player or not hasattr(self, "nav"):
+            return rv
+
+        locn = self.player.get_state(self.nav.Location)
+        for obj in (i for i in self.ensemble if hasattr(i, "state") and i is not self.player):
+            if obj.get_state(self.nav.Location) == locn:
+                obj.state = Proximity.present
+
+        return rv
 
     def pause(self, quit=False):
         if quit:

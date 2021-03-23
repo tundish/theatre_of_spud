@@ -60,12 +60,12 @@ class Calls(Telegraph, Moving):
         rv = super().interlude(folder, index, **kwargs)
         self.active.discard(self.do_receive_call)
         for obj in self.messengers:
-            if self.player.get_state(self.nav.Location) == obj.get_state(self.nav.Location):
-                if obj.get_state(Significance) not in (
-                    Significance.notknown, Significance.inactive, Significance.silenced,
-                    Significance.suppress, Significance.resolved
-                ):
-                    obj.state += 1
+            if obj.get_state(Significance) not in (
+                Significance.notknown, Significance.inactive, Significance.silenced,
+                Significance.suppress, Significance.resolved
+            ):
+                obj.state += 1
+                if self.player.get_state(self.nav.Location) == obj.get_state(self.nav.Location):
                     self.active.add(self.do_receive_call)
         return rv
 

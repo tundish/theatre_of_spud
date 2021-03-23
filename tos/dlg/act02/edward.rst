@@ -9,28 +9,32 @@
    :types:  tos.mixins.types.Character
    :states: tos.mixins.types.Mode.playing
 
+.. entity:: EDWARD
+   :types:  tos.mixins.types.Character
+   :states: tos.types.Motivation.leader
+            tos.mixins.types.Proximity.present
+
+.. entity:: PHONE
+   :types:  tos.mixins.types.Artifact
+   :states: tos.map.Map.Location.office
+
 .. entity:: STORY
    :types:  tos.story.Story
+
+.. entity:: DRAMA
+   :types:  turberfield.catchphrase.drama.Drama
 
 .. entity:: SETTINGS
    :types:  turberfield.catchphrase.render.Settings
 
 
-Enter
-=====
+Lionheart
+=========
+
+{0}
 
 Action
 ------
 
-Enter.
-
-{0}
-
-Input
------
-
-|INPUT_TEXT|
-
-.. |INPUT_TEXT| property:: STORY.input
-.. |PLAYER| property:: PLAYER.name
+Edward.
 

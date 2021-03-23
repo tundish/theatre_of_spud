@@ -18,11 +18,11 @@
    :types:  tos.mixins.types.Artifact
    :states: tos.map.Map.Location.foyer
 
-.. entity:: DRAMA
-   :types:  turberfield.catchphrase.drama.Drama
-
 .. entity:: STORY
    :types:  tos.story.Story
+
+.. entity:: DRAMA
+   :types:  turberfield.catchphrase.drama.Drama
 
 .. entity:: SETTINGS
    :types:  turberfield.catchphrase.render.Settings
