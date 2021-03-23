@@ -78,5 +78,5 @@ class Calls(Telegraph, Moving):
         """
         obj.state = 0
         obj.state = Significance.silenced
-        yield f"|PLAYER| answers the {obj.name}"
+        yield f"{self.player.name} answers the {obj.name}"
 
