@@ -106,8 +106,11 @@ class Story(Renderer, Stateful):
     def build(self, pkg=None, bookmark=None, /, **kwargs):
         pkg = pkg or list(self.dramas.keys())[self.state - 1]
         ensemble = bookmark.drama.ensemble if bookmark else []
+        player = bookmark.drama.player if bookmark else None
         folder = self.build_folder(pkg, **kwargs)
         drama = self.build_drama(pkg, ensemble, **kwargs)
+        if player:
+            drama.player = player
         bookmark = Bookmark(pkg, folder, Counter(), drama)
         self.bookmarks.insert(0, bookmark)
         return self.bookmark

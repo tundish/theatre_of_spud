@@ -71,7 +71,7 @@ class Act01(FirstPositions, Lights, Patrolling, Helpful):
             yield obj
 
 
-class Act02(FirstPositions, Calls, Helpful):
+class Act02(Calls, Helpful):
 
     def __call__(self, fn, *args, **kwargs):
         phone = next(iter(self.lookup["phone"]))
