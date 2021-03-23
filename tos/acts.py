@@ -151,3 +151,13 @@ class Act02(FirstPositions, Calls, Helpful):
         if artifacts:
             yield random.choice(["In view:", "We can see:"])
             yield from ("* {0.names[0]}".format(i) for i in artifacts)
+
+    def do_receive_call(self, this, text, /, *args, obj: Artifact):
+        """
+        answer {obj.names[0]} | answer the {obj.names[0]}
+        get {obj.names[0]} | get the {obj.names[0]}
+        pick up {obj.names[0]} | pick up the {obj.names[0]}
+
+        """
+        yield from super().do_receive_call(this, text, obj=obj)
+        yield from Knowledge.intentions(self.messengers[obj].messages[0])

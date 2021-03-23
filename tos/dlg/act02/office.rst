@@ -10,7 +10,11 @@
    :states: tos.mixins.types.Mode.playing
             tos.map.Map.Location.office
 
-.. entity:: OFFICE
+.. entity:: EDWARD
+   :types:  tos.mixins.types.Character
+   :states: tos.types.Motivation.leader
+
+.. entity:: PHONE
    :types:  tos.mixins.types.Artifact
    :states: tos.map.Map.Location.office
 
@@ -28,8 +32,8 @@
 .. |LOCALE| property:: STORY.bookmark.drama.scenery
 .. |PHONE| property:: PHONE.name
 
-Foyer
-=====
+Office
+======
 
 {0}
 
