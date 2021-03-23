@@ -44,9 +44,10 @@ class FirstPositions:
             Awareness.ignorant, Motivation.leader, self.nav.Location.corridor
         )
 
-        player_name = kwargs.get("player_name", "Alan")
-        self.player = Character(names=[player_name]).set_state(Mode.playing, self.nav.Location.car_park)
-        yield self.player
+        if not ensemble:
+            player_name = kwargs.get("player_name", "Alan")
+            self.player = Character(names=[player_name]).set_state(Mode.playing, self.nav.Location.car_park)
+            yield self.player
 
 
 class Act01(FirstPositions, Lights, Patrolling, Helpful):

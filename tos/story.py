@@ -103,19 +103,19 @@ class Story(Renderer, Stateful):
     def bookmark(self):
         return self.bookmarks[0] if self.bookmarks else None
 
-    def build(self, pkg=None, /, **kwargs):
+    def build(self, pkg=None, bookmark=None, /, **kwargs):
         pkg = pkg or list(self.dramas.keys())[self.state - 1]
+        ensemble = bookmark.drama.ensemble if bookmark else []
         folder = self.build_folder(pkg, **kwargs)
-        drama = self.build_drama(pkg, **kwargs)
+        drama = self.build_drama(pkg, ensemble, **kwargs)
         bookmark = Bookmark(pkg, folder, Counter(), drama)
         self.bookmarks.insert(0, bookmark)
         return self.bookmark
 
-    def build_drama(self, pkg, player_name="", **kwargs):
+    def build_drama(self, pkg, ensemble, player_name="", **kwargs):
         drama_class = self.dramas[pkg]
         drama = drama_class(Map())
 
-        ensemble = []
         for obj in drama.build(ensemble, player_name=player_name):
             drama.add(obj)
 
@@ -153,4 +153,4 @@ class Story(Renderer, Stateful):
         bookmark.tally[stem] += 1
         pkg = list(self.dramas.keys())[self.state - 1]
         if pkg != bookmark.package:
-            return self.build(pkg)
+            return self.build(pkg, bookmark)

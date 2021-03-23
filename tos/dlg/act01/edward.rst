@@ -61,7 +61,7 @@ Lights
 
     First night, yes.
 
-    What fear I a moon battle, when we by dawn be crown'd in triumph?
+    What fear I a moon battle? Fast fair the dawn; we'll drowse in triumph!
 
 |EDWARD|'s eyebrows arch dramatically. The glow of a green exit sign catches the side of his ruddy, aquiline nose.
 

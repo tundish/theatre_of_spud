@@ -46,7 +46,7 @@ class StoryTests(unittest.TestCase):
 
     def test_build_drama(self):
         s = Story()
-        drama = s.build_drama("tos.dlg.act01", player_name="tester")
+        drama = s.build_drama("tos.dlg.act01", ensemble=[], player_name="tester")
         self.assertIsInstance(drama.player, Character)
         self.assertIsInstance(drama, Act01)
 
