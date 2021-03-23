@@ -18,6 +18,14 @@
    :types:  tos.mixins.types.Artifact
    :states: tos.map.Map.Location.office
 
+.. entity:: FATHER
+   :types:  tos.mixins.types.Character
+   :states: tos.types.Motivation.father
+
+.. entity:: MOTHER
+   :types:  tos.mixins.types.Character
+   :states: tos.types.Motivation.mother
+
 .. entity:: DRAMA
    :types:  turberfield.catchphrase.drama.Drama
 
@@ -67,14 +75,14 @@ Indicate
 Discover
 --------
 
-.. condition:: PUZZLE.state tos.mixins.types.Awareness.discover
+.. condition:: PHONE.state tos.mixins.types.Awareness.discover
 
 |PLAYER| studies the |PHONE|.
 
 Familiar
 --------
 
-.. condition:: PUZZLE.state tos.mixins.types.Awareness.familiar
+.. condition:: PHONE.state tos.mixins.types.Awareness.familiar
 
 |PLAYER| wonders what to do about the |PHONE|.
 

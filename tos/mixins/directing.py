@@ -43,7 +43,9 @@ class Directing(Drama):
         locn = self.player.get_state(self.nav.Location)
         for obj in (i for i in self.ensemble if hasattr(i, "state") and i is not self.player):
             if obj.get_state(self.nav.Location) == locn:
-                obj.state = Proximity.present
+                prox = obj.get_state(Proximity)
+                if not prox or prox == Proximity.unknown:
+                    obj.state = Proximity.present
 
         return rv
 

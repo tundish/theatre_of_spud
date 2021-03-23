@@ -14,9 +14,6 @@
    :types:  tos.mixins.types.Character
    :states: tos.types.Motivation.leader
 
-.. entity:: DRAMA
-   :types:  turberfield.catchphrase.drama.Drama
-
 .. entity:: STORY
    :types:  tos.story.Story
 
@@ -101,7 +98,7 @@ It is quite dark now.
 Hint
 ----
 
-.. condition:: DRAMA.history[0].args[0] hint
+.. condition:: STORY.bookmark.drama.history[0].args[0] hint
 
 It's not nice out here. Better get inside.
 

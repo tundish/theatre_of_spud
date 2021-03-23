@@ -125,6 +125,10 @@ class Act02(FirstPositions, Calls, Helpful):
 
             yield obj
 
+        yield Character(names=["Man's Voice"]).set_state(Motivation.father)
+        yield Character(names=["Woman's Voice"]).set_state(Motivation.mother)
+
+
     def do_go(self, this, text, /, *args, locn: Map.Location):
         """
         enter {locn.value[0]}
@@ -159,5 +163,17 @@ class Act02(FirstPositions, Calls, Helpful):
         pick up {obj.names[0]} | pick up the {obj.names[0]}
 
         """
+        msg = self.messengers[obj].messages[0]
         yield from super().do_receive_call(this, text, obj=obj)
-        yield from Knowledge.intentions(self.messengers[obj].messages[0])
+        if msg.attribution.gender == "f":
+            relation = random.choice([f"{msg.nouns[0].name}'s Mom", f"I'm {msg.nouns[0].name}'s Mother"])
+            yield "[MOTHER]_"
+        else:
+            relation = random.choice([f"{msg.nouns[0].name}'s Dad", f"I'm {msg.nouns[0].name}'s Father"])
+            yield "[FATHER]_"
+        yield ""
+        yield "Hello, it's {0.attribution.name} {1}".format(
+            msg, random.choice(["here.", "speaking.", "how's it going?"])
+        )
+        yield "    {0}.".format(relation)
+        yield "    {0}.".format(random.choice(list(Knowledge.intentions(msg))))

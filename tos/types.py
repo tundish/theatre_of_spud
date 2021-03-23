@@ -35,6 +35,7 @@ class Motivation(EnumFactory, enum.Enum):
     debtor = enum.auto()
     duress = enum.auto()
     elvish = enum.auto()
+    father = enum.auto()
     finish = enum.auto()
     friend = enum.auto()
     grovel = enum.auto()

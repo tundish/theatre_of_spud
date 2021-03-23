@@ -76,7 +76,7 @@ Foyer
 
 .. condition:: PLAYER.state tos.map.Map.Location.foyer
 
-In the Foyer again. It is chilly.
+In the Foyer again, it is chilly.
 
 Cloaks
 ------

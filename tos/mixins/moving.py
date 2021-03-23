@@ -57,6 +57,8 @@ class Moving(Directing):
 
         mobs = [self.player] + [i for i in self.ensemble if hasattr(i, "state") and i is not self.player]
         for mob in mobs:
+            if not mob.get_state(self.nav.Location):
+                continue
             if (mob.get_state(self.nav.Arriving)
                 and mob.get_state(self.nav.Arriving).name != mob.get_state(self.nav.Location).name
             ):

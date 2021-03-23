@@ -69,7 +69,9 @@ def main(opts):
         fn, args, kwargs = story.bookmark.drama.interpret(story.bookmark.drama.match(story.input))
         try:
             lines = list(story.bookmark.drama(fn, *args, **kwargs))
-        except TypeError:
+        except TypeError as e:
+            if opts.debug:
+                print(e, file=sys.stderr)
             lines = [story.refusal.format(story.input)]
 
 
