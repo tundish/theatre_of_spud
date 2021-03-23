@@ -48,7 +48,7 @@ def main(opts):
     name = input("Enter your character's first name: ") or "Francis"
     story = Story(**vars(opts))
     story.state = opts.state
-    story.build(player_name=name, description="Theatre of Spud")
+    bookmark = story.build(player_name=name, description="Theatre of Spud")
     lines = []
     while story.bookmark.drama.active:
         presenter = story.represent(lines)
@@ -64,7 +64,11 @@ def main(opts):
                 if not opts.quick:
                     time.sleep(duration)
 
-        story.update(presenter.index)
+        bookmark = story.update(presenter.index)
+        if bookmark:
+            presenter = story.represent(lines)
+            if opts.debug:
+                print(*story.bookmark.drama.ensemble, sep="\n", file=sys.stderr)
         story.input = input("{0} ".format(story.prompt)).strip() or story.input
         fn, args, kwargs = story.bookmark.drama.interpret(story.bookmark.drama.match(story.input))
         try:
