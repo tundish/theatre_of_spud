@@ -21,6 +21,7 @@ from collections import Counter
 from collections import namedtuple
 import importlib.resources
 import re
+import sys
 
 from turberfield.catchphrase.presenter import Presenter
 from turberfield.catchphrase.render import Action
@@ -105,7 +106,7 @@ class Story(Renderer, Stateful):
 
     def build(self, pkg=None, bookmark=None, /, **kwargs):
         pkg = pkg or list(self.dramas.keys())[self.state - 1]
-        ensemble = bookmark.drama.ensemble if bookmark else []
+        ensemble = list(bookmark.drama.ensemble) if bookmark else []
         player = bookmark.drama.player if bookmark else None
         folder = self.build_folder(pkg, **kwargs)
         drama = self.build_drama(pkg, ensemble, **kwargs)

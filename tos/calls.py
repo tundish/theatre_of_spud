@@ -49,7 +49,7 @@ class Calls(Telegraph, Moving):
                 ])
 
     def build(self, ensemble=None):
-        yield from super().build()
+        yield from super().build(ensemble)
         yield Artifact(
             names=["phone", "telephone"],
             detail={},
