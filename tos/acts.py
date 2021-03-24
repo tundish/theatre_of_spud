@@ -100,7 +100,7 @@ class Act02(Calls, Helpful):
                                 "{nouns[0].name}'s going with him."
                             ),
                             ("It's only a few lines, but who could fill in for {tags[1]}?",),
-                            ("Officer", "Danny")
+                            ("the Officer", "Danny")
                         ),
                         Knowledge.Message(
                             Knowledge.Noun("Sarah Scott", "f"), (Knowledge.Noun("Michael", "m"),),
@@ -108,8 +108,8 @@ class Act02(Calls, Helpful):
                                 "{nouns[0].name} has been asking to go to the match all weekend.",
                                 "We were in the Cedar Tree and got hold of some tickets.",
                             ),
-                            ("Can someone else maybe play {tags[0]}?."),
-                            ("Bluntschli", "Mickey")
+                            ("Can someone else play {tags[0]}?."),
+                            ("Bluntschli", "Mick")
                         ),
                         Knowledge.Message(
                             Knowledge.Noun("Paul Robbins", "m"), (Knowledge.Noun("Hayley", "f"),),
@@ -183,10 +183,11 @@ class Act02(Calls, Helpful):
 
         yield "[PLAYER]_"
         yield ""
-        yield "    {0}{1}{2}".format(
+        yield "    {0}{1}, {2} {3.player.name}.".format(
             random.choice(["Hello, ", "Hi ", ""]),
             msg.attribution.name.split()[0],
-            random.choice([f", this is {self.player.name}."])
+            random.choice(["it's", "this is"]),
+            self
         )
         yield ""
         yield speaker
