@@ -66,6 +66,7 @@ class Calls(Telegraph, Moving):
             ):
                 obj.state += 1
                 if self.player.get_state(self.nav.Location) == obj.get_state(self.nav.Location):
+                    #print(list(self.do_receive_call(None, None, obj=obj)))
                     self.active.add(self.do_receive_call)
         return rv
 
@@ -77,6 +78,6 @@ class Calls(Telegraph, Moving):
 
         """
         obj.state = 0
-        obj.state = Significance.silenced
+        obj.state = Significance.suppress
         yield f"{self.player.name} answers the {obj.name}"
 

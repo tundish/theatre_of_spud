@@ -94,31 +94,31 @@ class Act02(Calls, Helpful):
                 self.messengers.update({
                     obj: Telegraph.Messenger(obj, [
                         Knowledge.Message(
-                            Knowledge.Noun("Angela Grant", "f"), (Knowledge.Noun("Danny", "m"),),
-                            ("{nouns[0].name} is going to the football",
-                             "{nouns[0].name}'s Dad has got tickets to the football"),
-                            ("{nouns[0].name} is at Fellows Park",
-                             "{nouns[0].name} can't do the play tonight",
+                            Knowledge.Noun("Angela Grant", "f"), (Knowledge.Noun("Daniel", "m"),),
+                            (
+                                "{nouns[0].name}'s Dad has managed to get in to the football tonight.",
+                                "{nouns[0].name}'s going with him."
                             ),
-                            ("officer", "danny")
+                            ("It's only a few lines, but who could fill in for {tags[1]}?",),
+                            ("Officer", "Danny")
                         ),
                         Knowledge.Message(
                             Knowledge.Noun("Sarah Scott", "f"), (Knowledge.Noun("Michael", "m"),),
-                            ("{nouns[0].name} is going to the football",
-                             "{nouns[0].name}'s Dad has got tickets to the football"),
-                            ("{nouns[0].name} is at Fellows Park",
-                             "{nouns[0].name} can't do the play tonight",
+                            (
+                                "{nouns[0].name} has been asking to go to the match all weekend.",
+                                "We were in the Cedar Tree and got hold of some tickets.",
                             ),
-                            ("bluntschli", "michael")
+                            ("Can someone else maybe play {tags[0]}?."),
+                            ("Bluntschli", "Mickey")
                         ),
                         Knowledge.Message(
                             Knowledge.Noun("Paul Robbins", "m"), (Knowledge.Noun("Hayley", "f"),),
-                            ("{nouns[0].name} is going to the football",
-                             "{nouns[0].name}'s Dad has got tickets to the football"),
-                            ("{nouns[0].name} is at Fellows Park",
-                             "{nouns[0].name} can't do the play tonight",
+                            (
+                                "I've decided to take {nouns[0].name} to the football this evening.",
+                                "She's really looking forward to seeing Bruce Grobbelaar."
                             ),
-                            ("louka", "hayley")
+                            ("One of the other girls might like to do it.",),
+                            ("Louka", "Hayley")
                         ),
                     ], 1, period=2)
                 })
@@ -165,16 +165,38 @@ class Act02(Calls, Helpful):
 
         """
         msg = self.messengers[obj].messages[0]
+        pronoun = "She" if msg.nouns[0].gender == "f" else "He"
         yield from super().do_receive_call(this, text, obj=obj)
         if msg.attribution.gender == "f":
             relation = random.choice([f"{msg.nouns[0].name}'s Mom", f"I'm {msg.nouns[0].name}'s Mother"])
-            yield "[MOTHER]_"
+            speaker = "[MOTHER]_"
         else:
             relation = random.choice([f"{msg.nouns[0].name}'s Dad", f"I'm {msg.nouns[0].name}'s Father"])
-            yield "[FATHER]_"
+            speaker = "[FATHER]_"
+        yield speaker
         yield ""
-        yield "Hello, it's {0.attribution.name} {1}".format(
-            msg, random.choice(["here.", "speaking.", "how's it going?"])
+        yield "    Hello, it's {0.attribution.name}{1}".format(
+            msg, random.choice([" here.", " speaking.", ", who's that please?"])
         )
         yield "    {0}.".format(relation)
-        yield "    {0}.".format(random.choice(list(Knowledge.intentions(msg))))
+        yield ""
+
+        yield "[PLAYER]_"
+        yield ""
+        yield "    {0}{1}{2}".format(
+            random.choice(["Hello, ", "Hi ", ""]),
+            msg.attribution.name.split()[0],
+            random.choice([f", this is {self.player.name}."])
+        )
+        yield ""
+        yield speaker
+        yield ""
+        yield "    {0}".format(
+            random.choice(["Ever so sorry.", "Just to let you know", "Apologies for the short notice."])
+        )
+        yield from ("    {0}".format(i) for i in Knowledge.intentions(msg))
+        yield "    {0}".format(random.choice(
+                ["Hope that's OK.", "Will you be able to manage?", f"{pronoun}'ll be fine for tomorrow though."],
+        ))
+        yield ""
+        yield random.choice(list(Knowledge.implications(msg)))
