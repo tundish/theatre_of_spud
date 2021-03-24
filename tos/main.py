@@ -44,26 +44,10 @@ def parser():
     return rv
 
 
-def enact(story, state, player_name, description=""):
-    bookmark = None
-    for n, pkg in enumerate(story.dramas):
-        if not n:
-            bookmark = story.build(player_name=player_name, description=description)
-        else:
-            bookmark = story.build(pkg, bookmark, description=description)
-        story.state = n + 1
-
-        if story.state == state:
-            break
-
-    return bookmark
-
-
 def main(opts):
     name = input("Enter your character's first name: ") or "Francis"
     story = Story()
-
-    bookmark = enact(story, opts.state, player_name=name, description="Theatre of Spud")
+    bookmark = story.enact(opts.state, player_name=name, description="Theatre of Spud")
 
     lines = []
     while story.bookmark.drama.active:

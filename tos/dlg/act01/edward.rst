@@ -42,13 +42,6 @@ Ignorant
 He is a tall man with grey hair swept back in an elaborate quiff.
 He contemplates |PLAYER| with narrowed eyes.
 
-.. property:: EDWARD.state tos.mixins.types.Awareness.familiar
-
-Lights
-------
-
-.. condition:: PUZZLE.state tos.mixins.types.Awareness.ignorant
-
 [EDWARD]_
 
     Good evening |PLAYER|, are you well?
@@ -65,10 +58,27 @@ Lights
 
 |EDWARD|'s eyebrows arch dramatically. The glow of a green exit sign catches the side of his ruddy, aquiline nose.
 
+.. property:: EDWARD.state tos.mixins.types.Awareness.discover
+
+Lights
+------
+
+.. condition:: PUZZLE.state tos.mixins.types.Significance.notknown
+
 [EDWARD]_
 
     That mob of hoodlums is hanging around outside.
     Would you make sure to keep the security lights switched on?
     We don't want any more damage to the cars.
 
-.. property:: PUZZLE.state tos.mixins.types.Awareness.discover
+.. property:: PUZZLE.state tos.mixins.types.Significance.indicate
+
+Reminder
+--------
+
+.. condition:: PUZZLE.state tos.mixins.types.Significance.emphasis
+
+[EDWARD]_
+
+    Don't forget those lights, |PLAYER|.
+

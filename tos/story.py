@@ -104,6 +104,20 @@ class Story(Renderer, Stateful):
     def bookmark(self):
         return self.bookmarks[0] if self.bookmarks else None
 
+    def enact(self, state, player_name, description=""):
+        bookmark = None
+        for n, pkg in enumerate(self.dramas):
+            if not n:
+                bookmark = self.build(player_name=player_name, description=description)
+            else:
+                bookmark = self.build(pkg, bookmark, description=description)
+            self.state = n + 1
+
+            if self.state == state:
+                break
+
+        return bookmark
+
     def build(self, pkg=None, bookmark=None, /, **kwargs):
         pkg = pkg or list(self.dramas.keys())[self.state - 1]
         ensemble = list(bookmark.drama.ensemble) if bookmark else []

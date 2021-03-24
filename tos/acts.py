@@ -17,6 +17,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+import numbers
 import random
 
 from tos.calls import Calls
@@ -70,6 +71,15 @@ class Act01(FirstPositions, Lights, Patrolling, Helpful):
 
             yield obj
 
+    def interlude(self, folder, index, **kwargs):
+        rv = super().interlude(folder, index, **kwargs)
+        lights = next(iter(self.lookup["lights"]))
+        state = lights.get_state(Significance)
+        if isinstance(state, numbers.Number):
+            lights.state = Significance.notknown
+        elif lights.get_state(Significance) == Significance.indicate:
+            lights.state = Significance.emphasis
+        return rv
 
 class Act02(Calls, Helpful):
 
