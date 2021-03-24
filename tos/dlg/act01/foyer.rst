@@ -105,8 +105,10 @@ Complete
 
 .. condition:: PUZZLE.state tos.mixins.types.Awareness.complete
 
+There is the sound of conversation from the Bar.
+
 [PLAYER]_
 
-    Right. What next then?
+    I wonder who that could be?
 
 .. property:: STORY.state 2
