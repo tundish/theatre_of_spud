@@ -128,6 +128,9 @@ class Act02(Calls, Helpful):
 
         yield Character(names=["Man's Voice"]).set_state(Motivation.father)
         yield Character(names=["Woman's Voice"]).set_state(Motivation.mother)
+        yield Character(names=["Spud"]).set_state(
+            Awareness.ignorant, Motivation.acting, self.nav.Location.backstage
+        )
 
 
     def do_go(self, this, text, /, *args, locn: Map.Location):

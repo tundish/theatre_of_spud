@@ -40,6 +40,7 @@ class Motivation(EnumFactory, enum.Enum):
     friend = enum.auto()
     grovel = enum.auto()
     herald = enum.auto()
+    helper = enum.auto()
     hubris = enum.auto()
     insert = enum.auto()
     joking = enum.auto()
