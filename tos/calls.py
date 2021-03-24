@@ -32,20 +32,20 @@ class Calls(Telegraph, Moving):
     def __call__(self, fn, *args, **kwargs):
         yield from super().__call__(fn, *args, **kwargs)
 
-        for obj in self.messengers:
-            if obj.get_state(Significance) == Significance.indicate:
+        for m in self.messengers:
+            if m.obj.get_state(Significance) == Significance.indicate:
                 yield random.choice([
-                    "Suddenly, the {0.name} rings.".format(obj),
-                    "The {0.name} starts to ring.".format(obj),
-                    "The {0.name} begins ringing.".format(obj),
+                    "Suddenly, the {0.obj.name} rings.".format(m),
+                    "The {0.obj.name} starts to ring.".format(m),
+                    "The {0.obj.name} begins ringing.".format(m),
                 ])
-            elif obj.get_state(Significance) in (
+            elif m.obj.get_state(Significance) in (
                 Significance.emphasis, Significance.elevated, Significance.alarming
             ):
                 yield random.choice([
-                    "The {0.name} rings again.".format(obj),
-                    "The {0.name} continues to ring.".format(obj),
-                    "The {0.name} is still ringing.".format(obj),
+                    "The {0.obj.name} rings again.".format(m),
+                    "The {0.obj.name} continues to ring.".format(m),
+                    "The {0.obj.name} is still ringing.".format(m),
                 ])
 
     def build(self, ensemble=None):
@@ -59,14 +59,13 @@ class Calls(Telegraph, Moving):
     def interlude(self, folder, index, **kwargs):
         rv = super().interlude(folder, index, **kwargs)
         self.active.discard(self.do_receive_call)
-        for obj in self.messengers:
-            if obj.get_state(Significance) not in (
+        for m in self.messengers:
+            if m.obj.get_state(Significance) not in (
                 Significance.notknown, Significance.inactive, Significance.silenced,
                 Significance.suppress, Significance.resolved
             ):
-                obj.state += 1
-                if self.player.get_state(self.nav.Location) == obj.get_state(self.nav.Location):
-                    #print(list(self.do_receive_call(None, None, obj=obj)))
+                m.obj.state += 1
+                if self.player.get_state(self.nav.Location) == m.obj.get_state(self.nav.Location):
                     self.active.add(self.do_receive_call)
         return rv
 

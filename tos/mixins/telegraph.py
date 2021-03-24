@@ -27,7 +27,7 @@ from tos.mixins.types import Significance
 
 class Telegraph(Drama):
 
-    Messenger = namedtuple("Messenger", ["npc", "messages", "pending", "period"])
+    Messenger = namedtuple("Messenger", ["obj", "messages", "pending", "period"])
 
     def __init__(self, *args, messengers=[], **kwargs):
         super().__init__(*args, **kwargs)
@@ -36,11 +36,11 @@ class Telegraph(Drama):
     def interlude(self, folder, index, **kwargs):
         rv = super().interlude(folder, index, **kwargs)
         for m in self.messengers[:]:
-            if not m.npc.get_state(Significance):
-                m.npc.state = Significance.notknown
-            elif m.npc.get_state(Significance) == Significance.indicate:
-                m.npc.state = Significance.emphasis
-            elif m.npc.get_state(Significance) == Significance.suppress:
+            if not m.obj.get_state(Significance):
+                m.obj.state = Significance.notknown
+            elif m.obj.get_state(Significance) == Significance.indicate:
+                m.obj.state = Significance.emphasis
+            elif m.obj.get_state(Significance) == Significance.suppress:
                 continue
 
             if not m.messages:
@@ -49,13 +49,13 @@ class Telegraph(Drama):
 
             p = m.pending
             if not p:
-                state = m.npc.get_state(Significance)
+                state = m.obj.get_state(Significance)
                 if state in (Significance.notknown, Significance.inactive):
-                    m.npc.state = Significance.indicate
+                    m.obj.state = Significance.indicate
                 elif state == Significance.declined:
-                    m.npc.state = Significance.inactive
+                    m.obj.state = Significance.inactive
                 elif state == Significance.accepted:
-                    m.npc.state = Significance.inactive
+                    m.obj.state = Significance.inactive
                     p = m.period
                     try:
                         m.messages.rotate(-1)

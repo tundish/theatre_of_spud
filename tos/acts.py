@@ -91,8 +91,8 @@ class Act02(Calls, Helpful):
                     0: ["The telephone is mounted on the wall.", "It's a grey rotary telephone."],
                     Significance.indicate: ["The phone is ringing."],
                 })
-                self.messengers.update({
-                    obj: Telegraph.Messenger(obj, [
+                self.messengers.append(
+                    Telegraph.Messenger(obj, [
                         Knowledge.Message(
                             Knowledge.Noun("Angela Grant", "f"), (Knowledge.Noun("Daniel", "m"),),
                             (
@@ -121,7 +121,7 @@ class Act02(Calls, Helpful):
                             ("Louka", "Hayley")
                         ),
                     ], 1, period=2)
-                })
+                )
                 obj.state = self.nav.Location.office
 
             yield obj
@@ -164,7 +164,7 @@ class Act02(Calls, Helpful):
         pick up {obj.names[0]} | pick up the {obj.names[0]}
 
         """
-        msg = self.messengers[obj].messages[0]
+        msg = self.messengers[0].messages[0]
         pronoun = "She" if msg.nouns[0].gender == "f" else "He"
         yield from super().do_receive_call(this, text, obj=obj)
         if msg.attribution.gender == "f":

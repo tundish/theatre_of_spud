@@ -29,8 +29,6 @@
    :types:  turberfield.catchphrase.render.Settings
 
 
-.. |SNIPPET| property:: PHONE.messages[0].tags[1]
-
 Lionheart
 =========
 
@@ -43,4 +41,11 @@ Action
 
     Got a message for me?
 
-    Maybe about |SNIPPET|?
+Danny
+-----
+
+.. condition:: STORY.bookmark.drama.messengers[0].messages[0].tags[1] Danny
+
+[EDWARD]_
+
+    It's Danny, isn't it?
