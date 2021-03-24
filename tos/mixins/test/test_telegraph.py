@@ -34,10 +34,10 @@ class TestTelegraph(unittest.TestCase):
     def test_modes(self):
         a = Artifact(names=["joke book"])
         b = Artifact(names=["news channel"])
-        self.drama.messengers = {
-            a: Telegraph.Messenger(a, ["englishman", "irishman", "scotsman"], 4, period=1),
-            b: Telegraph.Messenger(a, deque(["headlines", "weather", "sport"]), 0, period=3)
-        }
+        self.drama.messengers = [
+            Telegraph.Messenger(a, ["englishman", "irishman", "scotsman"], 4, period=1),
+            Telegraph.Messenger(b, deque(["headlines", "weather", "sport"]), 0, period=3)
+        ]
         for n in range(28):
             with self.subTest(n=n, m=self.drama.messengers):
                 metadata = self.drama.interlude(None, None)
@@ -45,57 +45,57 @@ class TestTelegraph(unittest.TestCase):
                     self.assertEqual(2, len(self.drama.messengers))
                     self.assertEqual(Significance.notknown, a.get_state(Significance))
                     self.assertEqual(Significance.indicate, b.get_state(Significance))
-                    self.assertEqual("headlines", self.drama.messengers[b].messages[0])
+                    self.assertEqual("headlines", self.drama.messengers[0].messages[0])
                 elif n == 1:
                     self.assertEqual(Significance.notknown, a.get_state(Significance))
                     self.assertEqual(Significance.emphasis, b.get_state(Significance))
-                    self.assertEqual("headlines", self.drama.messengers[b].messages[0])
+                    self.assertEqual("headlines", self.drama.messengers[0].messages[0])
                     b.state = Significance.accepted
                 elif n == 2:
                     self.assertEqual(Significance.notknown, a.get_state(Significance))
                     self.assertEqual(Significance.inactive, b.get_state(Significance))
-                    self.assertEqual("weather", self.drama.messengers[b].messages[0])
+                    self.assertEqual("weather", self.drama.messengers[1].messages[0])
                 elif n == 4:
                     self.assertEqual(Significance.indicate, a.get_state(Significance))
                     self.assertEqual(Significance.inactive, b.get_state(Significance))
-                    self.assertEqual("weather", self.drama.messengers[b].messages[0])
+                    self.assertEqual("weather", self.drama.messengers[1].messages[0])
                 elif n == 5:
                     self.assertEqual(Significance.emphasis, a.get_state(Significance))
                     self.assertEqual(Significance.inactive, b.get_state(Significance))
-                    self.assertEqual("englishman", self.drama.messengers[a].messages[0])
+                    self.assertEqual("englishman", self.drama.messengers[0].messages[0])
                     a.state = Significance.accepted
                     b.state = Significance.accepted
                 elif n == 6:
                     self.assertEqual(Significance.inactive, a.get_state(Significance))
-                    self.assertEqual("irishman", self.drama.messengers[a].messages[0])
+                    self.assertEqual("irishman", self.drama.messengers[0].messages[0])
                 elif n == 7:
                     self.assertEqual(Significance.inactive, a.get_state(Significance))
-                    self.assertEqual("irishman", self.drama.messengers[a].messages[0])
+                    self.assertEqual("irishman", self.drama.messengers[0].messages[0])
                 elif n == 8:
                     self.assertEqual(Significance.indicate, a.get_state(Significance))
-                    self.assertEqual("irishman", self.drama.messengers[a].messages[0])
+                    self.assertEqual("irishman", self.drama.messengers[0].messages[0])
                     a.state = Significance.declined
                 elif n == 9:
                     self.assertEqual(Significance.inactive, a.get_state(Significance))
-                    self.assertEqual("irishman", self.drama.messengers[a].messages[0])
+                    self.assertEqual("irishman", self.drama.messengers[0].messages[0])
                 elif n == 10:
                     self.assertEqual(Significance.indicate, a.get_state(Significance))
                     self.assertEqual(Significance.indicate, b.get_state(Significance))
-                    self.assertEqual("sport", self.drama.messengers[b].messages[0])
-                    self.assertEqual("irishman", self.drama.messengers[a].messages[0])
+                    self.assertEqual("sport", self.drama.messengers[1].messages[0])
+                    self.assertEqual("irishman", self.drama.messengers[0].messages[0])
                     a.state = Significance.accepted
                     b.state = Significance.accepted
                 elif n == 11:
                     self.assertEqual(Significance.inactive, a.get_state(Significance))
-                    self.assertEqual("scotsman", self.drama.messengers[a].messages[0])
+                    self.assertEqual("scotsman", self.drama.messengers[0].messages[0])
                 elif n == 12:
                     self.assertEqual(Significance.inactive, a.get_state(Significance))
-                    self.assertEqual("scotsman", self.drama.messengers[a].messages[0])
+                    self.assertEqual("scotsman", self.drama.messengers[0].messages[0])
                 elif n == 13:
                     self.assertEqual(Significance.indicate, a.get_state(Significance))
-                    self.assertEqual("scotsman", self.drama.messengers[a].messages[0])
+                    self.assertEqual("scotsman", self.drama.messengers[0].messages[0])
                     a.state = Significance.accepted
                 elif n == 15:
                     self.assertEqual(Significance.indicate, b.get_state(Significance))
-                    self.assertEqual("headlines", self.drama.messengers[b].messages[0])
+                    self.assertEqual("headlines", self.drama.messengers[0].messages[0])
                     self.assertEqual(1, len(self.drama.messengers))

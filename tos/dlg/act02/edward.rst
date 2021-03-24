@@ -17,6 +17,7 @@
 .. entity:: PHONE
    :types:  tos.mixins.types.Artifact
    :states: tos.map.Map.Location.office
+            tos.mixins.types.Significance.suppress
 
 .. entity:: STORY
    :types:  tos.story.Story
@@ -28,6 +29,8 @@
    :types:  turberfield.catchphrase.render.Settings
 
 
+.. |SNIPPET| property:: PHONE.messages[0].tags[1]
+
 Lionheart
 =========
 
@@ -36,5 +39,8 @@ Lionheart
 Action
 ------
 
-Edward.
+[EDWARD]_
 
+    Got a message for me?
+
+    Maybe about |SNIPPET|?

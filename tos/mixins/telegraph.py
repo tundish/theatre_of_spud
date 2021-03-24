@@ -18,6 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from collections import namedtuple
+import operator
 
 from turberfield.catchphrase.drama import Drama
 
@@ -28,45 +29,43 @@ class Telegraph(Drama):
 
     Messenger = namedtuple("Messenger", ["npc", "messages", "pending", "period"])
 
-    @staticmethod
-    def build_messengers(*args):
-        return {i.npc: i for i in args}
-
     def __init__(self, *args, messengers=[], **kwargs):
         super().__init__(*args, **kwargs)
-        self.messengers = self.build_messengers(*messengers)
+        self.messengers = messengers
 
     def interlude(self, folder, index, **kwargs):
         rv = super().interlude(folder, index, **kwargs)
-        for i in list(self.messengers.keys()):
-            if not i.get_state(Significance):
-                i.state = Significance.notknown
-            elif i.get_state(Significance) == Significance.indicate:
-                i.state = Significance.emphasis
-            elif i.get_state(Significance) == Significance.suppress:
+        for m in self.messengers[:]:
+            if not m.npc.get_state(Significance):
+                m.npc.state = Significance.notknown
+            elif m.npc.get_state(Significance) == Significance.indicate:
+                m.npc.state = Significance.emphasis
+            elif m.npc.get_state(Significance) == Significance.suppress:
                 continue
 
-            messenger = self.messengers[i]
-            if not messenger.messages:
-                del self.messengers[i]
+            if not m.messages:
+                self.messengers.remove(m)
                 continue
 
-            n = messenger.pending
-            if not n:
-                state = i.get_state(Significance)
+            p = m.pending
+            if not p:
+                state = m.npc.get_state(Significance)
                 if state in (Significance.notknown, Significance.inactive):
-                    i.state = Significance.indicate
+                    m.npc.state = Significance.indicate
                 elif state == Significance.declined:
-                    i.state = Significance.inactive
+                    m.npc.state = Significance.inactive
                 elif state == Significance.accepted:
-                    i.state = Significance.inactive
-                    n = messenger.period
+                    m.npc.state = Significance.inactive
+                    p = m.period
                     try:
-                        messenger.messages.rotate(-1)
+                        m.messages.rotate(-1)
                     except AttributeError:
-                        messenger.messages.pop(0)
+                        m.messages.pop(0)
             else:
-                n -= 1
+                p -= 1
 
-            self.messengers[i] = self.messengers[i]._replace(pending=n)
+            self.messengers.remove(m)
+            self.messengers.append(m._replace(pending=p))
+        else:
+            self.messengers.sort(key=operator.attrgetter("pending"))
         return rv
