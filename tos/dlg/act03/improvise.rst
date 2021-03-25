@@ -9,9 +9,15 @@
    :types:  tos.mixins.types.Character
    :states: tos.mixins.types.Mode.playing
 
-.. entity:: NPC
+.. entity:: EDWARD
    :types:  tos.mixins.types.Character
-   :states: tos.types.Motivation.acting
+   :states: tos.mixins.types.Proximity.present
+            tos.types.Motivation.leader
+
+.. entity:: SPUD
+   :types:  tos.mixins.types.Character
+   :states: tos.mixins.types.Proximity.present
+            tos.types.Motivation.acting
 
 .. entity:: STORY
    :types:  tos.story.Story
@@ -20,51 +26,8 @@
    :types:  turberfield.catchphrase.render.Settings
 
 
-Early
-=====
-
-Input
------
-
-|INPUT_TEXT|
-
-.. |INPUT_TEXT| property:: STORY.input
-
-
-Dog
----
-
-[BRENDA]_
-
-    Hello, I'm Brenda.
-
-[BILL]_
-
-    Hello. Do you have a child in the play?
-
-[BRENDA]_
-
-    Yes my son. Spud.
-
-[BILL]_
-
-    And what's Spud's role?
-
-[BRENDA]_
-
-    He plays the dog.
-
-[BILL]_
-
-    Is there a dog?
-
-[BRENDA]_
-
-    Major Saranoff's dog. I think it comes from the film version.
-
-[BILL]_
-
-    Ah.
+Improvise
+=========
 
 Officer
 -------

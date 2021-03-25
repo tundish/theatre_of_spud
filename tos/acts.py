@@ -81,7 +81,8 @@ class Act01(FirstPositions, Lights, Patrolling, Helpful):
             lights.state = Significance.emphasis
         return rv
 
-class Act02(Calls, Helpful):
+
+class Act03(Calls, Helpful):
 
     def __call__(self, fn, *args, **kwargs):
         phone = next(iter(self.lookup["phone"]))
@@ -141,7 +142,6 @@ class Act02(Calls, Helpful):
         yield Character(names=["Spud"]).set_state(
             Awareness.ignorant, Motivation.acting, self.nav.Location.backstage
         )
-
 
     def do_go(self, this, text, /, *args, locn: Map.Location):
         """

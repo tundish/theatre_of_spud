@@ -29,8 +29,8 @@
    :types:  turberfield.catchphrase.render.Settings
 
 
-Lionheart
-=========
+Message
+=======
 
 {0}
 
