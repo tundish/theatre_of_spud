@@ -14,6 +14,10 @@
    :states: tos.types.Motivation.leader
             tos.mixins.types.Proximity.present
 
+.. entity:: SPUD
+   :types:  tos.mixins.types.Character
+   :states: tos.types.Motivation.acting
+
 .. entity:: PHONE
    :types:  tos.mixins.types.Artifact
    :states: tos.map.Map.Location.office
@@ -50,6 +54,8 @@ Danny
 
     It's Danny, isn't it?
 
+.. property:: SPUD.state tos.mixins.types.Significance.indicate
+
 Mikey
 -----
 
@@ -59,6 +65,8 @@ Mikey
 
     It's Mikey, isn't it?
 
+.. property:: SPUD.state tos.mixins.types.Significance.indicate
+
 Hayley
 ------
 
@@ -67,3 +75,6 @@ Hayley
 [EDWARD]_
 
     It's Hayley, isn't it?
+
+.. property:: SPUD.state tos.mixins.types.Significance.indicate
+
