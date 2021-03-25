@@ -49,3 +49,21 @@ Danny
 [EDWARD]_
 
     It's Danny, isn't it?
+
+Mikey
+-----
+
+.. condition:: STORY.bookmark.drama.messengers[0].messages[0].tags[1] Mikey
+
+[EDWARD]_
+
+    It's Mikey, isn't it?
+
+Hayley
+------
+
+.. condition:: STORY.bookmark.drama.messengers[0].messages[0].tags[1] Hayley
+
+[EDWARD]_
+
+    It's Hayley, isn't it?

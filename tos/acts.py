@@ -120,7 +120,7 @@ class Act03(Calls, Helpful):
                                 "We were in the Cedar Tree and got hold of some tickets.",
                             ),
                             ("Can someone else play {tags[0]}?."),
-                            ("Bluntschli", "Mick")
+                            ("Bluntschli", "Mikey")
                         ),
                         Knowledge.Message(
                             Knowledge.Noun("Paul Robbins", "m"), (Knowledge.Noun("Hayley", "f"),),

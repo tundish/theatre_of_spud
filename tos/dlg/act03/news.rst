@@ -9,11 +9,6 @@
    :types:  tos.mixins.types.Character
    :states: tos.mixins.types.Mode.playing
 
-.. entity:: EDWARD
-   :types:  tos.mixins.types.Character
-   :states: tos.mixins.types.Proximity.present
-            tos.types.Motivation.leader
-
 .. entity:: SPUD
    :types:  tos.mixins.types.Character
    :states: tos.mixins.types.Proximity.present
