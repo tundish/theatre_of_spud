@@ -53,6 +53,14 @@ You should see something like this::
 
 Type `quit()` and press Return.
 
+Download
+--------
+
+#. Download the `repository as a zip file <https://github.com/tundish/tea_and_sympathy/archive/master.zip>`_.
+   Unzip it to a local directory.
+
+#. `cd` to `tea_and_sympathy`.
+
 Virtual Environment
 -------------------
 
@@ -71,14 +79,6 @@ Virtual Environment
 #. Install (or update) Catchphrase::
 
     C:\Users\author\catchphrase-app\Scripts\pip install -U turberfield-catchphrase
-
-Download
---------
-
-#. Download the `repository as a zip file <https://github.com/tundish/tea_and_sympathy/archive/master.zip>`_.
-   Unzip it to a local directory.
-
-#. `cd` to `tea_and_sympathy`.
 
 Run
 ---
@@ -105,6 +105,14 @@ You can try one out at little cost on a `Raspberry Pi`_ or similar device.
 
 Here are the install instructions for Linux. You need Python version 3.8 or higher.
 
+Download
+--------
+
+#. Download the `repository as a zip file <https://github.com/tundish/tea_and_sympathy/archive/master.zip>`_.
+   Unzip it to a local directory.
+
+#. `cd` to `tea_and_sympathy`.
+
 Virtual Environment
 -------------------
 
@@ -123,14 +131,6 @@ Virtual Environment
 #. Install (or update) Catchphrase::
 
     ~/catchphrase-app/bin/pip install -U turberfield-catchphrase
-
-Download
---------
-
-#. Download the `repository as a zip file <https://github.com/tundish/tea_and_sympathy/archive/master.zip>`_.
-   Unzip it to a local directory.
-
-#. `cd` to `tea_and_sympathy`.
 
 Run
 ---
