@@ -42,7 +42,8 @@ setup(
     ],
     packages=[
         "tos", "tos.test",
-        "tos.dlg",
+        "tos.dlg.act01",
+        "tos.dlg.act03",
         "tos.mixins", "tos.mixins.test",
         "tos.web",
     ],
@@ -56,7 +57,7 @@ setup(
     },
     install_requires=[
         "aiohttp>=3.7.3",
-        "turberfield-catchphrase>=0.16.0",
+        "turberfield-catchphrase>=0.17.0",
     ],
     extras_require={
         "dev": [
