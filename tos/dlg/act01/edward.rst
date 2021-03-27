@@ -54,7 +54,7 @@ He contemplates |PLAYER| with narrowed eyes.
 
     First night, yes.
 
-    What fear I a moon battle? Let infamy flee the dawn; we'll break fast on a broth of dread fortune!
+    What fear I a moon battle? Let infamy flee the dawn; on the bones of dread fortune will we set our throne!
 
 |EDWARD|'s eyebrows arch dramatically. The glow of a green exit sign catches the side of his ruddy, aquiline nose.
 
