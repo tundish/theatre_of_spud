@@ -65,6 +65,11 @@ Mikey
 
     It's Mikey, isn't it?
 
+[EDWARD]_
+
+    But, as 'tis, we cannot miss him.
+    He serves in offices that profit us.
+
 .. property:: SPUD.state tos.mixins.types.Significance.indicate
 
 Hayley
@@ -75,6 +80,13 @@ Hayley
 [EDWARD]_
 
     It's Hayley, isn't it?
+
+[EDWARD]_
+
+    These three have robbed me.
+
+    And this demi-devil; for he's a bastard one,
+    has plotted with them to take my life.
 
 .. property:: SPUD.state tos.mixins.types.Significance.indicate
 

@@ -29,143 +29,32 @@
 Improvise
 =========
 
-Officer
--------
+Mikey
+-----
 
-[PLAYER]_
+.. condition:: STORY.bookmark.drama.messengers[0].messages[0].tags[1] Mikey
 
-    Spud, I've got a message from Edward. Is there any way you could fill in and play the Officer in Act One please?
+[EDWARD]_
 
-[SPUD]_
+    I'll pity thee. Take pains to make thee speak.
+    Teach thee each hour one thing or other.
 
-    So where's Danny?
 
-[PLAYER]_
+Hayley
+------
 
-    Danny's gone to the football.
+.. condition:: STORY.bookmark.drama.messengers[0].messages[0].tags[1] Hayley
 
-    Have you got a script?
+[EDWARD]_
 
-[SPUD]_
+    What, ho! Slave. Caliban!
+    Thou earth, thou. Speak!
 
-    I don't think I'll need the script. I can remember.
 
-    Can I still be the dog as well?
+King Lear
+---------
 
-[PLAYER]_
+[EDWARD]_
 
-    Yes of course you can.
+    Through tattered clothes great vices do appear; Robes and furred gowns hide all.
 
-    Thank you!
-
-Trousers
---------
-
-[SPUD]_
-
-    Danny's taller than me. These trousers are a bit tight.
-
-[PLAYER]_
-
-    You'll be fine, don't worry.
-
-Got the lead
-------------
-
-[PLAYER]_
-
-    Spud, what a mess.
-
-[SPUD]_
-
-    What's up?
-
-[PLAYER]_
-
-    Spud, I've just come from Ed.
-
-    Do you think you might be able to quickly learn the lines for Bluntschli?
-
-[SPUD]_
-
-    What's happened to Michael?
-
-[PLAYER]_
-
-    He's gone with his Dad to the football.
-
-[SPUD]_
-
-    I sort of know most of it anyway.
-
-    But won't I also have to be the Officer?
-
-[PLAYER]_
-
-    Edward thinks it will work if you do a costume change on the balcony.
-
-    He'll come and talk you through it later on.
-
-[SPUD]_
-
-    All right.
-
-Drag
-----
-
-[PLAYER]_
-
-    We've just heard; a bit of a shock. Hayley's not coming in tonight.
-
-    So we need someone to play Louka.
-
-[SPUD]_
-
-    Is she at the...
-
-[PLAYER]_
-
-    The football, yes.
-
-    Spud, you can say no if you don't want to do it.
-
-[SPUD]_
-
-    Doesn't she have to kiss Sergius?
-
-[PLAYER]_
-
-    Yes, I think she does.
-
-[SPUD]_
-
-    That's okay.
-
-[PLAYER]_
-
-    Good lad.
-
-Adapting
---------
-
-[PLAYER]_
-
-    OK, so don't forget. In Act Three when you're Bluntschli, Nicola will take Louka's line about the post arriving.
-
-[SPUD]_
-
-    Nicola who plays Catherine?
-
-[PLAYER]_
-
-    No, Adam who plays Nicola.
-
-[SPUD]_
-
-    Got it.
-
-[PLAYER]_
-
-    I think. Err.
-
-    Anyway, one of them will do it.
