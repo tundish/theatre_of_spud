@@ -20,6 +20,8 @@
 import numbers
 import random
 
+from turberfield.dialogue.types import Stateful
+
 from tos.calls import Calls
 from tos.knowledge import Knowledge
 from tos.lights import Lights
@@ -82,7 +84,7 @@ class Act01(FirstPositions, Lights, Patrolling, Helpful):
         return rv
 
 
-class Act03(Calls, Helpful):
+class Act03(Calls, Patrolling, Helpful):
 
     def __call__(self, fn, *args, **kwargs):
         phone = next(iter(self.lookup["phone"]))
@@ -97,7 +99,13 @@ class Act03(Calls, Helpful):
             if obj.get_state(Mode) == Mode.playing:
                 obj.state = self.nav.Location.foyer
 
-            if "phone" in getattr(obj, "names", []):
+            names = getattr(obj, "names", [])
+            if "Edward Lionheart" in names:
+                self.patrols.update(self.build_patrols(
+                    Patrolling.Patrol(
+                        obj, [self.nav.Location.corridor, self.nav.Location.costume], 1)
+                ))
+            elif "phone" in names:
                 obj.detail.update({
                     0: ["The telephone is mounted on the wall.", "It's a grey rotary telephone."],
                     Significance.indicate: ["The phone is ringing."],
@@ -142,6 +150,13 @@ class Act03(Calls, Helpful):
         yield Character(names=["Spud"]).set_state(
             Awareness.ignorant, Motivation.acting, self.nav.Location.backstage
         )
+
+    def interlude(self, folder, index, **kwargs):
+        rv = super().interlude(folder, index, **kwargs)
+        for obj in (i for i in self.ensemble if isinstance(i, Stateful)):
+            if obj.get_state(Significance) == Significance.indicate:
+                obj.state = Significance.emphasis
+        return rv
 
     def do_go(self, this, text, /, *args, locn: Map.Location):
         """

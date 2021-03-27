@@ -18,6 +18,7 @@
    :types:  tos.mixins.types.Character
    :states: tos.mixins.types.Proximity.present
             tos.types.Motivation.acting
+            tos.mixins.types.Significance.elevated
 
 .. entity:: STORY
    :types:  tos.story.Story
