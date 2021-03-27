@@ -32,18 +32,14 @@
 .. entity:: SETTINGS
    :types:  turberfield.catchphrase.render.Settings
 
+.. |EDWARD| property:: EDWARD.name
+.. |PLAYER| property:: PLAYER.name
+
 
 Message
 =======
 
 {0}
-
-Action
-------
-
-[EDWARD]_
-
-    Got a message for me?
 
 Danny
 -----
@@ -52,7 +48,11 @@ Danny
 
 [EDWARD]_
 
-    It's Danny, isn't it?
+    |PLAYER|, was that the telephone ringing earlier?
+
+[PLAYER]_
+
+    It's Danny.
 
 .. property:: SPUD.state tos.mixins.types.Significance.indicate
 
@@ -63,7 +63,19 @@ Mikey
 
 [EDWARD]_
 
-    It's Mikey, isn't it?
+    Ah, |PLAYER|, what now?
+
+[PLAYER]_
+
+    It's Mikey.
+
+[EDWARD]_
+
+    Spud.
+
+[PLAYER]_
+
+    It's a lot to ask. Spud is quite shy.
 
 [EDWARD]_
 
@@ -79,9 +91,25 @@ Hayley
 
 [EDWARD]_
 
-    It's Hayley, isn't it?
+    Ah, |PLAYER|, what now?
+
+[PLAYER]_
+
+    It's Hayley.
 
 [EDWARD]_
+
+    Spud.
+
+[PLAYER]_
+
+    Are you sure this will work?.
+
+[EDWARD]_
+
+    It will have to work.
+
+    *Aside*
 
     These three have robbed me.
 

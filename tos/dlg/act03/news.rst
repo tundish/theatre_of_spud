@@ -13,6 +13,7 @@
    :types:  tos.mixins.types.Character
    :states: tos.mixins.types.Proximity.present
             tos.types.Motivation.acting
+            tos.mixins.types.Significance.emphasis
 
 .. entity:: STORY
    :types:  tos.story.Story
@@ -20,12 +21,26 @@
 .. entity:: SETTINGS
    :types:  turberfield.catchphrase.render.Settings
 
+.. |EDWARD| property:: EDWARD.name
+.. |PLAYER| property:: PLAYER.name
 
-Improvise
-=========
 
-Officer
--------
+News
+====
+
+Ignorant
+--------
+
+.. condition:: SPUD.state tos.mixins.types.Awareness.ignorant
+
+Describe Spud.
+
+.. property:: SPUD.state tos.mixins.types.Awareness.discover
+
+Danny
+-----
+
+.. condition:: STORY.bookmark.drama.messengers[0].messages[0].tags[1] Danny
 
 [PLAYER]_
 
@@ -53,19 +68,12 @@ Officer
 
     Thank you!
 
-Trousers
---------
+.. property:: SPUD.state tos.mixins.types.Significance.elevated
 
-[SPUD]_
+Mikey
+-----
 
-    Danny's taller than me. These trousers are a bit tight.
-
-[PLAYER]_
-
-    You'll be fine, don't worry.
-
-Got the lead
-------------
+.. condition:: STORY.bookmark.drama.messengers[0].messages[0].tags[1] Mikey
 
 [PLAYER]_
 
@@ -105,8 +113,12 @@ Got the lead
 
     All right.
 
-Drag
-----
+.. property:: SPUD.state tos.mixins.types.Significance.elevated
+
+Hayley
+------
+
+.. condition:: STORY.bookmark.drama.messengers[0].messages[0].tags[1] Hayley
 
 [PLAYER]_
 
@@ -140,27 +152,5 @@ Drag
 
     Good lad.
 
-Adapting
---------
+.. property:: SPUD.state tos.mixins.types.Significance.elevated
 
-[PLAYER]_
-
-    OK, so don't forget. In Act Three when you're Bluntschli, Nicola will take Louka's line about the post arriving.
-
-[SPUD]_
-
-    Nicola who plays Catherine?
-
-[PLAYER]_
-
-    No, Adam who plays Nicola.
-
-[SPUD]_
-
-    Got it.
-
-[PLAYER]_
-
-    I think. Err.
-
-    Anyway, one of them will do it.

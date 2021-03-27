@@ -419,3 +419,14 @@ King Lear
 
     Through tattered clothes great vices do appear; Robes and furred gowns hide all.
 
+Trousers
+--------
+
+[SPUD]_
+
+    Danny's taller than me. These trousers are a bit tight.
+
+[PLAYER]_
+
+    You'll be fine, don't worry.
+

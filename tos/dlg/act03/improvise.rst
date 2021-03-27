@@ -25,6 +25,9 @@
 .. entity:: SETTINGS
    :types:  turberfield.catchphrase.render.Settings
 
+.. |EDWARD| property:: EDWARD.name
+.. |PLAYER| property:: PLAYER.name
+
 
 Improvise
 =========
@@ -51,10 +54,28 @@ Hayley
     Thou earth, thou. Speak!
 
 
-King Lear
----------
+Adapting
+--------
 
-[EDWARD]_
+[PLAYER]_
 
-    Through tattered clothes great vices do appear; Robes and furred gowns hide all.
+    OK, so don't forget. In Act Three when you're Bluntschli, Nicola will take Louka's line about the post arriving.
+
+[SPUD]_
+
+    Nicola who plays Catherine?
+
+[PLAYER]_
+
+    No, Adam who plays Nicola.
+
+[SPUD]_
+
+    Got it.
+
+[PLAYER]_
+
+    I think. Err.
+
+    Anyway, one of them will do it.
 
