@@ -18,6 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from collections import namedtuple
+import numbers
 import operator
 
 from turberfield.catchphrase.drama import Drama
@@ -50,6 +51,9 @@ class Telegraph(Drama):
             p = m.pending
             if not p:
                 state = m.obj.get_state(Significance)
+                if isinstance(state, int):
+                    m.obj.state = Significance.notknown
+
                 if state in (Significance.notknown, Significance.inactive):
                     m.obj.state = Significance.indicate
                 elif state == Significance.declined:

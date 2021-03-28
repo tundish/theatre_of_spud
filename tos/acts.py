@@ -153,7 +153,7 @@ class Act03(Calls, Patrolling, Helpful):
 
     def interlude(self, folder, index, **kwargs):
         rv = super().interlude(folder, index, **kwargs)
-        for obj in (i for i in self.ensemble if isinstance(i, Stateful)):
+        for obj in (i for i in self.ensemble if isinstance(i, Character)):
             if obj.get_state(Significance) == Significance.indicate:
                 obj.state = Significance.emphasis
         return rv
