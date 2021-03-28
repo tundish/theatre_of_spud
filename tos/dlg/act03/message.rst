@@ -52,7 +52,23 @@ Danny
 
 [PLAYER]_
 
-    It's Danny.
+    That was Danny's mother. They want him to go to the football tonight instead.
+
+[EDWARD]_
+
+    Hmm. Oh well.
+
+    We'll need someone to stand in for the Officer.
+
+    That's fine. It's only a few lines.
+
+[PLAYER]_
+
+    What about Spud? He's already here.
+
+[EDWARD]_
+
+    Yes, why not? Would you go and let him know please |PLAYER|?
 
 .. property:: SPUD.state tos.mixins.types.Significance.indicate
 

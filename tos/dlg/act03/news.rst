@@ -33,7 +33,14 @@ Ignorant
 
 .. condition:: SPUD.state tos.mixins.types.Awareness.ignorant
 
-Describe Spud.
+Spud is standing backstage.
+
+He's about ten years old, slightly chubby, with a pale face and sandy hair.
+
+He looks cold in his tatty green bomber jacket.
+His blue denim jeans are too long for him, and turn up excessively at the ankle.
+He is wearing black school shoes.
+
 
 .. property:: SPUD.state tos.mixins.types.Awareness.discover
 

@@ -116,12 +116,7 @@ The Lighting Box has room for two people.
 
 The control panel is roughly framed. It has a patch bay and a mixer for sound.
 
-There are variac controls for the lighting.
-There is a fuse box on the far wall.
-
 There is a glass panel looking out over the Auditorium to the Stage.
-
-A couple of tall stools are the only furniture.
 
 Office
 ------
