@@ -127,7 +127,7 @@ class Act03(Calls, Patrolling, Helpful):
                                 "{nouns[0].name} has been asking to go to the match all weekend.",
                                 "We were in the Cedar Tree and got hold of some tickets.",
                             ),
-                            ("Can someone else play {tags[0]}?."),
+                            ("Can someone else play {tags[0]}?.",),
                             ("Bluntschli", "Mikey")
                         ),
                         Knowledge.Message(
@@ -148,7 +148,7 @@ class Act03(Calls, Patrolling, Helpful):
         yield Character(names=["Man's Voice"]).set_state(Motivation.father)
         yield Character(names=["Woman's Voice"]).set_state(Motivation.mother)
         yield Character(names=["Spud"]).set_state(
-            Awareness.ignorant, Motivation.acting, self.nav.Location.backstage
+            Awareness.ignorant, Motivation.acting, self.nav.Location.costume
         )
 
     def interlude(self, folder, index, **kwargs):

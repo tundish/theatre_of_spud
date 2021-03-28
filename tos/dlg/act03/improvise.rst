@@ -20,6 +20,10 @@
             tos.types.Motivation.acting
             tos.mixins.types.Significance.elevated
 
+.. entity:: PHONE
+   :types:  tos.mixins.types.Artifact
+   :states: tos.map.Map.Location.office
+
 .. entity:: STORY
    :types:  tos.story.Story
 
@@ -32,6 +36,19 @@
 
 Improvise
 =========
+
+Danny
+-----
+
+.. condition:: STORY.bookmark.drama.messengers[0].messages[0].tags[1] Danny
+
+[EDWARD]_
+
+    Simples.
+
+
+.. property:: PHONE.state tos.mixins.types.Significance.accepted
+.. property:: SPUD.state tos.mixins.types.Significance.diminish
 
 Mikey
 -----

@@ -7,6 +7,10 @@
 :dwell:     0.2
 :pause:     1
 
+.. entity:: PLAYER
+   :types:  tos.mixins.types.Character
+   :states: tos.mixins.types.Mode.success
+
 .. entity:: SETTINGS
    :types:  turberfield.catchphrase.render.Settings
 
