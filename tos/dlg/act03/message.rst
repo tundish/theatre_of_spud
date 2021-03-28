@@ -83,20 +83,32 @@ Mikey
 
 [PLAYER]_
 
-    It's Mikey.
+    It's Mikey. He's going to the football as well.
 
 [EDWARD]_
 
-    Spud.
+    That's disappointing. Very disappointing.
+
+    Of all the people to lose. Bluntschli.
 
 [PLAYER]_
 
-    It's a lot to ask. Spud is quite shy.
+    Should we call it off do you think?
+
+[EDWARD]_
+
+    Never. Where's Spud?
+
+[PLAYER]_
+
+    Bluntschli and the Officer. It's a lot to ask.
 
 [EDWARD]_
 
     But, as 'tis, we cannot miss him.
     He serves in offices that profit us.
+
+    Go now, |PLAYER| and tell him to get ready.
 
 .. property:: SPUD.state tos.mixins.types.Significance.indicate
 
