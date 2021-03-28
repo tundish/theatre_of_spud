@@ -54,13 +54,17 @@ async def get_frame(request):
     else:
         lines = []
 
+    try:
+        story.bookmark.folder.metadata.update(
+            story.bookmark.drama.interlude(story.bookmark.folder, story.presenter.index)
+        )
+    except AttributeError:
+        story.presenter = story.represent(lines)
+
     animation = None
     while not animation:
         try:
             frame = story.presenter.frames.pop(0)
-        except AttributeError:
-            story.presenter = story.represent(lines)
-            continue
         except IndexError:
             story.update(story.presenter.index)
             story.presenter = story.represent(lines)

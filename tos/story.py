@@ -165,8 +165,6 @@ class Story(Renderer, Stateful):
 
     def update(self, index):
         bookmark = self.bookmark
-        metadata = bookmark.drama.interlude(bookmark.folder, index)
-        bookmark.folder.metadata.update(metadata)
         stem = bookmark.folder.paths[index].split(".")[0]
         bookmark.tally[stem] += 1
         pkg = list(self.dramas.keys())[self.state - 1]

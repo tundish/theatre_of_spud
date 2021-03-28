@@ -61,6 +61,7 @@ class TestAct1(unittest.TestCase):
 
     def test_patrol(self):
         story = Story()
+        presenter = None
         response = []
         commands = ["wait", "next", "help", "enter foyer"] + ["w"] * 8
         story.build(player_name="tester", description="Patrol Test")
@@ -73,6 +74,11 @@ class TestAct1(unittest.TestCase):
                     response = list(story.bookmark.drama(fn, *args, **kwargs))
                 except TypeError:
                     response = [story.refusal.format(story.input)]
+                finally:
+                    if presenter:
+                        story.bookmark.folder.metadata.update(
+                            story.bookmark.drama.interlude(story.bookmark.folder, presenter.index)
+                        )
 
                 presenter = story.represent(response)
                 for frame in presenter.frames:
@@ -82,7 +88,7 @@ class TestAct1(unittest.TestCase):
 
                 story.update(presenter.index)
 
-                if n < 2:
+                if n == 1:
                     self.assertFalse(ed.get_state(Motion))
                     self.assertEqual(
                         story.bookmark.drama.nav.Location.corridor,
@@ -95,8 +101,8 @@ class TestAct1(unittest.TestCase):
                         story.bookmark.drama.player.get_state(story.bookmark.drama.nav.Location),
                         story.bookmark.drama.player
                     )
-                    self.assertEqual(Proximity.present, ed.get_state(Proximity), ed)
-                elif n == 5:
+                    self.assertEqual(Proximity.outside, ed.get_state(Proximity), ed)
+                elif n == 3:
                     self.assertEqual(Motion.patrol, ed.get_state(Motion))
                     self.assertEqual(
                         story.bookmark.drama.nav.Location.corridor,

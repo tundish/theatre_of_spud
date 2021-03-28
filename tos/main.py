@@ -77,6 +77,10 @@ def main(opts):
             if opts.debug:
                 print(e, file=sys.stderr)
             lines = [story.refusal.format(story.input)]
+        finally:
+            story.bookmark.folder.metadata.update(
+                story.bookmark.drama.interlude(story.bookmark.folder, presenter.index)
+            )
 
 
 def run():
