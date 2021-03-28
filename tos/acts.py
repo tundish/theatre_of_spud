@@ -103,7 +103,10 @@ class Act03(Calls, Patrolling, Helpful):
             if "Edward Lionheart" in names:
                 self.patrols.update(self.build_patrols(
                     Patrolling.Patrol(
-                        obj, [self.nav.Location.corridor, self.nav.Location.costume], 1)
+                        obj,
+                        [self.nav.Location.corridor, self.nav.Location.backstage, self.nav.Location.costume],
+                        1
+                    )
                 ))
             elif "phone" in names:
                 obj.detail.update({
@@ -148,7 +151,7 @@ class Act03(Calls, Patrolling, Helpful):
         yield Character(names=["Man's Voice"]).set_state(Motivation.father)
         yield Character(names=["Woman's Voice"]).set_state(Motivation.mother)
         yield Character(names=["Spud"]).set_state(
-            Awareness.ignorant, Motivation.acting, self.nav.Location.costume
+            Awareness.ignorant, Motivation.acting, self.nav.Location.backstage
         )
 
     def interlude(self, folder, index, **kwargs):

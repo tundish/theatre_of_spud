@@ -44,7 +44,7 @@ Danny
 
 [EDWARD]_
 
-    Simples.
+    You won't be needing the dog suit tonight, Spud.
 
 
 .. property:: PHONE.state tos.mixins.types.Significance.accepted
@@ -61,27 +61,28 @@ Mikey
     Teach thee each hour one thing or other.
 
 
+.. property:: PHONE.state tos.mixins.types.Significance.accepted
+.. property:: SPUD.state tos.mixins.types.Significance.diminish
+
 Hayley
 ------
 
 .. condition:: STORY.bookmark.drama.messengers[0].messages[0].tags[1] Hayley
+
+[PLAYER]_
+
+    OK, so don't forget. In Act Three when you're Bluntschli, Nicola will take Louka's line about the post arriving.
+
+Spud looks confused.
 
 [EDWARD]_
 
     What, ho! Slave. Caliban!
     Thou earth, thou. Speak!
 
-
-Adapting
---------
-
-[PLAYER]_
-
-    OK, so don't forget. In Act Three when you're Bluntschli, Nicola will take Louka's line about the post arriving.
-
 [SPUD]_
 
-    Nicola who plays Catherine?
+    You mean Nicola who plays Catherine?
 
 [PLAYER]_
 
@@ -96,4 +97,7 @@ Adapting
     I think. Err.
 
     Anyway, one of them will do it.
+
+.. property:: PHONE.state tos.mixins.types.Significance.accepted
+.. property:: SPUD.state tos.mixins.types.Significance.diminish
 
