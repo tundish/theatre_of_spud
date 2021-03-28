@@ -123,11 +123,21 @@ Hayley
 
 [PLAYER]_
 
-    It's Hayley.
+    I know don't how how to say this, but...
 
 [EDWARD]_
 
-    Spud.
+    Which one is it?
+
+[PLAYER]_
+
+    Hayley.
+
+[EDWARD]_
+
+    Aaah! How they mock me! But I will not be defeated.
+
+    Go and warn Spud he has more lines to learn.
 
 [PLAYER]_
 
