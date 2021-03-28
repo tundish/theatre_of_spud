@@ -6,6 +6,11 @@
 Change Log
 ::::::::::
 
+0.5.0
+=====
+
+* Just enough functionality for a demo.
+
 0.4.0
 =====
 

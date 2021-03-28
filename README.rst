@@ -11,6 +11,12 @@ And across town on this cold foggy night, Edward Lionheart debuts his youth prod
 Amid technical hitches, one withering critic and a diabolical director, can a young boy called *Spud*
 save this theatre from disaster?
 
+Status
+++++++
+
+This project is in early alpha. It lacks some content and it's slightly buggy.
+It was submitted as a demo to `Spring Thing 2021`_.
+
 Installation
 ++++++++++++
 
@@ -20,7 +26,7 @@ Installation
 Windows
 =======
 
-`Tea and Sympathy` is a command line program.
+`Theatre of Spud` is a command line program.
 You use it from the Windows command interpreter.
 
 To launch a new command window:
@@ -53,14 +59,6 @@ You should see something like this::
 
 Type `quit()` and press Return.
 
-Download
---------
-
-#. Download the `repository as a zip file <https://github.com/tundish/tea_and_sympathy/archive/master.zip>`_.
-   Unzip it to a local directory.
-
-#. `cd` to `tea_and_sympathy`.
-
 Virtual Environment
 -------------------
 
@@ -72,13 +70,20 @@ Virtual Environment
 
     C:\Users\author\catchphrase-app\Scripts\pip install -U pip wheel
 
-#. Install dependencies::
+Download
+--------
 
-    C:\Users\author\catchphrase-app\Scripts\pip install aiohttp
+#. Download the `repository as a zip file <https://github.com/tundish/theatre_of_spud/archive/master.zip>`_.
+   Unzip it to a local directory.
 
-#. Install (or update) Catchphrase::
+#. `cd` to `theatre_of_spud`.
 
-    C:\Users\author\catchphrase-app\Scripts\pip install -U turberfield-catchphrase
+Install
+-------
+
+#. Install `Theatre of Spud` and dependencies::
+
+    C:\Users\author\catchphrase-app\Scripts\pip install .
 
 Run
 ---
@@ -87,11 +92,11 @@ You can run the demo in two modes.
 
 #. Text-only in the terminal::
 
-    C:\Users\author\catchphrase-app\Scripts\python -m tas.story
+    C:\Users\author\catchphrase-app\Scripts\python -m tos.main
 
 #. Launch a local web server to play the web app (`http://localhost:8080`)::
 
-    C:\Users\author\catchphrase-app\Scripts\python -m tas.app
+    C:\Users\author\catchphrase-app\Scripts\python -m tos.app
 
 Linux
 =====
@@ -105,14 +110,6 @@ You can try one out at little cost on a `Raspberry Pi`_ or similar device.
 
 Here are the install instructions for Linux. You need Python version 3.8 or higher.
 
-Download
---------
-
-#. Download the `repository as a zip file <https://github.com/tundish/tea_and_sympathy/archive/master.zip>`_.
-   Unzip it to a local directory.
-
-#. `cd` to `tea_and_sympathy`.
-
 Virtual Environment
 -------------------
 
@@ -124,13 +121,20 @@ Virtual Environment
 
     ~/catchphrase-app/bin/pip install -U pip wheel
 
-#. Install dependencies::
+Download
+--------
 
-    ~/catchphrase-app/bin/pip install aiohttp
+#. Download the `repository as a zip file <https://github.com/tundish/theatre_of_spud/archive/master.zip>`_.
+   Unzip it to a local directory.
 
-#. Install (or update) Catchphrase::
+#. `cd` to `theatre_of_spud`.
 
-    ~/catchphrase-app/bin/pip install -U turberfield-catchphrase
+Install
+-------
+
+#. Install `Theatre of Spud` and dependencies::
+
+    ~/catchphrase-app/bin/pip install .
 
 Run
 ---
@@ -139,11 +143,11 @@ You can run the demo in two modes.
 
 #. Text-only in the terminal::
 
-    ~/catchphrase-app/bin/python -m tas.story
+    ~/catchphrase-app/bin/python -m tos.main
 
 #. Launch a local web server to play the web app (`http://localhost:8080`)::
 
-    ~/catchphrase-app/bin/python -m tas.app
+    ~/catchphrase-app/bin/python -m tos.app
 
 
 The freedom to copy
@@ -152,10 +156,7 @@ The freedom to copy
 You are free to use this project as a teaching example, or as the basis of your own work.
 Please read the licence and make sure you `understand the Affero GPL`_.
 
-.. _Catchphrase: https://github.com/tundish/turberfield-catchphrase
 .. _Git Bash: https://gitforwindows.org/
-.. _reStructuredText: https://docutils.sourceforge.io/rst.html
-.. _Turberfield dialogue library: https://turberfield-dialogue.readthedocs.io/en/latest/
 .. _Raspberry Pi: https://www.raspberrypi.org/
 .. _understand the Affero GPL: https://www.gnu.org/licenses/why-affero-gpl.html
 .. _Spring Thing 2021: https://www.springthing.net/2021/
