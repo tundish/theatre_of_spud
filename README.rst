@@ -45,7 +45,7 @@ You should see a prompt like this (your user name will differ)::
 Prerequisites
 -------------
 
-Download and install Python from https://www.python.org/ . You need Python version 3.8 or higher.
+Download and install Python from https://www.python.org/ . You need Python version 3.9 or higher.
 Make sure to check the option to add `python` to your environment path.
 This makes command line operation more easy.
 
@@ -53,7 +53,7 @@ After you've installed Python, open a command window and type `python`.
 You should see something like this::
 
     C:\Users\author>python
-    Python 3.8.2 (tags/v3.8.2:7b3ab59, Feb 25 2020, 22:45:29) [MSC v.1916 32 bit (Intel)] on win32
+    Python 3.9.0 (tags/v3.9.0:9cf6752, Oct  5 2020, 15:34:40) [MSC v.1927 64 bit (AMD64)] on win32
     Type "help", "copyright", "credits" or "license" for more information.
     >>>
 
@@ -108,7 +108,7 @@ Linux-like way.
 I encourage you to move to a Linux operating system when you are able. 
 You can try one out at little cost on a `Raspberry Pi`_ or similar device.
 
-Here are the install instructions for Linux. You need Python version 3.8 or higher.
+Here are the install instructions for Linux. You need Python version 3.9 or higher.
 
 Virtual Environment
 -------------------
