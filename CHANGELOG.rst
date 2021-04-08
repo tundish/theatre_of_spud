@@ -6,6 +6,11 @@
 Change Log
 ::::::::::
 
+0.7.0
+=====
+
+* Update for turberfield-catchphrase 0.19.0.
+
 0.6.0
 =====
 

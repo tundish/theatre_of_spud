@@ -57,7 +57,7 @@ setup(
     },
     install_requires=[
         "aiohttp>=3.7.3",
-        "turberfield-catchphrase>=0.18.0",
+        "turberfield-catchphrase>=0.19.0",
     ],
     extras_require={
         "dev": [
